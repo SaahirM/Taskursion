@@ -6,9 +6,13 @@
 
 const http = require('http');
 const fs = require('fs');
+const mysql = require('mysql');
 
 const hostname = '127.0.0.1';
 const port = 2048;
+
+let dbCreds = fs.readFileSync("server/DB/secret.json", 'utf-8');
+const DB = mysql.createConnection(JSON.parse(dbCreds));
 
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
