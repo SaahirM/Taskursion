@@ -23,7 +23,7 @@ To get a demo of this project running on your local device, you will need:
 	1. Then navigate to this address using a browser
 
 		```
-		http://127.0.0.1:3000
+		http://127.0.0.1:2048
 		```
 
 ## Resources
