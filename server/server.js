@@ -16,11 +16,21 @@ let dbCreds = fs.readFileSync("server/DB/secret.json", 'utf-8');
 const DB = mysql.createConnection(JSON.parse(dbCreds));
 
 const server = http.createServer((req, res) => {
-  let result = getFile(req.url);
-
-  res.statusCode = result.code;
-  res.setHeader('Content-Type', result.type);
-  res.end(result.data);
+  let path = req.url.replace("../", "");
+  if (path === "/") path = "/index.html";
+  
+  try {
+    let content = fs.readFileSync("app" + path);
+    let mime_type = mime.lookup(path) || "application/octet-stream";
+    respond(res, 200, mime_type, content);
+  } catch (e) {
+    if (e.code === "ENOENT") {
+      respond(res, 404, "text/plain", "That file doesn't exist");
+    } else {
+      console.log(e);
+      respond(res, 500, "text/plain", "Uh oh, something went wrong on the server");
+    }
+  }
 });
 
 server.listen(port, hostname, () => {
@@ -28,33 +38,14 @@ server.listen(port, hostname, () => {
 });
 
 /**
- * Retrieves a file within the app
- * @param {String} path filepath to get file from
- * @returns An object with the appropriate file data, http code
- *          and MIME type
+ * Sends the appropriate http response after setting the header
+ * @param {http.ServerResponse} serverResponse response object
+ * @param {Number} httpCode http status code for header
+ * @param {String} fileType MIME type of response file
+ * @param {*} content response file contents
  */
-function getFile(path) {
-  let cleanedPath = path.replace("../", "");
-  cleanedPath = path === "/" ? "/index.html" : path;
-
-  let content, httpCode, fileType;
-  try {
-    content = fs.readFileSync("app" + cleanedPath);
-    let mime_type = mime.lookup(cleanedPath);
-    fileType = mime_type ? mime_type : "application/octet-stream";
-    httpCode = 200;
-  } catch (e) {
-    if (e.code === "ENOENT") {
-      content = "That file doesn't exist";
-      fileType = "text/plain";
-      httpCode = 404;
-    } else {
-      console.log(e);
-      content = "Uh oh, something went wrong on the server";
-      fileType = "text/plain";
-      httpCode = 500;
-    }
-  }
-
-  return {data: content, code: httpCode, type: fileType};
+function respond(serverResponse, httpCode, fileType, content) {
+  serverResponse.statusCode = httpCode;
+  serverResponse.setHeader('Content-Type', fileType);
+  serverResponse.end(content);
 }
