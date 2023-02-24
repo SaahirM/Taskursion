@@ -34,5 +34,6 @@ These are some of the development tools I used
 
 - [Node.js](https://nodejs.org/) at the backend
 - [Bootstrap](https://getbootstrap.com/) at the frontend
+- [React](https://reactjs.org/) at the frontend
 - [Browsersync](https://browsersync.io/) for development
 - [Nodemon](https://nodemon.io/) for development
