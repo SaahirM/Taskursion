@@ -6,39 +6,32 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-import Navbar from "./navbar.js";
+var Navbar = function (_React$Component) {
+	_inherits(Navbar, _React$Component);
 
-var Main = function (_React$Component) {
-  _inherits(Main, _React$Component);
+	function Navbar() {
+		_classCallCheck(this, Navbar);
 
-  function Main() {
-    _classCallCheck(this, Main);
+		return _possibleConstructorReturn(this, (Navbar.__proto__ || Object.getPrototypeOf(Navbar)).apply(this, arguments));
+	}
 
-    return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
-  }
+	_createClass(Navbar, [{
+		key: "render",
+		value: function render() {
+			return React.createElement(
+				"header",
+				null,
+				React.createElement(
+					"nav",
+					{ className: "navbar" },
+					"Taskursion"
+				)
+			);
+		}
+	}]);
 
-  _createClass(Main, [{
-    key: "render",
-    value: function render() {
-      var app = React.createElement(
-        "div",
-        null,
-        React.createElement(Navbar, null),
-        React.createElement(
-          "h1",
-          { className: "text-center" },
-          "Test"
-        )
-      );
-      return app;
-    }
-  }]);
-
-  return Main;
+	return Navbar;
 }(React.Component);
 
+export default Navbar;
 ;
-
-var domContainer = document.querySelector('#app');
-var root = ReactDOM.createRoot(domContainer);
-root.render(React.createElement(Main, null));
