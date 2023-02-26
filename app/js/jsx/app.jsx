@@ -1,11 +1,12 @@
 import Navbar from "./navbar.js";
+import Main from "./main.js";
 
 class App extends React.Component {
   render() {
     let app = 
         (<div>
             <Navbar />
-            <h1 className="text-center">Test</h1>
+            <Main />
         </div>);
     return app;
   }

@@ -23,7 +23,7 @@ export default class Navbar extends React.Component {
 
 		return (
 			<header>
-				<nav className="navbar border border-bottom border-dark-subtle">
+				<nav className="navbar border-bottom border-dark-subtle">
                     <div className="container-fluid">
                         <div className="row w-100">
                             <div className="col-6">

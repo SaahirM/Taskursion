@@ -42,7 +42,7 @@ var Navbar = function (_React$Component) {
                 null,
                 React.createElement(
                     "nav",
-                    { className: "navbar border border-bottom border-dark-subtle" },
+                    { className: "navbar border-bottom border-dark-subtle" },
                     React.createElement(
                         "div",
                         { className: "container-fluid" },
