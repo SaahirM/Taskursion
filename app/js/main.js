@@ -9,32 +9,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 import Navbar from "./navbar.js";
 
 var Main = function (_React$Component) {
-  _inherits(Main, _React$Component);
+    _inherits(Main, _React$Component);
 
-  function Main() {
-    _classCallCheck(this, Main);
+    function Main() {
+        _classCallCheck(this, Main);
 
-    return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
-  }
-
-  _createClass(Main, [{
-    key: "render",
-    value: function render() {
-      var app = React.createElement(
-        "div",
-        null,
-        React.createElement(Navbar, null),
-        React.createElement(
-          "h1",
-          { className: "text-center" },
-          "Test"
-        )
-      );
-      return app;
+        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
     }
-  }]);
 
-  return Main;
+    _createClass(Main, [{
+        key: "render",
+        value: function render() {
+            var app = React.createElement(
+                "div",
+                null,
+                React.createElement(Navbar, null),
+                React.createElement(
+                    "h1",
+                    { className: "text-center" },
+                    "Test"
+                )
+            );
+            return app;
+        }
+    }]);
+
+    return Main;
 }(React.Component);
 
 ;

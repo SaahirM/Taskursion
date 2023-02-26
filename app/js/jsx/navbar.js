@@ -3,7 +3,9 @@ export default class Navbar extends React.Component {
 		return (
 			<header>
 				<nav className="navbar">
-					Taskursion
+                    <div className="container-fluid">
+					    <a href="index.html"><img src="img/logo.png" className="w-25" /></a>
+                    </div>
 				</nav>
 			</header>
 		);

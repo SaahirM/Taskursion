@@ -24,7 +24,15 @@ var Navbar = function (_React$Component) {
 				React.createElement(
 					"nav",
 					{ className: "navbar" },
-					"Taskursion"
+					React.createElement(
+						"div",
+						{ className: "container-fluid" },
+						React.createElement(
+							"a",
+							{ href: "index.html" },
+							React.createElement("img", { src: "img/logo.png", className: "w-25" })
+						)
+					)
 				)
 			);
 		}
