@@ -1,7 +1,7 @@
 export default class Main extends React.Component {    
     render() {
         return (
-            <main className="container d-flex align-items-center justify-content-center">
+            <main className="container my-2 d-flex align-items-center justify-content-center">
                 <LoginBox />
             </main>
         );
@@ -10,7 +10,7 @@ export default class Main extends React.Component {
 
 function LoginBox() {
     return (
-        <form method="POST" className="container border border-primary rounded">
+        <form method="POST" className="container-fluid container-md border border-primary rounded">
             <div className="row g-2 py-3">
                 <div className="col-12">
                     <h2>Login</h2>

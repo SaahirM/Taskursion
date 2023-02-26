@@ -20,7 +20,7 @@ var Main = function (_React$Component) {
         value: function render() {
             return React.createElement(
                 "main",
-                { className: "container d-flex align-items-center justify-content-center" },
+                { className: "container my-2 d-flex align-items-center justify-content-center" },
                 React.createElement(LoginBox, null)
             );
         }
@@ -35,7 +35,7 @@ export default Main;
 function LoginBox() {
     return React.createElement(
         "form",
-        { method: "POST", className: "container border border-primary rounded" },
+        { method: "POST", className: "container-fluid container-md border border-primary rounded" },
         React.createElement(
             "div",
             { className: "row g-2 py-3" },

@@ -25,7 +25,7 @@ export default class Navbar extends React.Component {
 			<header>
 				<nav className="navbar border-bottom border-dark-subtle">
                     <div className="container-fluid">
-                        <div className="row w-100">
+                        <div className="row w-100 gx-0">
                             <div className="col-6">
                                 <a href="/" className="navbar-brand">
                                     <img src="img/logo.png" alt="Taskursion logo" />

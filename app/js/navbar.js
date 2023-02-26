@@ -48,7 +48,7 @@ var Navbar = function (_React$Component) {
                         { className: "container-fluid" },
                         React.createElement(
                             "div",
-                            { className: "row w-100" },
+                            { className: "row w-100 gx-0" },
                             React.createElement(
                                 "div",
                                 { className: "col-6" },
