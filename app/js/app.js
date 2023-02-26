@@ -8,16 +8,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 import Navbar from "./navbar.js";
 
-var Main = function (_React$Component) {
-    _inherits(Main, _React$Component);
+var App = function (_React$Component) {
+    _inherits(App, _React$Component);
 
-    function Main() {
-        _classCallCheck(this, Main);
+    function App() {
+        _classCallCheck(this, App);
 
-        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+        return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
     }
 
-    _createClass(Main, [{
+    _createClass(App, [{
         key: "render",
         value: function render() {
             var app = React.createElement(
@@ -34,11 +34,11 @@ var Main = function (_React$Component) {
         }
     }]);
 
-    return Main;
+    return App;
 }(React.Component);
 
 ;
 
 var domContainer = document.querySelector('#app');
 var root = ReactDOM.createRoot(domContainer);
-root.render(React.createElement(Main, null));
+root.render(React.createElement(App, null));

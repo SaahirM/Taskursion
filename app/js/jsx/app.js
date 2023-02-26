@@ -1,6 +1,6 @@
 import Navbar from "./navbar.js";
 
-class Main extends React.Component {
+class App extends React.Component {
   render() {
     let app = 
         (<div>
@@ -13,4 +13,4 @@ class Main extends React.Component {
 
 const domContainer = document.querySelector('#app');
 const root = ReactDOM.createRoot(domContainer);
-root.render(<Main/>);
+root.render(<App/>);
