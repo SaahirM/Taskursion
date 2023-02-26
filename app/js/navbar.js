@@ -7,39 +7,90 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Navbar = function (_React$Component) {
-	_inherits(Navbar, _React$Component);
+    _inherits(Navbar, _React$Component);
 
-	function Navbar() {
-		_classCallCheck(this, Navbar);
+    function Navbar(props) {
+        _classCallCheck(this, Navbar);
 
-		return _possibleConstructorReturn(this, (Navbar.__proto__ || Object.getPrototypeOf(Navbar)).apply(this, arguments));
-	}
+        var _this = _possibleConstructorReturn(this, (Navbar.__proto__ || Object.getPrototypeOf(Navbar)).call(this, props));
 
-	_createClass(Navbar, [{
-		key: "render",
-		value: function render() {
-			return React.createElement(
-				"header",
-				null,
-				React.createElement(
-					"nav",
-					{ className: "navbar" },
-					React.createElement(
-						"div",
-						{ className: "container-fluid" },
-						React.createElement(
-							"a",
-							{ href: "index.html" },
-							React.createElement("img", { src: "img/logo.png", className: "w-25" })
-						)
-					)
-				)
-			);
-		}
-	}]);
+        _this.state = { isLoggedIn: false };
+        return _this;
+    }
 
-	return Navbar;
+    _createClass(Navbar, [{
+        key: "render",
+        value: function render() {
+            var navbarProfileInfo = void 0;
+            if (!this.state.isLoggedIn) {
+                navbarProfileInfo = React.createElement(
+                    "ul",
+                    { className: "navbar-nav flex-row" },
+                    React.createElement(NavbarLink, { text: "Sign up" }),
+                    React.createElement(NavbarLink, { text: "Login" })
+                );
+            } else {
+                navbarProfileInfo = React.createElement(
+                    "ul",
+                    { className: "navbar-nav flex-row" },
+                    React.createElement(NavbarLink, { text: "Todo" })
+                );
+            }
+
+            return React.createElement(
+                "header",
+                null,
+                React.createElement(
+                    "nav",
+                    { className: "navbar border border-bottom border-dark-subtle" },
+                    React.createElement(
+                        "div",
+                        { className: "container-fluid" },
+                        React.createElement(
+                            "div",
+                            { className: "row w-100" },
+                            React.createElement(
+                                "div",
+                                { className: "col-6" },
+                                React.createElement(
+                                    "a",
+                                    { href: "/", className: "navbar-brand" },
+                                    React.createElement("img", { src: "img/logo.png", alt: "Taskursion logo" }),
+                                    React.createElement(
+                                        "h1",
+                                        { className: "d-inline ms-1 align-middle" },
+                                        "Taskursion"
+                                    )
+                                )
+                            ),
+                            React.createElement(
+                                "div",
+                                { className: "col-6 d-flex justify-content-end" },
+                                navbarProfileInfo
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return Navbar;
 }(React.Component);
 
 export default Navbar;
 ;
+
+function NavbarLink(_ref) {
+    var text = _ref.text;
+
+    return React.createElement(
+        "li",
+        { className: "nav-item ps-3" },
+        React.createElement(
+            "a",
+            { href: "/", className: "nav-link" },
+            text
+        )
+    );
+}

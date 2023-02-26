@@ -2,7 +2,11 @@ import Navbar from "./navbar.js";
 
 class Main extends React.Component {
   render() {
-    let app = <div><Navbar /><h1 className="text-center">Test</h1></div>;
+    let app = 
+        (<div>
+            <Navbar />
+            <h1 className="text-center">Test</h1>
+        </div>);
     return app;
   }
 };
