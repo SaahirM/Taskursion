@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import './globals.css';
-import FooterScripts from "./footer-scripts";
+import './custom.scss';
 
 export const metadata = {
   title: 'Taskursion',
@@ -12,7 +11,6 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         {children}
-        <FooterScripts />
       </body>
     </html>
   )

@@ -1,0 +1,14 @@
+@import "bootstrap/scss/functions";
+
+$body-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+$body-bg: rgb(25, 10, 40);
+$body-color: white;
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+.btn-primary {
+    --bs-btn-bg: purple;
+}
