@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
 export default function Home() {
   return (
@@ -10,12 +10,11 @@ export default function Home() {
           <h1 className='homepage-title text-center'>Taskursion</h1>
         </Row>
         <Row className='w-100 g-0'>
-          {/*Note: switch to anchors. rounded borders look weird on mobile*/}
           <Col xs={12} sm={6}>
-            <Button className='w-100 fs-3 py-4 rounded-0 rounded-start' href='/signup' variant='invisible'>Signup</Button>
+            <a className='btn btn-invisible w-100 fs-3 py-4' href='/signup'>Signup</a>
           </Col>
           <Col xs={12} sm={6}>
-            <Button className='w-100 fs-3 py-4 rounded-0 rounded-end' href='/login' variant='invisible'>Login</Button>
+            <a className='btn btn-invisible w-100 fs-3 py-4' href='/login'>Login</a>
           </Col>
         </Row>
       </Container>

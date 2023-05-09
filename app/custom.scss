@@ -12,6 +12,17 @@ $body-color: $white;
 .btn-invisible {
     --bs-btn-color: rgb(239, 192, 255);
     --bs-btn-hover-bg: rgb(45, 0, 85);
+    border-radius: 0;
+}
+@include media-breakpoint-up(sm) {
+    .row div:first-child .btn-invisible {
+        border-top-left-radius: calc(var(--bs-border-radius) * 2);
+        border-bottom-left-radius: calc(var(--bs-border-radius) * 2);
+    }
+    .row div:last-child .btn-invisible {
+        border-top-right-radius: calc(var(--bs-border-radius) * 2);
+        border-bottom-right-radius: calc(var(--bs-border-radius) * 2);
+    }
 }
 
 .homepage-title {
