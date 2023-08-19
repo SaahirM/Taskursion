@@ -1,5 +1,4 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import './custom.scss';
+import "./global.css";
 
 export const metadata = {
   title: 'Taskursion',

@@ -9,11 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "bootstrap": "^5.2.3",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.5",
     "next": "13.4.0",
     "react": "18.2.0",
-    "react-bootstrap": "^2.7.4",
-    "react-dom": "18.2.0",
-    "sass": "^1.62.1"
+    "react-dom": "18.2.0"
   }
 }

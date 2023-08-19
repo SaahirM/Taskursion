@@ -1,23 +1,29 @@
 "use client";
 
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 export default function Home() {
   return (
     <main>
-      <Container fluid className='d-flex align-items-center justify-content-center vh-100 flex-column'>
-        <Row>
-          <h1 className='homepage-title text-center'>Taskursion</h1>
-        </Row>
-        <Row className='w-100 g-0'>
-          <Col xs={12} sm={6}>
-            <a className='btn btn-invisible w-100 fs-3 py-4' href='/signup'>Signup</a>
-          </Col>
-          <Col xs={12} sm={6}>
-            <a className='btn btn-invisible w-100 fs-3 py-4' href='/login'>Login</a>
-          </Col>
-        </Row>
-      </Container>
+      <Grid
+        container
+        alignItems={'center'}
+        alignContent={'center'}
+        minHeight={'100vh'}
+      >
+        <Grid xs={12}>
+          <Typography variant='h1' textAlign={'center'}>Taskursion</Typography>
+        </Grid>
+
+        <Grid xs={12} sm={6}>
+          <Button size='large' fullWidth href='/signup'>Signup</Button>
+        </Grid>
+
+        <Grid xs={12} sm={6}>
+          <Button size='large' fullWidth href='/login'>Login</Button>
+        </Grid>
+      </Grid>
     </main>
   )
 }
