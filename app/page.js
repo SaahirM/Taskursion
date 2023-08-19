@@ -1,6 +1,7 @@
 "use client";
 
 import { Box, Button, Container, Typography } from '@mui/material';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -20,25 +21,30 @@ export default function Home() {
         </Typography>
 
         <Box minWidth={{xs: '100%', sm: 0}}>
-          <Button href='/signup' sx={{
-            color: 'white',
-            fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
-            px: {sm: 8, md: 14, lg: 20},
-            py: {xs: 2, md: 3, lg: 4},
-            minWidth: {xs: '100%', sm: 0}
-          }}>
-            Signup
-          </Button>
+          <Link href={"/signup"}>
+            <Button sx={{
+              color: 'white',
+              fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
+              px: {sm: 8, md: 14, lg: 20},
+              py: {xs: 2, md: 3, lg: 4},
+              minWidth: {xs: '100%', sm: 0}
+            }}>
+              Signup
+            </Button>
+          </Link>
           
-          <Button href='/login' sx={{
-            color: 'white',
-            fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
-            px: {sm: 8, md: 14, lg: 20},
-            py: {xs: 2, md: 3, lg: 4},
-            minWidth: {xs: '100%', sm: 0}
-          }}>
-            Login
-          </Button>
+          <Link href={"/login"}>
+            <Button sx={{
+              color: 'white',
+              fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
+              px: {sm: 8, md: 14, lg: 20},
+              py: {xs: 2, md: 3, lg: 4},
+              minWidth: {xs: '100%', sm: 0}
+            }}>
+              Login
+            </Button>
+          </Link>
+          
         </Box>
       </Container>
     </main>
