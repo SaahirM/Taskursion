@@ -1,29 +1,46 @@
 "use client";
 
-import { Button, Typography } from '@mui/material';
-import Grid from '@mui/material/Unstable_Grid2';
+import { Box, Button, Container, Typography } from '@mui/material';
 
 export default function Home() {
   return (
     <main>
-      <Grid
-        container
-        alignItems={'center'}
-        alignContent={'center'}
-        minHeight={'100vh'}
-      >
-        <Grid xs={12}>
-          <Typography variant='h1' textAlign={'center'}>Taskursion</Typography>
-        </Grid>
+      <Container sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh'
+      }}>
+        <Typography
+          variant='h1'
+          fontSize={{xs: '4rem', sm: '7rem', md: '10rem', lg: '12rem'}}
+        >
+          Taskursion
+        </Typography>
 
-        <Grid xs={12} sm={6}>
-          <Button size='large' fullWidth href='/signup'>Signup</Button>
-        </Grid>
-
-        <Grid xs={12} sm={6}>
-          <Button size='large' fullWidth href='/login'>Login</Button>
-        </Grid>
-      </Grid>
+        <Box minWidth={{xs: '100%', sm: 0}}>
+          <Button href='/signup' sx={{
+            color: 'white',
+            fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
+            px: {sm: 8, md: 14, lg: 20},
+            py: {xs: 2, md: 3, lg: 4},
+            minWidth: {xs: '100%', sm: 0}
+          }}>
+            Signup
+          </Button>
+          
+          <Button href='/login' sx={{
+            color: 'white',
+            fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
+            px: {sm: 8, md: 14, lg: 20},
+            py: {xs: 2, md: 3, lg: 4},
+            minWidth: {xs: '100%', sm: 0}
+          }}>
+            Login
+          </Button>
+        </Box>
+      </Container>
     </main>
   )
 }
