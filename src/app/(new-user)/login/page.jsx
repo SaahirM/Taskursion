@@ -1,10 +1,9 @@
-import Link from "next/link";
+import Login from "@/src/components/Login";
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <main>
-      <h1>Login</h1>
-      <Link href={"../user"}>login</Link>
+      <Login/>
     </main>
   )
 }

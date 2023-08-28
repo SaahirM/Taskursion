@@ -1,12 +1,9 @@
-import Link from "next/link";
+import Dashboard from "@/src/components/Dashboard";
 
 export default function AccountHome() {
   return (
     <main>
-      <h1>After login</h1>
-      <Link href={"/"}>Logout</Link>
-      <Link href={"/user/settings"}>Settings</Link>
-      <Link href={"/user/tasks/1"}>Task 1</Link>
+      <Dashboard/>
     </main>
-  )
+  );
 }

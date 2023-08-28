@@ -1,10 +1,9 @@
-import Link from "next/link";
+import Signup from "@/src/components/Signup";
 
-export default function Signup() {
+export default function SignupPage() {
   return (
     <main>
-      <h1>Create an account</h1>
-      <Link href={"../user"}>Create account</Link>
+      <Signup/>
     </main>
-  )
+  );
 }

@@ -1,10 +1,9 @@
-import Link from "next/link";
+import Task from "@/src/components/Task";
 
-export default function Task({params: {task}}) {
+export default function TaskPage({params: {task}}) {
   return (
     <main>
-      <h1>Task # {task}</h1>
-      <Link href={"/user"}>Back</Link>
+      <Task taskId={task}/>
     </main>
-  )
+  );
 }

@@ -1,10 +1,9 @@
-import Link from "next/link";
+import Settings from "@/src/components/Settings";
 
-export default function Settings() {
+export default function SettingsPage() {
   return (
     <main>
-      <h1>Account settings</h1>
-      <Link href={"/user"}>Back</Link>
+      <Settings/>
     </main>
   )
 }
