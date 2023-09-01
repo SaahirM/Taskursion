@@ -7,16 +7,22 @@ if (result.error) {
   throw new Error("Failed to load environment variables\n" + result.error.message);
 }
 
-const db = mysql.createConnection({
+const db = mysql.createPool({
   host: process.env.MYSQL_HOST,
   port: process.env.MYSQL_PORT,
   user: process.env.MYSQL_USER,
   password: process.env.MYSQL_PASS,
   database: process.env.MYSQL_SCHM
-});
+}).promise();
 
-db.connect(error => {
-  if (error) {  
-    throw new Error("Could not connect to database\n" + error.message);
-  }
-});
+db.query("SELECT * FROM user")
+  .then(([rows, fields]) => {
+    console.log(rows);
+    console.log(fields);
+  })
+  .catch(error => {
+    throw new Error("Query failed\n" + error.message);
+  })
+  .finally(() => {
+    db.end();
+  });
