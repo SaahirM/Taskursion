@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "node src/database-setup/main.js && next dev",
+    "build": "node src/database-setup/main.js && next build",
+    "build-demo": "node src/database-setup/main.js demo-data && next build",
     "start": "next start",
-    "lint": "next lint",
-    "temp": "node src/initialization/database-setup.js && next dev"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
