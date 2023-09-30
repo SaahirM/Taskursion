@@ -17,6 +17,7 @@ Follow these steps to get the app running:
 1. Make a copy of the file `.env.local.example` and name this copy `.env.local`.
 1. Update `.env.local`. Change the database credentials (host, username, etc) so they point to your local MySQL server.
 1. Launch a terminal at the root project directory `/taskursion`.
+1. Run the command `npm install`.
 1. Type `npm run build` to build the app, or `npm run build-demo` to build the app and populate the database with some dummy data.
 1. Now type `npm start` to run the built app.
 1. Navigate to "http://localhost:3000" using a browser.
@@ -30,3 +31,4 @@ You should see the app's homepage, which looks like this:
 
 These are some of the development tools I used
 - [Next.js](https://nextjs.org/), with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+- [Material UI](https://mui.com/)
