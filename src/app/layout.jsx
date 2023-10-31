@@ -1,4 +1,4 @@
-import "normalize.css";
+import 'normalize.css';
 import "./global.css";
 
 export const metadata = {
