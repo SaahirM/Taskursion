@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node src/database-setup/main.js && next dev",
-    "build": "node src/database-setup/main.js && next build",
-    "build-demo": "node src/database-setup/main.js demo-data && next build",
+    "dev": "node src/db-demo-data/main.js && next dev",
+    "build": "next build",
+    "build-demo": "node src/db-demo-data/main.js && next build",
     "start": "next start",
     "lint": "next lint"
   },
