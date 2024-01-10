@@ -1,38 +1,45 @@
-const mysql = require('mysql2');
-const dotenv = require('dotenv');
-const fs = require("fs");
+const { MongoClient, ObjectId } = require('mongodb');
+const fs = require('fs')
+const importEnvResult = require('dotenv').config();
 
-const IS_DEMO_REQUESTED = process.argv[2] === "demo-data";
-const SQL_SCRIPT_PATH = 
-    IS_DEMO_REQUESTED ?
-    "./src/database-setup/script-with-demo-data.sql" :
-    "./src/database-setup/script.sql";
+const client = new MongoClient(process.env.MONGO_CONN_STR);
+const isDemoRequested = process.argv[2] === "demo-data";
 
-// Load env vars so we have DB credentials
-const result = dotenv.config({ path: '.env.local' });
-if (result.error) {
-  throw new Error("Failed to load environment variables\n" + result.error.message);
+if (importEnvResult.error) {
+    throw new Error("Failed to load environment variables\n" + importEnvResult.error.message);
 }
 
-// Load MySQL script that will be run to set DB up
-/* 
-  In the future, it may be worth directly running the MySQL script using
-  "mysqlsh" at the commandline, as opposed to running it indirectly using
-  this JS script. I just can't be bothered to figure out how right now.
- */
-const setupSql = fs.readFileSync(SQL_SCRIPT_PATH, 'utf-8');
+const rawDemoData = fs.readFileSync("./src/database-setup/demo-data.json")
+const demoData = JSON.parse(rawDemoData)
 
-const db = mysql.createConnection({
-  host: process.env.MYSQL_HOST,
-  port: process.env.MYSQL_PORT,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASS,
-  multipleStatements: true
-});
+client.connect()
+    .then(async () => {
+        const collections = {}
 
-db.query(setupSql, error => {
-  if (error) {
-    throw new Error("\"script.sql\" failed\n" + error.message);
-  }
-});
-db.end();
+        for (const demoCollectionName in demoData) {
+            const collection = client.db().collection(demoCollectionName)
+            collections[demoCollectionName] = collection
+        }
+
+        if (isDemoRequested) {
+            for (const demoCollectionName in demoData) {
+                const demoCollectionsWithImproperIds = demoData[demoCollectionName]
+                const demoCollections = demoCollectionsWithImproperIds.map(demoCollection => {
+                    return {
+                        ...demoCollection,
+                        _id: new ObjectId(demoCollection._id)
+                    }
+                })
+                await collections[demoCollectionName].insertMany(demoCollections, {ordered: false})
+            }
+        }
+    })
+    .catch(e => {
+        if (e.code !== 11000) {
+            // ignore duplicate key errors while inserting
+            throw e
+        }
+    })
+    .finally(async () => {
+        await client.close();
+    })
