@@ -1,5 +1,4 @@
-import 'normalize.css';
-import "./global.css";
+import ThemeWrapper from './ThemeWrapper';
 
 export const metadata = {
   title: 'Taskursion',
@@ -10,7 +9,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <ThemeWrapper>
+          {children}
+        </ThemeWrapper>
       </body>
     </html>
   )
