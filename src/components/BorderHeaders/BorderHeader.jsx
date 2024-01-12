@@ -15,7 +15,7 @@ export default function BorderHeader({ headerComponent, children }) {
         p: 1
     }}>
         {headerComponent}
-        
+
         <Box sx={{      // the "inner box" within the border that contains the content
             height: '100%',
             overflow: 'hidden',
@@ -27,8 +27,8 @@ export default function BorderHeader({ headerComponent, children }) {
             <Box sx={{  /*
                         an "inner inner box" with a scrollbar. This needs to be its own, inner div
                         so the scrollbar is not on top of the rounded corners
-                        */ 
-                       
+                        */
+
                 height: '100%',
                 overflowY: 'auto',
                 scrollbarWidth: 2,
@@ -46,7 +46,7 @@ export default function BorderHeader({ headerComponent, children }) {
                     backgroundColor: theme.palette.primary.dark
                 },
                 p: 1
-            }}>    
+            }}>
                 {children}
             </Box>
         </Box>
