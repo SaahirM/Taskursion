@@ -1,12 +1,11 @@
 "use client";
 
-import { Box, Button, ButtonGroup, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, ButtonGroup, Typography, useMediaQuery } from "@mui/material";
 import PlainBorderHeader from "./BorderHeaders/PlainBorderHeader";
 import Link from "next/link";
 
 export default function LandingPage() {
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
     return (<PlainBorderHeader>
         <Typography textAlign={'center'} mt='33vh' variant="h1">Taskursion</Typography>

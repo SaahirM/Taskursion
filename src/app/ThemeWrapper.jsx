@@ -18,10 +18,10 @@ const unresponsiveTheme = createTheme({
     palette: {
         mode: 'dark',
         primary: {
-            main: '#7200ff',
+            main: '#e694ff',
         },
         secondary: {
-            main: '#e694ff',
+            main: '#7200ff',
         },
         background: {
             default: '#14002f',
