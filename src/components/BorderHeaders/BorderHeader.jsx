@@ -57,8 +57,7 @@ export default function BorderHeader({ primaryHeaderComponent, children }) {
                 p={1}
                 sx={{
                     overflowY: 'auto',
-                    scrollbarWidth: 2,
-                    scrollbarColor: `${isDarkMode ? 'black' : 'white'} ${theme.palette.primary.dark}`,
+                    scrollbarColor: `${theme.palette.primary.dark} ${isDarkMode ? 'black' : 'white'}`,
                     '&::-webkit-scrollbar': {
                         backgroundColor: isDarkMode ? 'black' : 'white',
                         width: 10,
