@@ -1,5 +1,10 @@
 {
     "Users": [
-        {"_id": "659deca99020aa958fa1c7c1", "user_name": "Test User", "user_email": "test@email.com", "user_pass_hash": "someLong$tring"}
+        {
+            "_id": "659deca99020aa958fa1c7c1",
+            "user_name": "Test User",
+            "user_email": "test@email.com",
+            "user_pass_hash": "someLong$tring"
+        }
     ]
 }

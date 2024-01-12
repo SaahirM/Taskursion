@@ -22,7 +22,7 @@ client.connect()
                     _id: new ObjectId(demoCollection._id)
                 }
             })
-            await collection.insertMany(demoCollections, {ordered: false})
+            await collection.insertMany(demoCollections, { ordered: false })
         }
     })
     .catch(e => {

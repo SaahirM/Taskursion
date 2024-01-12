@@ -11,14 +11,14 @@ export default function LandingPage() {
     return (<PlainBorderHeader>
         <Typography textAlign={'center'} mt='33vh' variant="h1">Taskursion</Typography>
         <Box width={'100%'} display={'flex'} justifyContent={'center'} mt={4}>
-            <ButtonGroup 
+            <ButtonGroup
                 variant='contained'
                 orientation={isSmallScreen ? 'vertical' : 'horizontal'}
                 fullWidth={isSmallScreen ? true : false}
             >
                 <Button
                     size='large'
-                    sx={{px: 8, py: {xs: 3, sm: 1, md: 2}}}
+                    sx={{ px: 8, py: { xs: 3, sm: 1, md: 2 } }}
                     LinkComponent={Link}
                     href="/signup"
                 >
@@ -26,7 +26,7 @@ export default function LandingPage() {
                 </Button>
                 <Button
                     size='large'
-                    sx={{px: 8, py: {xs: 3, sm: 1, md: 2}}}
+                    sx={{ px: 8, py: { xs: 3, sm: 1, md: 2 } }}
                     LinkComponent={Link}
                     href="/login"
                 >
