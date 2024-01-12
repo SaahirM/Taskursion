@@ -6,11 +6,17 @@ import { IBM_Plex_Sans, Open_Sans } from 'next/font/google';
 const ibmPlexSans = IBM_Plex_Sans({
     subsets: ['latin'],
     display: 'swap',
-    weight: '400'
+    weight: '500'
+});
+const ibmPlexSansBold = IBM_Plex_Sans({
+    subsets: ['latin'],
+    display: 'swap',
+    weight: '600'
 });
 const openSans = Open_Sans({
     subsets: ['latin'],
-    display: 'swap'
+    display: 'swap',
+    weight: '800'
 });
 
 // This theme was created using https://zenoo.github.io/mui-theme-creator/
@@ -42,9 +48,12 @@ const unresponsiveTheme = createTheme({
     },
     typography: {
         h1: {
-            fontFamily: ibmPlexSans.style.fontFamily,
+            fontFamily: ibmPlexSansBold.style.fontFamily,
         },
         h2: {
+            fontFamily: ibmPlexSans.style.fontFamily,
+        },
+        h3: {
             fontFamily: ibmPlexSans.style.fontFamily,
         },
         button: {
@@ -53,9 +62,6 @@ const unresponsiveTheme = createTheme({
             lineHeight: 2,
             letterSpacing: '0.05em',
             fontWeight: 700,
-        },
-        h3: {
-            fontFamily: ibmPlexSans.style.fontFamily,
         },
     },
     shape: {
