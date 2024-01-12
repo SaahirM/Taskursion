@@ -1,5 +1,5 @@
 export default function SignupLayout({ children }) {
-  return (<main>
-    {children}
-  </main>);
+    return (<main>
+        {children}
+    </main>);
 }
