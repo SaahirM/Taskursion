@@ -1,10 +1,7 @@
-import SignedOutHeader from "@/src/components/SignedOutHeader";
+import HomeBorderHeader from "@/src/components/BorderHeaders/HomeBorderHeader";
 
 export default function NewUserHeader({ children }) {
-    return (<>
-        <header>
-            <SignedOutHeader />
-        </header>
+    return (<HomeBorderHeader>
         {children}
-    </>);
+    </HomeBorderHeader>);
 }
