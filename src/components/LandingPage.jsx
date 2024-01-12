@@ -1,47 +1,38 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import Link from 'next/link';
+"use client";
+
+import { Box, Button, ButtonGroup, Typography, useMediaQuery, useTheme } from "@mui/material";
+import PlainBorderHeader from "./BorderHeaders/PlainBorderHeader";
+import Link from "next/link";
 
 export default function LandingPage() {
-  return (
-    <Container sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh'
-    }}>
-      <Typography
-        variant='h1'
-        fontSize={{xs: '4rem', sm: '7rem', md: '10rem', lg: '12rem'}}
-      >
-        Taskursion
-      </Typography>
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-      <Box minWidth={{xs: '100%', sm: 0}}>
-        <Link href={"/signup"}>
-          <Button sx={{
-            color: 'white',
-            fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
-            px: {sm: 8, md: 14, lg: 20},
-            py: {xs: 2, md: 3, lg: 4},
-            minWidth: {xs: '100%', sm: 0}
-          }}>
-            Signup
-          </Button>
-        </Link>
-        
-        <Link href={"/login"}>
-          <Button sx={{
-            color: 'white',
-            fontSize: {xs: '1rem', sm: '1.5rem', md: '1.8rem', lg: '2rem'},
-            px: {sm: 8, md: 14, lg: 20},
-            py: {xs: 2, md: 3, lg: 4},
-            minWidth: {xs: '100%', sm: 0}
-          }}>
-            Login
-          </Button>
-        </Link>
-      </Box>
-    </Container>
-  );
+    return (<PlainBorderHeader>
+        <Typography textAlign={'center'} mt='33vh' variant="h1">Taskursion</Typography>
+        <Box width={'100%'} display={'flex'} justifyContent={'center'} mt={4}>
+            <ButtonGroup 
+                variant='contained'
+                orientation={isSmallScreen ? 'vertical' : 'horizontal'}
+                fullWidth={isSmallScreen ? true : false}
+            >
+                <Button
+                    size='large'
+                    sx={{px: 8, py: {xs: 3, sm: 1, md: 2}}}
+                    LinkComponent={Link}
+                    href="/signup"
+                >
+                    Signup
+                </Button>
+                <Button
+                    size='large'
+                    sx={{px: 8, py: {xs: 3, sm: 1, md: 2}}}
+                    LinkComponent={Link}
+                    href="/login"
+                >
+                    Login
+                </Button>
+            </ButtonGroup>
+        </Box>
+    </PlainBorderHeader>);
 }

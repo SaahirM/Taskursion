@@ -1,6 +1,6 @@
 'use client';
 
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { CssBaseline, ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material";
 import { IBM_Plex_Sans, Open_Sans } from 'next/font/google';
 
 const ibmPlexSans = IBM_Plex_Sans({
@@ -14,7 +14,7 @@ const openSans = Open_Sans({
 });
 
 // This theme was created using https://zenoo.github.io/mui-theme-creator/
-const theme = createTheme({
+const unresponsiveTheme = createTheme({
     palette: {
         mode: 'dark',
         primary: {
@@ -62,6 +62,8 @@ const theme = createTheme({
         borderRadius: 5,
     }
 });
+
+const theme = responsiveFontSizes(unresponsiveTheme);
 
 export default function ThemeWrapper({ children }) {
     return <ThemeProvider theme={theme}>
