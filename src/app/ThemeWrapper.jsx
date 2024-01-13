@@ -60,9 +60,8 @@ const unresponsiveTheme = createTheme({
             fontFamily: openSans.style.fontFamily,
             fontSize: '1.1rem',
             lineHeight: 2,
-            letterSpacing: '0.05em',
-            fontWeight: 700,
-        },
+            letterSpacing: '0.05em'
+        }
     },
     shape: {
         borderRadius: 5,
