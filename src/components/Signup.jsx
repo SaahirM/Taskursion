@@ -10,12 +10,12 @@ export default function Signup() {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
-    const [formData, setFormData] = useState({name: "", email: "", pass: ""});
-    const [formError, setFormError] = useState({name: "", email: "", pass: ""});
+    const [formData, setFormData] = useState({ name: "", email: "", pass: "" });
+    const [formError, setFormError] = useState({ name: "", email: "", pass: "" });
     const [wasPassLengthGreaterThan7, setWasPassLengthGreaterThan7] = useState(false);
-    
+
     const handleInputChange = e => {
-        setFormData({...formData, [e.target.name]: e.target.value});
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     }
 
     const handleNameChange = e => {
@@ -23,11 +23,13 @@ export default function Signup() {
         const name = e.target.value;
 
         if (name.length > 255) {
-            setFormError({...formError,
+            setFormError({
+                ...formError,
                 name: "This name is too long! Please use at most 255 characters."
             });
         } else {
-            setFormError({...formError,
+            setFormError({
+                ...formError,
                 name: ""
             });
         }
@@ -38,11 +40,13 @@ export default function Signup() {
         const email = e.target.value;
 
         if (email.length > 254) {
-            setFormError({...formError,
+            setFormError({
+                ...formError,
                 email: "This email is too long! Email addresses must not exceed 254 characters."
             });
         } else {
-            setFormError({...formError,
+            setFormError({
+                ...formError,
                 email: ""
             });
         }
@@ -57,15 +61,18 @@ export default function Signup() {
         }
 
         if (pass.length < 8 && wasPassLengthGreaterThan7) {
-            setFormError({...formError,
+            setFormError({
+                ...formError,
                 pass: "This password is too short! It needs to have at least 8 characters."
             });
         } else if (!PASS_REGEX.test(pass) && wasPassLengthGreaterThan7) {
-            setFormError({...formError,
+            setFormError({
+                ...formError,
                 pass: "This password doesn't meet the requirements"
             });
         } else {
-            setFormError({...formError,
+            setFormError({
+                ...formError,
                 pass: ""
             });
         }
@@ -102,7 +109,7 @@ export default function Signup() {
                 error={formError.email !== ""}
                 helperText={formError.email}
             />
-            <Tooltip 
+            <Tooltip
                 title="Must have at least 8 characters, a symbol, a number, an uppercase character,
                 and a lowercase character"
                 disableHoverListener
