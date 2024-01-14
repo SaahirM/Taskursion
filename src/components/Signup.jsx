@@ -12,14 +12,9 @@ export default function Signup() {
 
     const [formData, setFormData] = useState({ name: "", email: "", pass: "" });
     const [formError, setFormError] = useState({ name: "", email: "", pass: "" });
-    const [wasPassLengthGreaterThan7, setWasPassLengthGreaterThan7] = useState(false);
-
-    const handleInputChange = e => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
 
     const handleNameChange = e => {
-        handleInputChange(e);
+        setFormData({ ...formData, name: e.target.value });
         const name = e.target.value;
 
         if (name.length > 255) {
@@ -36,7 +31,7 @@ export default function Signup() {
     }
 
     const handleEmailChange = e => {
-        handleInputChange(e);
+        setFormData({ ...formData, email: e.target.value });
         const email = e.target.value;
 
         if (email.length > 254) {
@@ -53,22 +48,23 @@ export default function Signup() {
     }
 
     const handlePassChange = e => {
-        handleInputChange(e);
+        setFormData({ ...formData, pass: e.target.value });
         const pass = e.target.value;
 
-        if (pass.length > 7 && !wasPassLengthGreaterThan7) {
-            setWasPassLengthGreaterThan7(true);
-        }
-
-        if (pass.length < 8 && wasPassLengthGreaterThan7) {
+        if (pass === "") {
+            setFormError({
+                ...formError,
+                pass: ""
+            });
+        } else if (pass.length < 8) {
             setFormError({
                 ...formError,
                 pass: "This password is too short! It needs to have at least 8 characters."
             });
-        } else if (!PASS_REGEX.test(pass) && wasPassLengthGreaterThan7) {
+        } else if (!PASS_REGEX.test(pass)) {
             setFormError({
                 ...formError,
-                pass: "This password doesn't meet the requirements"
+                pass: "This password doesn't meet the requirements."
             });
         } else {
             setFormError({
@@ -86,6 +82,7 @@ export default function Signup() {
             <Typography variant="h2" textAlign='center' mb={[1, 4]}>Create an account</Typography>
             <TextField
                 fullWidth
+                required
                 variant='filled'
                 label="Name"
                 name="name"
@@ -98,6 +95,7 @@ export default function Signup() {
             />
             <TextField
                 fullWidth
+                required
                 variant='filled'
                 label="Email"
                 name="email"
@@ -117,6 +115,7 @@ export default function Signup() {
             >
                 <TextField
                     fullWidth
+                    required
                     variant='filled'
                     label="Password"
                     name="pass"
@@ -134,6 +133,12 @@ export default function Signup() {
                 variant='contained'
                 sx={{ mt: 2, px: 5 }}
                 fullWidth={isSmallScreen ? true : false}
+                disabled={Object.values(formError).reduce((doesAnErrorExist, errMsg) => {
+                    if (errMsg !== "") {
+                        return true;
+                    }
+                    return doesAnErrorExist
+                }, false)}
             >
                 Submit
             </Button>
