@@ -36,6 +36,7 @@ export default function BorderHeader({ primaryHeaderComponent, children }) {
         bgcolor={theme.palette.secondary.main}
         color={theme.palette.secondary.contrastText}
         p={1}
+        sx={{':hover:not(:has(.MuiBox-root:hover))': {backgroundColor: theme.palette.secondary.light}}}
     >
         {headerComponent}
         {headerLink}
