@@ -1,3 +1,3 @@
 export default function HomeLayout({ children }) {
-    return {children};
+    return <>{children}</>;
 }

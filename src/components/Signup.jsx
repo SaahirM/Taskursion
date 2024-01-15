@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "@emotion/react";
-import { Button, Container, Paper, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Alert, Button, Container, Paper, Snackbar, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 
 const PASS_REGEX = /(?=.*[^A-Za-z0-9_ \t\r\n\v\f])(?=.*\d)(?=.*[A-Z])(?=.*[a-z])/;
@@ -12,6 +12,9 @@ export default function Signup() {
 
     const [formData, setFormData] = useState({ name: "", email: "", pass: "" });
     const [formError, setFormError] = useState({ name: "", email: "", pass: "" });
+
+    const [isSbOpen, setIsSbOpen] = useState(false);
+    const [serverError, setServerError] = useState("");
 
     const handleNameChange = e => {
         setFormData({ ...formData, name: e.target.value });
@@ -74,12 +77,48 @@ export default function Signup() {
         }
     }
 
+    const handleSubmit = e => {
+        e.preventDefault();
+
+        fetch('/api/user/signup', {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        })
+            .then(async res => {
+                if (!res.ok) {
+                    const error = await res.text();
+                    if (error !== "") {
+                        throw new Error(error);
+                    }
+                    throw new Error(`Server responded with a ${res.status} status code`);
+                }
+                return res.json();
+            })
+            .then(data => {
+
+            })
+            .catch(e => {
+                console.log(e);
+                if (e.message) {
+                    setServerError(e.message);
+                    setIsSbOpen(true);
+                } else {
+                    setServerError(
+                        "An unexpected error occurred while communicating with the server"
+                    );
+                    setIsSbOpen(true);
+                }
+            })
+    }
+
     return (<Container
         maxWidth='sm'
         component='form'
+        onSubmit={handleSubmit}
     >
         <Paper sx={{ p: 3, mt: [1, 3], border: 2, borderRadius: theme.shape.borderRadius }}>
             <Typography variant="h2" textAlign='center' mb={[1, 4]}>Create an account</Typography>
+            <Typography variant='body2'>Fields marked with * are required</Typography>
             <TextField
                 fullWidth
                 required
@@ -143,5 +182,15 @@ export default function Signup() {
                 Submit
             </Button>
         </Paper>
+
+        <Snackbar
+            open={isSbOpen}
+            autoHideDuration={9000}
+            onClose={setIsSbOpen.bind(null, false)}
+        >
+            <Alert onClose={setIsSbOpen.bind(null, false)} severity='error' variant='filled'>
+                {serverError}
+            </Alert>
+        </Snackbar>
     </Container>);
 }
