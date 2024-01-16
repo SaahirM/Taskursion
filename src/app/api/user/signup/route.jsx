@@ -6,7 +6,6 @@ const SALT_ROUNDS = 10;
 
 export async function POST(req) {
     const data = await req.json();
-    console.log(data);
     if (!data.name || !data.email || !data.pass) {
         return new NextResponse(
             "Missing one of the following required fields: name, email, pass."
@@ -37,7 +36,7 @@ export async function POST(req) {
             const sessionId = crypto.randomUUID();
             await sessions.insertOne({ _id: sessionId, userId: result.insertedId });
 
-            const res = NextResponse.redirect(new URL("/home", req.url))
+            const res = new NextResponse();
             res.cookies.set("sessionToken", sessionId);
             return res;
         })

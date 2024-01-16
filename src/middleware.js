@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server"
 
+const unprotectedPages = new Set(["", "/", "/signup", "/login"]);
+
 export const config = {
     matcher: [
         /*
@@ -24,12 +26,10 @@ export const config = {
 }
 
 export async function middleware(req) {
-    if (
-        req.nextUrl.pathname === "/signup" ||
-        req.nextUrl.pathname === "/login" ||
-        req.nextUrl.pathname === "/"
-    ) {
-        if (req.cookies.has("sessionToken")) {
+    if (unprotectedPages.has(req.nextUrl.pathname)) {
+        const isAuthenticated = await checkIsAuthenticated(req);
+        console.log(isAuthenticated);
+        if (isAuthenticated === true) {
             return NextResponse.redirect(new URL("/home", req.url));
         }
 
@@ -37,53 +37,51 @@ export async function middleware(req) {
         req.nextUrl.pathname === "/api/user/signup" ||
         req.nextUrl.pathname === "/api/user/login"
     ) {
-        if (req.cookies.has("sessionToken")) {
+        const isAuthenticated = await checkIsAuthenticated(req);
+        if (isAuthenticated === true) {
             return new NextResponse("You are already logged in.", { status: 400 });
         }
 
     } else if (req.nextUrl.pathname.startsWith("/api") && req.nextUrl.pathname !== "/api/user/auth") {
-        if (!req.cookies.has("sessionToken")) {
-            return new NextResponse(
-                "Please login at /login or using /api/user/login first.", { status: 401 }
-            );
-        }
-
-        const sessionToken = req.cookies.get("sessionToken").value;
-        const fetchRes = await fetch(
-            new URL("/api/user/auth", req.url),
-            { method: 'POST', body: sessionToken }
-        );
-
-        if (!fetchRes.ok) {
+        const isAuthenticated = await checkIsAuthenticated(req);
+        if (isAuthenticated === null) {
             return new NextResponse("The server cannot authenticate this request.", { status: 500 });
-        }
-        
-        const authRes = await fetchRes.text();
-        if (authRes === "0") {
+        } else if (isAuthenticated === false) {
             return new NextResponse(
                 "Please login at /login or using /api/user/login first.", { status: 401 }
             );
         }
 
     }  else if (req.nextUrl.pathname.startsWith("/home")) {
-        if (!req.cookies.has("sessionToken")) {
+        const isAuthenticated = await checkIsAuthenticated(req);
+        if (isAuthenticated === null) {
+            return NextResponse.redirect(new URL("/login?serverAuthError", req.url));
+        } else if (isAuthenticated === false) {
             const newPath = encodeURI(req.nextUrl.pathname);
             return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
         }
-
-        const sessionToken = req.cookies.get("sessionToken").value;
-        const fetchRes = await fetch(
-            new URL("/api/user/auth", req.url),
-            { method: 'POST', body: sessionToken }
-        );
-
-        if (!fetchRes.ok) {
-            return NextResponse.redirect(new URL("/login?serverAuthError", req.url));
-        }
-
-        const authRes = await fetchRes.text();
-        if (authRes === "0") {
-            return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
-        }
     }
+}
+
+async function checkIsAuthenticated(req) {
+    if (!req.cookies.has("sessionToken")) {
+        return false;
+    }
+
+    const sessionToken = req.cookies.get("sessionToken").value;
+    const fetchRes = await fetch(
+        new URL("/api/user/auth", req.url),
+        { method: 'POST', body: sessionToken }
+    );
+
+    if (!fetchRes.ok) {
+        return null;
+    }
+    
+    const authRes = await fetchRes.text();
+    if (authRes === "0") {
+        return false;
+    }
+
+    return true;
 }
