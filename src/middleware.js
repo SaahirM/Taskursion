@@ -25,8 +25,8 @@ export const config = {
 
 export async function middleware(req) {
     if (
-        req.nextUrl.pathname.startsWith("/signup") ||
-        req.nextUrl.pathname.startsWith("/login") ||
+        req.nextUrl.pathname === "/signup" ||
+        req.nextUrl.pathname === "/login" ||
         req.nextUrl.pathname === "/"
     ) {
         if (req.cookies.has("sessionToken")) {
@@ -34,24 +34,29 @@ export async function middleware(req) {
         }
 
     } else if (
-        req.nextUrl.pathname.startsWith("/api/user/signup") ||
-        req.nextUrl.pathname.startsWith("/api/user/login")
+        req.nextUrl.pathname === "/api/user/signup" ||
+        req.nextUrl.pathname === "/api/user/login"
     ) {
         if (req.cookies.has("sessionToken")) {
-            return new Response("You are already logged in.", { status: 400 });
+            return new NextResponse("You are already logged in.", { status: 400 });
         }
 
-    } else {
+    } else if (req.nextUrl.pathname.startsWith("/api") || req.nextUrl.pathname.startsWith("/home")) {
         if (!req.cookies.has("sessionToken")) {
             if (req.nextUrl.pathname.startsWith("/api")) {    
-                return new Response("Please login using /api/user/login first.", { status: 401 });
+                return new NextResponse("Please login using /api/user/login first.", { status: 401 });
             } else {
-                return NextResponse.redirect(new URL("/login?notLoggedIn", req.url));
+                const newPath = encodeURI(req.nextUrl.pathname);
+                return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
             }
         }
 
         const sessionToken = req.cookies.get("sessionToken").value;
-        const fetchRes = await fetch("/api/user/auth", { method: 'POST', body: sessionToken });
+        const fetchRes = await fetch(
+            new URL("/api/user/auth", req.url),
+            { method: 'POST', body: sessionToken }
+        );
         // TODO verify if token is legit
+        return;
     }
 }
