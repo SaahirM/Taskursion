@@ -1,9 +1,9 @@
 import Login from "@/src/components/Login";
-import NotLoggedInMessage from "@/src/components/NotLoggedInMessage";
+import LoggedOutMessage from "@/src/components/LoggedOutMessage";
 
 export default function LoginPage() {
     return (<main>
-        <NotLoggedInMessage />
+        <LoggedOutMessage />
         <Login />
     </main>);
 }

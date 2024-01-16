@@ -41,14 +41,11 @@ export async function middleware(req) {
             return new NextResponse("You are already logged in.", { status: 400 });
         }
 
-    } else if (req.nextUrl.pathname.startsWith("/api") || req.nextUrl.pathname.startsWith("/home")) {
+    } else if (req.nextUrl.pathname.startsWith("/api") && req.nextUrl.pathname !== "/api/user/auth") {
         if (!req.cookies.has("sessionToken")) {
-            if (req.nextUrl.pathname.startsWith("/api")) {    
-                return new NextResponse("Please login using /api/user/login first.", { status: 401 });
-            } else {
-                const newPath = encodeURI(req.nextUrl.pathname);
-                return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
-            }
+            return new NextResponse(
+                "Please login at /login or using /api/user/login first.", { status: 401 }
+            );
         }
 
         const sessionToken = req.cookies.get("sessionToken").value;
@@ -56,7 +53,37 @@ export async function middleware(req) {
             new URL("/api/user/auth", req.url),
             { method: 'POST', body: sessionToken }
         );
-        // TODO verify if token is legit
-        return;
+
+        if (!fetchRes.ok) {
+            return new NextResponse("The server cannot authenticate this request.", { status: 500 });
+        }
+        
+        const authRes = await fetchRes.text();
+        if (authRes === "0") {
+            return new NextResponse(
+                "Please login at /login or using /api/user/login first.", { status: 401 }
+            );
+        }
+
+    }  else if (req.nextUrl.pathname.startsWith("/home")) {
+        if (!req.cookies.has("sessionToken")) {
+            const newPath = encodeURI(req.nextUrl.pathname);
+            return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
+        }
+
+        const sessionToken = req.cookies.get("sessionToken").value;
+        const fetchRes = await fetch(
+            new URL("/api/user/auth", req.url),
+            { method: 'POST', body: sessionToken }
+        );
+
+        if (!fetchRes.ok) {
+            return NextResponse.redirect(new URL("/login?serverAuthError", req.url));
+        }
+
+        const authRes = await fetchRes.text();
+        if (authRes === "0") {
+            return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
+        }
     }
 }
