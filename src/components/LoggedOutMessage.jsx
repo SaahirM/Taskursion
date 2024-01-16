@@ -10,7 +10,7 @@ export default function LoggedOutMessage() {
     const isServerError = searchParams.has("serverAuthError");
 
     const [open, setOpen] = useState(isNotLoggedIn || isServerError);
-    
+
     let message;
     if (isNotLoggedIn) {
         message = "Please log into your account first.";

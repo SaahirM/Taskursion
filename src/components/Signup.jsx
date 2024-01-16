@@ -118,7 +118,7 @@ export default function Signup() {
         <SignupForm
             formData={formData}
             formError={formError}
-            handlers={{name: handleNameChange, email: handleEmailChange, pass: handlePassChange}}
+            handlers={{ name: handleNameChange, email: handleEmailChange, pass: handlePassChange }}
         />
 
         <Snackbar

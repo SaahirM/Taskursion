@@ -14,7 +14,7 @@ export async function POST(req) {
             }
             return new NextResponse("0");
         })
-        .finally(() => {client.close()});
-    
+        .finally(() => { client.close() });
+
     return res;
 }

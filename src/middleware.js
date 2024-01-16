@@ -52,7 +52,7 @@ export async function middleware(req) {
             );
         }
 
-    }  else if (req.nextUrl.pathname.startsWith("/home")) {
+    } else if (req.nextUrl.pathname.startsWith("/home")) {
         const isAuthenticated = await checkIsAuthenticated(req);
         if (isAuthenticated === null) {
             return NextResponse.redirect(new URL("/login?serverAuthError", req.url));
@@ -77,7 +77,7 @@ async function checkIsAuthenticated(req) {
     if (!fetchRes.ok) {
         return null;
     }
-    
+
     const authRes = await fetchRes.text();
     if (authRes === "0") {
         return false;
