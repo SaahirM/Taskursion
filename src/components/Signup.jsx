@@ -116,9 +116,13 @@ export default function Signup() {
         component='form'
         onSubmit={handleSubmit}
     >
-        <Paper sx={{ p: 3, mt: [1, 3], border: 2, borderRadius: theme.shape.borderRadius }}>
-            <Typography variant="h2" textAlign='center' mb={[1, 4]}>Create an account</Typography>
-            <Typography variant='body2'>Fields marked with * are required</Typography>
+        <Paper sx={{ p: [2, 3], mt: [1, 2], border: 2, borderRadius: theme.shape.borderRadius }}>
+            <Typography variant="h2" textAlign='center' mb={[1, 2]}>Create an account</Typography>
+            <Typography variant='body2' mb={[2, 1]}>
+                Make sure you have cookies enabled or this page won't work. By signing up you agree with
+                the use of cookies to keep you logged in.
+            </Typography>
+            <Typography variant='body2'><strong>Fields marked with an asterisk * are required.</strong></Typography>
             <TextField
                 fullWidth
                 required
