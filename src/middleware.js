@@ -28,7 +28,6 @@ export const config = {
 export async function middleware(req) {
     if (unprotectedPages.has(req.nextUrl.pathname)) {
         const isAuthenticated = await checkIsAuthenticated(req);
-        console.log(isAuthenticated);
         if (isAuthenticated === true) {
             return NextResponse.redirect(new URL("/home", req.url));
         }
