@@ -13,7 +13,7 @@ export default function Dashboard() {
         })
         router.push("/");
     }
-    
+
     return (<>
         <h1>After login</h1>
         <Button onClick={handleLogout}>Logout</Button>

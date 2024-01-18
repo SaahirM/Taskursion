@@ -16,7 +16,7 @@ export async function POST(req) {
             const sessions = client.db().collection("Sessions");
             await sessions.findOneAndDelete({ _id: sessionId });
         })
-        .finally(() => {client.close()});
+        .finally(() => { client.close() });
 
     return res;
 }

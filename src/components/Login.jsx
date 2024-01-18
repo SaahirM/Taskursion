@@ -6,7 +6,6 @@ import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Login() {
-    const pathname = usePathname();
     const searchParams = useSearchParams();
     const isNotLoggedIn = searchParams.has("notLoggedIn");
     const isServerError = searchParams.has("serverAuthError");
@@ -17,6 +16,7 @@ export default function Login() {
     const [isSbOpen, setIsSbOpen] = useState(isNotLoggedIn || isServerError);
     const [serverError, setServerError] = useState("");
 
+    const pathname = usePathname();
     const router = useRouter();
 
     let message;
@@ -47,7 +47,7 @@ export default function Login() {
 
     const handleSubmit = e => {
         e.preventDefault();
-        
+
         fetch('/api/user/login', {
             method: 'POST',
             body: JSON.stringify(formData)

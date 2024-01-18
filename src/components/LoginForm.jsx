@@ -3,7 +3,7 @@ import { Box, Button, Paper, TextField, Typography, useMediaQuery, useTheme } fr
 export default function LoginForm({ formData, changeHandler }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
-    
+
     return (<Paper sx={{ p: [2, 3], mt: [1, 2], border: 2, borderRadius: theme.shape.borderRadius }}>
         <Typography variant="h2" textAlign='center' mb={[1, 2]}>Login</Typography>
         <Typography variant='body2'>This page won't work if you have cookies disabled</Typography>
