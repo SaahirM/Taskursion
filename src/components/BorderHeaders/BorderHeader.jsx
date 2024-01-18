@@ -10,7 +10,7 @@ export default function BorderHeader({ primaryHeaderComponent, children }) {
     let [headerComponent, headerLink, borderStyleOverrides] = [<></>, <></>, {}];
     if (primaryHeaderComponent) {
         headerComponent = <ButtonBase
-            sx={{ display: 'unset', textAlign: 'unset', p: 1, zIndex: 2, ':focus': { outline: 'solid' } }}
+            sx={{ p: 1, zIndex: 2, ':focus': { outline: 'solid' } }}
             href={primaryHeaderComponent.linkTarget}
         >
             {primaryHeaderComponent.component}
@@ -43,7 +43,9 @@ export default function BorderHeader({ primaryHeaderComponent, children }) {
         p={1}
         sx={borderStyleOverrides}
     >
-        {headerComponent}
+        <header>
+            {headerComponent}
+        </header>
         {headerLink}
 
         <Box
