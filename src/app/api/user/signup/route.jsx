@@ -19,7 +19,7 @@ export async function POST(req) {
             const users = client.db().collection("Users");
 
             const maybeUser = await users.findOne({ user_email: data.email });
-            if (!maybeUser) {
+            if (maybeUser) {
                 return new NextResponse(
                     "That email is already being used", { status: 400 }
                 );
