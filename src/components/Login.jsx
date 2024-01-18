@@ -1,46 +1,54 @@
 "use client";
 
-import { useTheme } from "@emotion/react";
-import { Box, Button, Container, Paper, TextField, Typography, useMediaQuery } from "@mui/material";
+import { Alert, Container, Snackbar } from "@mui/material";
+import LoginForm from "./LoginForm";
+import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export default function Login() {
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const isNotLoggedIn = searchParams.has("notLoggedIn");
+    const isServerError = searchParams.has("serverAuthError");
+
+    const [isSbOpen, setIsSbOpen] = useState(isNotLoggedIn || isServerError);
+
+    const router = useRouter();
+
+    let message;
+    if (isNotLoggedIn) {
+        message = "Please log into your account first.";
+    } else if (isServerError) {
+        message = "The server encountered an issue and is unable to authenticate your request.";
+    }
+
+    const handleSbClose = () => {
+        setIsSbOpen(false);
+        if (isNotLoggedIn) {
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.delete("notLoggedIn");
+            router.replace(`${pathname}?${newSearchParams}`);
+        } else if (isServerError) {
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.delete("serverAuthError");
+            router.replace(`${pathname}?${newSearchParams}`);
+        }
+    } 
 
     return (<Container
         maxWidth='sm'
         component='form'
     >
-        <Paper sx={{ p: 3, mt: [1, 3], border: 2, borderRadius: theme.shape.borderRadius }}>
-            <Typography variant="h2" textAlign='center' mb={[1, 2]}>Login</Typography>
-            <TextField
-                fullWidth
-                variant='filled'
-                label="Email"
-                type='email'
-                margin={isSmallScreen ? 'dense' : 'normal'}
-                size={isSmallScreen ? 'small' : 'medium'}
-            />
-            <TextField
-                fullWidth
-                variant='filled'
-                label="Password"
-                type='password'
-                margin={isSmallScreen ? 'dense' : 'normal'}
-                size={isSmallScreen ? 'small' : 'medium'}
-            />
+        <LoginForm />
 
-            <Box display='flex' justifyContent='end'>
-                <Button
-                    type='submit'
-                    variant='contained'
-                    sx={{ mt: 2, px: 5 }}
-                    fullWidth={isSmallScreen ? true : false}
-                    color='secondary'
-                >
-                    Login
-                </Button>
-            </Box>
-        </Paper>
+        <Snackbar
+            open={isSbOpen}
+            autoHideDuration={9000}
+            onClose={handleSbClose}
+        >
+            <Alert onClose={handleSbClose} severity='error' variant='filled'>
+                {message}
+            </Alert>
+        </Snackbar>
     </Container>);
 }
