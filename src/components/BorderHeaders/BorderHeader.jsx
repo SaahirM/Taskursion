@@ -63,6 +63,9 @@ export default function BorderHeader({ primaryHeaderComponent, children }) {
             I cannot give "inner box" a className, so I'm wrapping its children in div.inner-box.
             This class exists to be used by borderStyleOverrides, so the border correctly glows only
             when it is hovered over
+
+            In the future, consider using a React.ref for "inner box" to achieve this.
+            See https://mui.com/material-ui/getting-started/faq/#how-can-i-access-the-dom-element
             */
             >
 
