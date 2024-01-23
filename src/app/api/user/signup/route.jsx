@@ -28,7 +28,8 @@ export async function POST(req) {
             const result = await users.insertOne({
                 user_name: data.name,
                 user_email: data.email,
-                user_pass_hash: hash
+                user_pass_hash: hash,
+                user_root_task_ids: []
             })
 
             const sessions = client.db().collection("Sessions");

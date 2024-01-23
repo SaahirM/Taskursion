@@ -3,8 +3,40 @@
         {
             "_id": "659deca99020aa958fa1c7c1",
             "user_name": "Test User",
-            "user_email": "test@email.com",
-            "user_pass_hash": "someLong$tring"
+            "user_email": "test@user.ca",
+            "user_pass_hash": "$2b$10$o4g8wdJKyB66/iaY20Xu9uYLkL721xAcuzD2vSl89oDjg.4MvqYdS",
+            "user_root_task_ids": [
+                1
+            ]
+        }
+    ],
+    "Tasks": [
+        {
+            "_id": {
+                "user_id": "659deca99020aa958fa1c7c1",
+                "task_id": 1
+            },
+            "task_parent_id": null,
+            "task_title": "Root Task 1",
+            "task_desc": "This is a task with sub tasks"
+        },
+        {
+            "_id": {
+                "user_id": "659deca99020aa958fa1c7c1",
+                "task_id": 2
+            },
+            "task_parent_id": 1,
+            "task_title": "Sub Task 1",
+            "task_desc": "This is the first sub task"
+        },
+        {
+            "_id": {
+                "user_id": "659deca99020aa958fa1c7c1",
+                "task_id": 3
+            },
+            "task_parent_id": 1,
+            "task_title": "Sub Task 2",
+            "task_desc": "This is the second sub task"
         }
     ]
 }
