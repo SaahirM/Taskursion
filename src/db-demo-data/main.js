@@ -15,6 +15,12 @@ const demoData = JSON.parse(rawDemoData);
 
 client.connect()
     .then(async () => {
+        const tasksCollection = client.db().collection("Tasks");
+        await tasksCollection.createIndex(
+            { "_id.user_id": 1, "_id.task_id": 1 }, { unique: true }
+        );
+        //TODO delete default idnex
+
         for (const demoCollectionName in demoData) {
             const collection = client.db().collection(demoCollectionName);
             const demoCollectionsWithImproperIds = demoData[demoCollectionName];
@@ -36,8 +42,8 @@ client.connect()
         }
     })
     .catch(e => {
-        if (e.code !== 11000) {
-            // ignore duplicate key errors while inserting
+        if (e.code !== 11000 && e.code !== 86) {
+            // ignore duplicate index errors and duplicate key errors while inserting
             throw e;
         }
     })

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button, Paper, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 
