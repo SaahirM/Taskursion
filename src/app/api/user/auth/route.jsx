@@ -1,4 +1,4 @@
-import client from "@/src/app/db";
+import client from "@/src/util/db";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {

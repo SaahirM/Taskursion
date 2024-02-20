@@ -1,4 +1,4 @@
-import client from "@/src/app/db";
+import { endSession } from "@/src/util/session-mgmt";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
@@ -11,12 +11,7 @@ export async function POST(req) {
         return res;
     }
 
-    client.connect()
-        .then(async () => {
-            const sessions = client.db().collection("Sessions");
-            await sessions.findOneAndDelete({ _id: sessionId });
-        })
-        .finally(() => { client.close() });
+    endSession(sessionId);
 
     return res;
 }

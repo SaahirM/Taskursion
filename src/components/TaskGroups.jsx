@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { Paper } from "@mui/material";
-import client from "../app/db";
+import client from "../util/db";
 import TaskGroupCard from './TaskGroupCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 

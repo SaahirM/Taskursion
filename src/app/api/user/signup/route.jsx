@@ -1,4 +1,5 @@
-import client from "@/src/app/db";
+import client from "@/src/util/db";
+import { startSession } from "@/src/util/session-mgmt";
 import bcrypt from 'bcrypt';
 import { NextResponse } from "next/server";
 
@@ -32,15 +33,13 @@ export async function POST(req) {
                 user_root_task_ids: []
             })
 
-            const sessions = client.db().collection("Sessions");
-            const sessionId = crypto.randomUUID();
-            await sessions.insertOne({ _id: sessionId, userId: result.insertedId });
+            const sessionId = await startSession(result.insertedId);
 
             const res = new NextResponse();
             res.cookies.set("sessionToken", sessionId);
             return res;
         })
-        .finally(() => { client.close() });
+        .finally(async () => { await client.close() });
 
     return res;
 }
