@@ -9,7 +9,10 @@ export default function Login() {
     const searchParams = useSearchParams();
     const isNotLoggedIn = searchParams.has("notLoggedIn");
     const isServerError = searchParams.has("serverAuthError");
-    const pathAfterLogin = searchParams.get("afterLogin") || "/home";
+    const maybePathAfterLogin = searchParams.get("afterLogin");
+    const pathAfterLogin = maybePathAfterLogin
+        ? decodeURIComponent(maybePathAfterLogin)
+        : "/home";
 
     const [formData, setFormData] = useState({ email: "", pass: "" });
 

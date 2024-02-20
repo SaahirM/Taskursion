@@ -12,6 +12,8 @@ export async function startSession(userId) {
 }
 
 export async function getSessionUser(sessionId) {
+    if (sessionId === null) return null;
+
     return client.connect()
         .then(async () => {
             const sessions = client.db().collection("Sessions");
@@ -26,10 +28,10 @@ export async function getSessionUser(sessionId) {
 }
 
 export async function authenticateSession(sessionId) {
-    return getSessionUser(sessionId) !== null;
+    return (await getSessionUser(sessionId)) !== null;
 }
 
-export async function endSession(sessionId) {
+export function endSession(sessionId) {
     client.connect()
         .then(async () => {
             const sessions = client.db().collection("Sessions");
