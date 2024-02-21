@@ -9,8 +9,8 @@ export default function BorderHeader({
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === 'dark';
     const borderHoverStyles = {
-        ':hover:not(:has(.inner-box:hover))': { backgroundColor: theme.palette.secondary.light },
-        ':active:not(:has(.inner-box:active))': { backgroundColor: theme.palette.secondary.dark }
+        ':hover:not(:has(.not-outer-box:hover))': { backgroundColor: theme.palette.secondary.light },
+        ':active:not(:has(.not-outer-box:active))': { backgroundColor: theme.palette.secondary.dark }
     };
 
     return (<Box
@@ -38,9 +38,9 @@ export default function BorderHeader({
             boxShadow={'4px 4px 10px black inset'}
             zIndex={2}
         >
-            <div className="inner-box" style={{ height: '100%' }}
+            <div className="not-outer-box" style={{ height: '100%' }}
             /*
-            I cannot give "inner box" a className, so I'm wrapping its children in div.inner-box.
+            I cannot give "inner box" a className, so I'm wrapping its children in div.not-outer-box.
             This class exists to be used by borderStyleOverrides, so the border correctly glows only
             when it is hovered over
 
