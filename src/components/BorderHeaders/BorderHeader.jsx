@@ -20,7 +20,7 @@ export default function BorderHeader({
         height='100vh'
         bgcolor={theme.palette.secondary.main}
         color={theme.palette.secondary.contrastText}
-        px={1} pb={1}
+        px={1} pb={1} pt={primaryHeaderComponent ? 0 : 1}
         sx={borderHoverStyles}
     >
         <BorderHeaderHeader
