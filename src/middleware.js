@@ -26,7 +26,6 @@ export const config = {
 const unprotectedPages = new Set(["", "/", "/signup", "/login"]);
 
 export function middleware(req) {
-    console.log(`middleware: ${req.nextUrl.pathname}`);
     if ((unprotectedPages.has(req.nextUrl.pathname)) && (req.cookies.has("sessionToken"))) {
         return NextResponse.redirect(new URL("/home", req.url));
     

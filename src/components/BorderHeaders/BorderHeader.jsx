@@ -1,37 +1,17 @@
 "use client";
 
-import { Box, ButtonBase, Link, useTheme } from "@mui/material";
-import NextLink from "next/link";
+import { Box, useTheme } from "@mui/material";
+import BorderHeaderHeader from "./BorderHeaderHeader";
 
-export default function BorderHeader({ primaryHeaderComponent, children }) {
+export default function BorderHeader({
+    primaryHeaderComponent, secondaryHeaderComponent, children
+}) {
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === 'dark';
-
-    let [headerComponent, headerLink, borderStyleOverrides] = [<></>, <></>, {}];
-    if (primaryHeaderComponent) {
-        headerComponent = <ButtonBase
-            sx={{ p: 1, zIndex: 2, ':focus': { outline: 'solid' } }}
-            href={primaryHeaderComponent.linkTarget}
-        >
-            {primaryHeaderComponent.component}
-        </ButtonBase>;
-        headerLink = <Link
-            component={NextLink}
-            href={primaryHeaderComponent.linkTarget}
-            height='100%'
-            position='absolute'
-            top={0}
-            bottom={0}
-            left={0}
-            right={0}
-            zIndex={1}
-            tabIndex={-1}
-        />;
-        borderStyleOverrides = {
-            ':hover:not(:has(.inner-box:hover))': { backgroundColor: theme.palette.secondary.light },
-            ':active:not(:has(.inner-box:active))': { backgroundColor: theme.palette.secondary.dark }
-        };
-    }
+    const borderHoverStyles = {
+        ':hover:not(:has(.inner-box:hover))': { backgroundColor: theme.palette.secondary.light },
+        ':active:not(:has(.inner-box:active))': { backgroundColor: theme.palette.secondary.dark }
+    };
 
     return (<Box
         // the "outer box" that represents the border
@@ -40,13 +20,13 @@ export default function BorderHeader({ primaryHeaderComponent, children }) {
         height='100vh'
         bgcolor={theme.palette.secondary.main}
         color={theme.palette.secondary.contrastText}
-        p={1}
-        sx={borderStyleOverrides}
+        px={1} pb={1}
+        sx={borderHoverStyles}
     >
-        <header>
-            {headerComponent}
-        </header>
-        {headerLink}
+        <BorderHeaderHeader
+            primaryHeaderComponent={primaryHeaderComponent}
+            secondaryHeaderComponent={secondaryHeaderComponent}
+        />
 
         <Box
             // the "inner box" within the border that contains the content

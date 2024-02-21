@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 
 export default function TaskGroupCard({ taskGroup }) {
     return (<Card elevation={4}>
