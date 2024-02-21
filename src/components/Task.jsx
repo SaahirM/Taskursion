@@ -8,7 +8,7 @@ export default function Task({ taskId }) {
     const backLinkComponent = <>
         <ChevronLeftRoundedIcon fontSize='large' />
         <Typography variant='h4' component='p' noWrap width='100%'>
-            Back to <b>Task 2</b>
+            Back to <b>Task name goes here</b>
         </Typography>
     </>;
 

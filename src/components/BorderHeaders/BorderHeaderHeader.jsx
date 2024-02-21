@@ -10,7 +10,11 @@ export default function BorderHeaderHeader({ primaryHeaderComponent, secondaryHe
     return (<>
         <header>
             <Grid container alignItems='center' py={1}>
-                <Grid xs={secondaryHeaderComponent ? 7 : 12}>    
+                <Grid 
+                    xs={secondaryHeaderComponent ? 10 : 12}
+                    sm={secondaryHeaderComponent ? 7 : 12}
+                    md={secondaryHeaderComponent ? 9 : 12}
+                >    
                     <ButtonBase
                         sx={{
                             width: '100%',
@@ -26,7 +30,7 @@ export default function BorderHeaderHeader({ primaryHeaderComponent, secondaryHe
                     </ButtonBase>
                 </Grid>
                 {secondaryHeaderComponent &&
-                    <Grid xs={secondaryHeaderComponent ? 5 : 12} sx={{
+                    <Grid xs={2} sm={5} md={3} sx={{
                         position: 'relative', display: 'flex', justifyContent: 'end'
                     }}>
                         <ButtonBase
