@@ -61,7 +61,11 @@ export default function BorderHeader({
                     p={1}
                     sx={{
                         overflowY: 'auto',
-                        scrollbarColor: `${theme.palette.primary.dark} ${isDarkMode ? 'black' : 'white'}`,
+                        scrollbarColor: (
+                            isDarkMode
+                            ? theme.palette.primary.dark + " black"
+                            : theme.palette.primary.light + " white"
+                        ),
                         '&::-webkit-scrollbar': {
                             backgroundColor: isDarkMode ? 'black' : 'white',
                             width: 10,
@@ -72,7 +76,9 @@ export default function BorderHeader({
                             borderRadius: theme.shape.borderRadius
                         },
                         '&::-webkit-scrollbar-button': {
-                            backgroundColor: theme.palette.primary.dark
+                            backgroundColor: isDarkMode
+                                ? theme.palette.primary.dark
+                                : theme.palette.primary.light
                         }
                     }}
                 >

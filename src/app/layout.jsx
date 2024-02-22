@@ -1,5 +1,5 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import ThemeWrapper from './ThemeWrapper';
+import ThemeWrapper from './theme/ThemeWrapper';
 
 export const metadata = {
     title: 'Taskursion',
