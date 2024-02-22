@@ -8,10 +8,10 @@ export default function BorderHeader({
 }) {
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === 'dark';
-    const borderHoverStyles = {
+    const borderHoverStyles = primaryHeaderComponent ? {
         ':hover:not(:has(.not-outer-box:hover))': { backgroundColor: theme.palette.secondary.light },
         ':active:not(:has(.not-outer-box:active))': { backgroundColor: theme.palette.secondary.dark }
-    };
+    } : {};
 
     return (<Box
         // the "outer box" that represents the border
@@ -63,8 +63,8 @@ export default function BorderHeader({
                         overflowY: 'auto',
                         scrollbarColor: (
                             isDarkMode
-                            ? theme.palette.primary.dark + " black"
-                            : theme.palette.primary.light + " white"
+                                ? theme.palette.primary.dark + " black"
+                                : theme.palette.primary.light + " white"
                         ),
                         '&::-webkit-scrollbar': {
                             backgroundColor: isDarkMode ? 'black' : 'white',
