@@ -1,8 +1,11 @@
+"use client";
+
 import Link from "next/link";
 import BorderHeader from "./BorderHeaders/BorderHeader";
 import BorderLogo from "./BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import { Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
+import EditableTypography from "../util/EditableTypography";
 
 export default function Task({ task }) {
     const backLinkComponent = (<>
@@ -17,7 +20,11 @@ export default function Task({ task }) {
         secondaryHeaderComponent={{ component: <BorderLogo />, linkTarget: "/home" }}
     >
         <h1>Task # {task?._id.task_id}</h1>
-        {JSON.stringify(task)}
+        <EditableTypography variant='h2' value={task.task_title} />
+        <br/>
+        <EditableTypography variant='body1' value={task.task_desc} multiline />
+        
+        <br/>{JSON.stringify(task)}
         <Link href={"/user"}>Back</Link>
     </BorderHeader>);
 }
