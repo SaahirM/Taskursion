@@ -7,8 +7,7 @@ export async function startSession(userId) {
             const sessionId = crypto.randomUUID();
             await sessions.insertOne({ _id: sessionId, userId });
             return sessionId;
-        })
-        .finally(async () => { await client.close(); })
+        });
 }
 
 export async function getSessionUser(sessionId) {
@@ -23,8 +22,7 @@ export async function getSessionUser(sessionId) {
                 return maybeSession.userId;
             }
             return null;
-        })
-        .finally(async () => { await client.close(); });
+        });
 }
 
 export async function authenticateSession(sessionId) {
@@ -36,6 +34,5 @@ export function endSession(sessionId) {
         .then(async () => {
             const sessions = client.db().collection("Sessions");
             await sessions.deleteOne({ _id: sessionId });
-        })
-        .finally(async () => { await client.close(); });
+        });
 }

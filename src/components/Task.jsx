@@ -4,19 +4,20 @@ import BorderLogo from "./BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import { Typography } from "@mui/material";
 
-export default function Task({ taskId }) {
-    const backLinkComponent = <>
+export default function Task({ task }) {
+    const backLinkComponent = (<>
         <ChevronLeftRoundedIcon fontSize='large' />
         <Typography variant='h4' component='p' noWrap width='100%'>
             Back to <b>Task name goes here</b>
         </Typography>
-    </>;
+    </>);
 
     return (<BorderHeader
         primaryHeaderComponent={{ component: backLinkComponent, linkTarget: "/home/task/2" }}
         secondaryHeaderComponent={{ component: <BorderLogo />, linkTarget: "/home" }}
     >
-        <h1>Task # {taskId}</h1>
+        <h1>Task # {task?._id.task_id}</h1>
+        {JSON.stringify(task)}
         <Link href={"/user"}>Back</Link>
     </BorderHeader>);
 }
