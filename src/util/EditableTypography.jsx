@@ -1,4 +1,4 @@
-import { InputBase, Typography, darken, useTheme } from "@mui/material";
+import { InputBase, Typography, darken, lighten, useTheme } from "@mui/material";
 import { createRef, useEffect, useState } from "react";
 
 // inspired by https://stackoverflow.com/a/76965111
@@ -9,6 +9,7 @@ export default function EditableTypography({ variant, value, multiline=false }) 
     // const [internalValue, setInternalValue] = useState(value);
 
     const theme = useTheme();
+    const isDarkMode = theme.palette.mode === 'dark';
 
     const dummyTypography = <Typography variant={variant} ref={TypographyRef} display='none'/>
 
@@ -26,6 +27,7 @@ export default function EditableTypography({ variant, value, multiline=false }) 
             input.style.display = 'unset';
             input.style.border = 0;
             input.style.backgroundColor = theme.palette.background.default;
+            input.style.color = theme.palette.getContrastText(theme.palette.background.default);
             input.style.padding = theme.spacing(1);
             input.style.borderRadius = theme.shape.borderRadius + "px";
 
@@ -33,21 +35,27 @@ export default function EditableTypography({ variant, value, multiline=false }) 
                 input.style.width = "100%";
             }
 
+            const tint = isDarkMode ? lighten : darken;
+
             const onInputHover = e => {
-                if (document.activeElement !== input) {
-                    input.style.backgroundColor = darken(theme.palette.background.default, 0.1);
+                if (!e.target.matches(":focus")) {
+                    input.style.backgroundColor = tint(theme.palette.background.default, 0.1);
                 }
             }
             const onInputHoverOut = e => {
-                if (document.activeElement !== input) {
+                if (!e.target.matches(":focus")) {
                     input.style.backgroundColor = theme.palette.background.default;
                 }
             }
             const onInputFocus = e => {
-                input.style.backgroundColor = darken(theme.palette.background.default, 0.05);
+                input.style.backgroundColor = tint(theme.palette.background.default, 0.05);
             }
             const onInputBlur = e => {
-                input.style.backgroundColor = theme.palette.background.default;
+                if (e.target.matches(":hover")) {
+                    input.style.backgroundColor = tint(theme.palette.background.default, 0.1);
+                } else {    
+                    input.style.backgroundColor = theme.palette.background.default;
+                }
             }
             
             input.addEventListener('mouseover', onInputHover);
@@ -62,7 +70,7 @@ export default function EditableTypography({ variant, value, multiline=false }) 
                 input.removeEventListener('blur', onInputBlur);
             }
         }
-    }, []);
+    }, [theme]);
 
     return (<>
         {dummyTypography}
