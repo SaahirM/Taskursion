@@ -2,11 +2,11 @@ import { InputBase, Typography, darken, lighten, useTheme } from "@mui/material"
 import { createRef, useEffect, useState } from "react";
 
 // inspired by https://stackoverflow.com/a/76965111
-export default function EditableTypography({ variant, value, multiline=false }) {
+export default function EditableTypography({ variant, value, setValue, multiline=false }) {
     const TypographyRef = createRef();
     const inputRef = createRef();
 
-    // const [internalValue, setInternalValue] = useState(value);
+    const [internalValue, setInternalValue] = useState(value);
 
     const theme = useTheme();
     const isDarkMode = theme.palette.mode === 'dark';
@@ -75,7 +75,9 @@ export default function EditableTypography({ variant, value, multiline=false }) 
     return (<>
         {dummyTypography}
         <InputBase
-            value={value}
+            value={internalValue}
+            onChange={e => setInternalValue(e.target.value)}
+            onBlur={() => setValue(internalValue)}
             ref={inputRef}
             multiline={multiline}
         />
