@@ -3,13 +3,13 @@ import { Paper } from "@mui/material";
 import client from "../util/db";
 import TaskGroupCard from './TaskGroupCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import { getSessionUser } from '../util/session-mgmt';
 
 export default async function TaskGroups() {
     const tasks = await client.connect()
         .then(async () => {
-            const sessions = client.db().collection("Sessions");
             const sessionId = cookies().get("sessionToken").value;
-            const userId = (await sessions.findOne({ _id: sessionId })).userId;
+            const userId = (await getSessionUser(sessionId));
 
             const users = client.db().collection("Users");
             const rootTaskIds = (await users.findOne({ _id: userId })).user_root_task_ids;

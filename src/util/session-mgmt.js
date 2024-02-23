@@ -5,7 +5,7 @@ export async function startSession(userId) {
         .then(async () => {
             const sessions = client.db().collection("Sessions");
             const sessionId = crypto.randomUUID();
-            await sessions.insertOne({ _id: sessionId, userId });
+            await sessions.insertOne({ _id: sessionId, user_id: userId });
             return sessionId;
         });
 }
@@ -19,7 +19,7 @@ export async function getSessionUser(sessionId) {
             const maybeSession = await sessions.findOne({ _id: sessionId });
 
             if (maybeSession) {
-                return maybeSession.userId;
+                return maybeSession.user_id;
             }
             return null;
         });

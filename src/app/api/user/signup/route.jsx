@@ -1,6 +1,7 @@
 import client from "@/src/util/db";
-import { startSession } from "@/src/util/session-mgmt";
+import { authenticateSession, startSession } from "@/src/util/session-mgmt";
 import bcrypt from 'bcrypt';
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 const SALT_ROUNDS = 10;
@@ -17,6 +18,13 @@ export async function POST(req) {
 
     const res = client.connect()
         .then(async () => {
+            const maybeSessionId = cookies().get("sessionToken")?.value;
+            if (maybeSessionId && (await authenticateSession(maybeSessionId)) !== false) {
+                return new NextResponse(
+                    "You are already logged in (try refreshing the page)", { status: 400 }
+                );
+            }
+
             const users = client.db().collection("Users");
 
             const maybeUser = await users.findOne({ user_email: data.email });
