@@ -1,17 +1,17 @@
 "use client";
 
-import Link from "next/link";
 import BorderHeader from "./BorderHeaders/BorderHeader";
 import BorderLogo from "./BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import { Alert, Snackbar, Typography } from "@mui/material";
+import { Alert, Box, Skeleton, Snackbar, Typography } from "@mui/material";
 import EditableTypography from "../util/EditableTypography";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function Task({ task: initialTask }) {
+export default function Task({ task: initialTask, parentTaskPromise }) {
     const [task, setTask] = useState(initialTask);
     const [isSbOpen, setIsSbOpen] = useState(false);
     const [error, setError] = useState("");
+    const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
 
     const saveTask = task => {
         fetch(`/api/task/${task._id.task_id}`, {
@@ -44,33 +44,48 @@ export default function Task({ task: initialTask }) {
             })
     }
 
+    useEffect(() => {
+        if (parentTaskPromise) {
+            parentTaskPromise.then(parentTask => {
+                setBackLinkInfo({
+                    text: parentTask.task_title,
+                    linkTarget: `/home/task/${parentTask._id.task_id}`
+                });
+            });
+        }
+    }, [parentTaskPromise])
+
     const backLinkComponent = (<>
         <ChevronLeftRoundedIcon fontSize='large' />
-        <Typography variant='h4' component='p' noWrap width='100%'>
-            Back to <b>Task name goes here</b>
+        <Typography variant='h4' component='p' noWrap width='100%' textAlign='start'>
+            {parentTaskPromise ? (
+                backLinkInfo.text
+                ? backLinkInfo.text
+                : <Skeleton animation='wave' />
+            ) : "Home"}
         </Typography>
     </>);
 
     return (<BorderHeader
-        primaryHeaderComponent={{ component: backLinkComponent, linkTarget: "/home/task/2" }}
+        primaryHeaderComponent={{
+            component: backLinkComponent,
+            linkTarget: parentTaskPromise ? backLinkInfo.linkTarget : "/home"
+        }}
         secondaryHeaderComponent={{ component: <BorderLogo />, linkTarget: "/home" }}
     >
-        <h1>Task # {task?._id.task_id}</h1>
-        <EditableTypography
-            variant='h2'
-            value={task.task_title}
-            setValue={val => saveTask({ ...task, task_title: val })}
-        />
-        <br/>
-        <EditableTypography
-            variant='body1'
-            value={task.task_desc}
-            setValue={val => saveTask({ ...task, task_desc: val })}
-            multiline
-        />
-        
-        <br/>{JSON.stringify(initialTask)}
-        <Link href={"/user"}>Back</Link>
+        <Box p={1} width={{ xs: "100%", lg: "66vw" }} sx={{ '& div, & input': { width: "100%" } }}>
+            <EditableTypography
+                variant='h2'
+                value={task.task_title}
+                setValue={val => saveTask({ ...task, task_title: val })}
+            />
+            <EditableTypography
+                variant='body1'
+                value={task.task_desc}
+                setValue={val => saveTask({ ...task, task_desc: val })}
+                multiline
+            />
+        </Box>
 
         <Snackbar
             open={isSbOpen}

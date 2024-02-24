@@ -4,7 +4,7 @@ import { createRef, useEffect, useState } from "react";
 // inspired by https://stackoverflow.com/a/76965111
 export default function EditableTypography({ variant, value, setValue, multiline=false }) {
     const TypographyRef = createRef();
-    const inputRef = createRef();
+    const inputContainerRef = createRef();
 
     const [internalValue, setInternalValue] = useState(value);
 
@@ -14,8 +14,8 @@ export default function EditableTypography({ variant, value, setValue, multiline
     const dummyTypography = <Typography variant={variant} ref={TypographyRef} display='none'/>
 
     useEffect(() => {
-        if (TypographyRef.current && inputRef.current) {
-            const input = inputRef.current.children[0];
+        if (TypographyRef.current && inputContainerRef.current) {
+            const input = inputContainerRef.current.children[0];
 
             if (!multiline) {
                 input.className = "";
@@ -70,7 +70,7 @@ export default function EditableTypography({ variant, value, setValue, multiline
                 input.removeEventListener('blur', onInputBlur);
             }
         }
-    }, [theme]);
+    }, [theme, inputContainerRef, TypographyRef]);
 
     return (<>
         {dummyTypography}
@@ -78,7 +78,7 @@ export default function EditableTypography({ variant, value, setValue, multiline
             value={internalValue}
             onChange={e => setInternalValue(e.target.value)}
             onBlur={() => setValue(internalValue)}
-            ref={inputRef}
+            ref={inputContainerRef}
             multiline={multiline}
         />
     </>);

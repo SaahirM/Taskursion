@@ -13,25 +13,30 @@ export default async function TaskPage({ params: { taskId } }) {
         redirect("/_bad-session-token");    // middleware will delete cookie
     }
 
-    let isTaskNotFound = false;
-    const task = await client.connect()
-        .then(async () => {
-            const tasks = client.db().collection("Tasks");
-            const task = await tasks.findOne({
-                '_id.user_id': String(userId), '_id.task_id': Number(taskId)
-            });
-            if (!task) { isTaskNotFound = true; }
-            return task;
-        })
-        .finally(async () => { await client.close(); });
+    const fetchTask = async (userId, taskId) => {
+        return client.connect()
+            .then(async () => {
+                const tasks = client.db().collection("Tasks");
+                const task = await tasks.findOne({
+                    '_id.user_id': String(userId), '_id.task_id': Number(taskId)
+                });
+                return task;
+            })
+            .finally(async () => { await client.close(); });
+    }
+    const task = await fetchTask(userId, taskId);
     
-    if (isTaskNotFound) {
+    if (!task) {
         return (<HomeBorderHeader linkTarget='/home'><NotFound /></HomeBorderHeader>);
     }
 
+    const parentTaskPromise = task.task_parent_id
+        ? fetchTask(userId, task.task_parent_id)
+        : null;
+
     return (
         <main>
-            <Task task={task} />
+            <Task task={task} parentTaskPromise={parentTaskPromise} />
         </main>
     );
 }
