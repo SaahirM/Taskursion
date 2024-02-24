@@ -1,5 +1,6 @@
 import client from "@/src/util/db";
 import { getSessionUser } from "@/src/util/session-mgmt";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -33,6 +34,7 @@ export async function POST(req) {
                 return NextResponse.json({}, { status: 404 });
             }
 
+            revalidatePath("/home");
             return NextResponse.json(task);
         });
 
