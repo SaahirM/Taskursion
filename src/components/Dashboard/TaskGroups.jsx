@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import { Paper } from "@mui/material";
-import client from "../util/db";
+import client from "../../util/db";
 import TaskGroupCard from './TaskGroupCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
-import { getSessionUser } from '../util/session-mgmt';
+import { getSessionUser } from '../../util/session-mgmt';
 
 export default async function TaskGroups() {
     const tasks = await client.connect()
