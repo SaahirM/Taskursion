@@ -24,7 +24,7 @@ export default function EditableTypography({
                 input.classList.add(className);
             })
         }
-    }, [TypographyRef, inputContainerRef]);
+    });
 
     return (<>
         {dummyTypography}
