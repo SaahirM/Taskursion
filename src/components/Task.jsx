@@ -84,6 +84,7 @@ export default function Task({ task: initialTask, parentTaskPromise }) {
                 value={task.task_desc}
                 setValue={val => saveTask({ ...task, task_desc: val })}
                 multiline
+                minRows={5}
             />
         </Box>
 

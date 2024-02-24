@@ -6,11 +6,12 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
     const data = await req.json();
     if (
-        !data._id.user_id || !data._id.task_id || !data.task_title || !data.task_desc
+        !data._id.user_id || !data._id.task_id || data.task_parent_id === undefined ||
+        data.task_title === undefined || data.task_desc === undefined
     ) {
         return new NextResponse(
             "Missing one of the following required fields: _id.user_id, _id.task_id, " +
-            "task_title, task_desc",
+            "task_parent_id, task_title, task_desc",
             { status: 400 }
         );
     }
