@@ -49,6 +49,9 @@ export default function EditableTypography({
                 [(multiline ? "& textarea:focus" : "& input:focus")]: {
                     backgroundColor: tint(theme.palette.background.default, 0.05),
                     ...focusStyles
+                },
+                "& div": multiline ? {} : {
+                    width: "100%"
                 }
             }
         }}>    

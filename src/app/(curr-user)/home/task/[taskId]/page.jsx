@@ -21,8 +21,7 @@ export default async function TaskPage({ params: { taskId } }) {
                     '_id.user_id': String(userId), '_id.task_id': Number(taskId)
                 });
                 return task;
-            })
-            .finally(async () => { await client.close(); });
+            });
     }
     const task = await fetchTask(userId, taskId);
     
@@ -33,10 +32,24 @@ export default async function TaskPage({ params: { taskId } }) {
     const parentTaskPromise = task.task_parent_id
         ? fetchTask(userId, task.task_parent_id)
         : null;
+    
+    const childTasksPromise = client.connect()
+        .then(async () => {
+            await new Promise(res => setTimeout(() => res(), 3000));
+            const tasks = client.db().collection("Tasks");
+            const childTasks = await tasks.find({
+                '_id.user_id': String(userId), task_parent_id: Number(taskId)
+            }).toArray();
+            return childTasks;
+        });
 
     return (
         <main>
-            <Task task={task} parentTaskPromise={parentTaskPromise} />
+            <Task
+                task={task}
+                parentTaskPromise={parentTaskPromise}
+                childTasksPromise={childTasksPromise}
+            />
         </main>
     );
 }

@@ -6,8 +6,9 @@ import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import { Alert, Box, Skeleton, Snackbar, Typography } from "@mui/material";
 import EditableTypography from "../util/EditableTypography";
 import { useEffect, useState } from "react";
+import ChildTaskList from "./ChildTaskList";
 
-export default function Task({ task: initialTask, parentTaskPromise }) {
+export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
     const [task, setTask] = useState(initialTask);
     const [isSbOpen, setIsSbOpen] = useState(false);
     const [error, setError] = useState("");
@@ -73,11 +74,12 @@ export default function Task({ task: initialTask, parentTaskPromise }) {
         }}
         secondaryHeaderComponent={{ component: <BorderLogo />, linkTarget: "/home" }}
     >
-        <Box p={1} width={{ xs: "100%", lg: "66vw" }} sx={{ '& div, & input': { width: "100%" } }}>
+        <Box p={1} width={{ xs: "100%", lg: "66vw" }}>
             <EditableTypography
                 variant='h2'
                 value={task.task_title}
                 setValue={val => saveTask({ ...task, task_title: val })}
+                styles={{ width: '100%' }}
             />
             <EditableTypography
                 variant='body1'
@@ -85,7 +87,9 @@ export default function Task({ task: initialTask, parentTaskPromise }) {
                 setValue={val => saveTask({ ...task, task_desc: val })}
                 multiline
                 minRows={5}
+                fullWidth
             />
+            <ChildTaskList childTasksPromise={childTasksPromise} />
         </Box>
 
         <Snackbar
