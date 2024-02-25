@@ -35,7 +35,7 @@ export default function BorderHeader({
             bgcolor={theme.palette.background.default}
             color={theme.palette.getContrastText(theme.palette.background.default)}
             borderRadius={theme.shape.borderRadius}
-            boxShadow={'4px 4px 10px black inset'}
+            boxShadow={'4px 1px 5px black inset'}
             zIndex={2}
         >
             <div className="not-outer-box" style={{ height: '100%' }}
@@ -58,8 +58,8 @@ export default function BorderHeader({
                     for more context
                     */
                     height={'100%'}
-                    p={1}
                     sx={{
+                        position: 'relative',
                         overflowY: 'auto',
                         scrollbarColor: (
                             isDarkMode
@@ -82,7 +82,20 @@ export default function BorderHeader({
                         }
                     }}
                 >
-                    {children}
+                    <Box
+                        height={10}
+                        width="100%"
+                        position='sticky'
+                        top={0}
+                        zIndex={3}
+                        sx={{ background: "linear-gradient(0deg, transparent, #2e2e2e)" }}
+                    />
+                    <Box px={2} pb={2}
+                        /* An "inner innner inner box" to pad the content */
+                    >
+                            
+                        {children}
+                    </Box>
                 </Box>
 
             </div>
