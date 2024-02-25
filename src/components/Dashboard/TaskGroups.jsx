@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers';
-import { Paper } from "@mui/material";
+import { Button, Card, CardContent, Paper, TextField } from "@mui/material";
 import client from "../../util/db";
 import TaskGroupCard from './TaskGroupCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
@@ -29,8 +29,30 @@ export default async function TaskGroups() {
         });
 
     return (<Paper sx={{ p: 3, m: 1, border: 2 }}>
-        <Grid container>    
-            {tasks.map(task => <Grid key={task._id} width='100%' xs={12} lg={6}>
+        <Grid container spacing={2}>
+            <Grid xs={12} lg={6}>
+                <Card elevation={0} sx={{ height: "100%" }}>
+                    <CardContent sx={{ ':last-child': { pb: 'unset', p: 2 } }}>
+                        <TextField
+                            label="Task title"
+                            fullWidth
+                            margin='dense'
+                            size='small'
+                        />
+                        <TextField
+                            label="Task description"
+                            fullWidth
+                            margin='dense'
+                            size='small'
+                            multiline
+                            rows={3}
+                        />
+                        <Button size='small' sx={{ fontSize: ["0.7rem", "0.9rem"] }}>Create new root task</Button>
+                    </CardContent>
+                </Card>
+            </Grid>
+
+            {tasks.map(task => <Grid key={task._id} xs={12} lg={6} height={"100%"}>
                 <TaskGroupCard taskGroup={task} />
             </Grid>)}
         </Grid>
