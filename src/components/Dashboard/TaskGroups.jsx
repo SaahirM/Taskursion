@@ -31,7 +31,7 @@ export default async function TaskGroups() {
     return (<Paper sx={{ p: 3, m: 1, border: 2 }}>
         <Grid container spacing={2}>
             <Grid xs={12} lg={6}>
-                <Card elevation={0} sx={{ height: "100%" }}>
+                <Card elevation={0} sx={{ height: "100%", border: "1px dashed black" }}>
                     <CardContent sx={{ ':last-child': { pb: 'unset', p: 2 } }}>
                         <TextField
                             label="Task title"
