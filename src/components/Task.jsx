@@ -14,6 +14,17 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
     const [error, setError] = useState("");
     const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
 
+    const toastError = e => {
+        console.log(e);
+        if (e.message) {
+            setError(e.message);
+            setIsSbOpen(true);
+        } else {
+            setError("An unexpected error occurred while updating this task");
+            setIsSbOpen(true);
+        }
+    }
+
     const saveTask = task => {
         fetch(`/api/task/${task._id.task_id}`, {
             method: 'POST',
@@ -33,16 +44,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             .then(() => {
                 setTask(task);
             })
-            .catch(e => {
-                console.log(e);
-                if (e.message) {
-                    setError(e.message);
-                    setIsSbOpen(true);
-                } else {
-                    setError("An unexpected error occurred while updating this task");
-                    setIsSbOpen(true);
-                }
-            })
+            .catch(toastError);
     }
 
     useEffect(() => {
@@ -80,6 +82,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                 value={task.task_title}
                 setValue={val => saveTask({ ...task, task_title: val })}
                 styles={{ width: '100%' }}
+                placeholder="Task title"
             />
             <EditableTypography
                 variant='body1'
@@ -88,8 +91,13 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                 multiline
                 minRows={5}
                 fullWidth
+                placeholder="Task description"
             />
-            <ChildTaskList childTasksPromise={childTasksPromise} />
+            <ChildTaskList
+                childTasksPromise={childTasksPromise}
+                parentId={task._id.task_id}
+                toastError={toastError}
+            />
         </Box>
 
         <Snackbar

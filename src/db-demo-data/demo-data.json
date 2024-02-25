@@ -7,7 +7,8 @@
             "user_pass_hash": "$2b$10$o4g8wdJKyB66/iaY20Xu9uYLkL721xAcuzD2vSl89oDjg.4MvqYdS",
             "user_root_task_ids": [
                 1
-            ]
+            ],
+            "user_last_created_task": 3
         }
     ],
     "Tasks": [

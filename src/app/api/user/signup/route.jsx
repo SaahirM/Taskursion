@@ -38,7 +38,8 @@ export async function POST(req) {
                 user_name: data.name,
                 user_email: data.email,
                 user_pass_hash: hash,
-                user_root_task_ids: []
+                user_root_task_ids: [],
+                user_last_created_task: 0
             })
 
             const sessionId = await startSession(result.insertedId);
