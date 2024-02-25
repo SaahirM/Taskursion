@@ -38,15 +38,22 @@ export async function POST(req) {
 
             const users = client.db().collection("Users");
             const lastTaskId = (await users.findOne({ _id: userId })).user_last_created_task;
+            const newTaskId = Number(lastTaskId) + 1;
 
             const tasks = client.db().collection("Tasks");
             const task = {
-                _id: { user_id: String(userId), task_id: Number(lastTaskId) + 1 },
+                _id: { user_id: String(userId), task_id: newTaskId },
                 ...data
             }
             await tasks.insertOne(task)
 
-            await users.updateOne({ _id: userId }, { $inc: { user_last_created_task: 1 } });
+            const maybeAdditionalUpdate = data.task_parent_id === null ? {
+                $addToSet: { user_root_task_ids: newTaskId }
+            } : {};
+            await users.updateOne({ _id: userId }, {
+                $inc: { user_last_created_task: 1 },
+                ...maybeAdditionalUpdate
+            });
 
             return NextResponse.json(task);
         })

@@ -17,6 +17,8 @@ export default function ChildTaskList({ childTasksPromise, parentId, toastError 
     }, [childTasksPromise]);
 
     const addTask = taskTitle => {
+        if (taskTitle === "") return;
+
         fetch("/api/task", {
             method: 'POST',
             body: JSON.stringify({
