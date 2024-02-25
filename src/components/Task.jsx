@@ -3,10 +3,11 @@
 import BorderHeader from "./BorderHeaders/BorderHeader";
 import BorderLogo from "./BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import { Alert, Box, Skeleton, Snackbar, Typography } from "@mui/material";
+import { Alert, Box, Checkbox, Skeleton, Snackbar, Typography } from "@mui/material";
 import EditableTypography from "../util/EditableTypography";
 import { useEffect, useState } from "react";
 import ChildTaskList from "./ChildTaskList";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
     const [task, setTask] = useState(initialTask);
@@ -76,14 +77,22 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
         }}
         secondaryHeaderComponent={{ component: <BorderLogo />, linkTarget: "/home" }}
     >
-        <Box p={1} width={{ xs: "100%", lg: "66vw" }}>
-            <EditableTypography
-                variant='h2'
-                value={task.task_title}
-                setValue={val => saveTask({ ...task, task_title: val })}
-                styles={{ width: '100%' }}
-                placeholder="Task title"
-            />
+        <Box p={1} width={{ xs: "100%", lg: "66%" }}>
+            <Grid container flexDirection='row-reverse'>
+                <Grid xs>        
+                    <EditableTypography
+                        variant='h2'
+                        value={task.task_title}
+                        setValue={val => saveTask({ ...task, task_title: val })}
+                        placeholder="Task title"
+                    />
+                </Grid>
+                <Grid xs='auto' display='flex' alignContent='center'>
+                    <Checkbox aria-label="Mark task as completed" sx={theme => {return {
+                        '& .MuiSvgIcon-root': { fontSize: theme.typography.h2.fontSize }
+                    }}} />
+                </Grid>
+            </Grid>
             <EditableTypography
                 variant='body1'
                 value={task.task_desc}

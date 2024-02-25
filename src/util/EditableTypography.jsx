@@ -34,6 +34,7 @@ export default function EditableTypography({
 
             return {
                 [(multiline ? "& textarea" : "& input")]: {
+                    width: '100%',
                     display: 'unset',
                     backgroundColor: 'background.default',
                     color: theme.palette.getContrastText(theme.palette.background.default),
