@@ -21,7 +21,8 @@ export default async function TaskPage({ params: { taskId } }) {
                     '_id.user_id': String(userId), '_id.task_id': Number(taskId)
                 });
                 return task;
-            });
+            })
+            .finally(async () => await client.close());
     }
     const task = await fetchTask(userId, taskId);
     
@@ -40,7 +41,8 @@ export default async function TaskPage({ params: { taskId } }) {
                 '_id.user_id': String(userId), task_parent_id: Number(taskId)
             }).toArray();
             return childTasks;
-        });
+        })
+        .finally(() => client.close());
 
     return (
         <main>

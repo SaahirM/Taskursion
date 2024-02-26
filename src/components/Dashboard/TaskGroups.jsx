@@ -27,7 +27,8 @@ export default async function TaskGroups() {
         .catch(e => {
             console.log("Failed to fetch tasks\n" + e);
             return [];
-        });
+        })
+        .finally(() => client.close());
 
     return (<Paper sx={{ p: 3, m: 1, border: 2 }}>
         <Grid container spacing={2}>

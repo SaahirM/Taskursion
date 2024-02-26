@@ -47,6 +47,4 @@ client.connect()
             throw e;
         }
     })
-    .finally(async () => {
-        await client.close();
-    });
+    .finally(() => client.close());

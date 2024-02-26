@@ -43,7 +43,7 @@ export async function POST(req) {
             res.cookies.set("sessionToken", sessionId);
             return res;
         })
-        .finally(async () => { await client.close() });
+        .finally(() => client.close());
 
     return res;
 }
