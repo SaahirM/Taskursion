@@ -19,7 +19,8 @@
             },
             "task_parent_id": null,
             "task_title": "Root Task 1",
-            "task_desc": "This is a task with sub tasks"
+            "task_desc": "This is a task with sub tasks",
+            "task_completed": false
         },
         {
             "_id": {
@@ -28,7 +29,8 @@
             },
             "task_parent_id": 1,
             "task_title": "Sub Task 1",
-            "task_desc": "This is the first sub task"
+            "task_desc": "This is the first sub task",
+            "task_completed": true
         },
         {
             "_id": {
@@ -37,7 +39,8 @@
             },
             "task_parent_id": 1,
             "task_title": "Sub Task 2",
-            "task_desc": "This is the second sub task"
+            "task_desc": "This is the second sub task",
+            "task_completed": false
         }
     ]
 }
