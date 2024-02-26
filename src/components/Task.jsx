@@ -11,6 +11,8 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
     const [task, setTask] = useState(initialTask);
+    const [completed, setCompleted] = useState(initialTask.task_completed);
+
     const [isSbOpen, setIsSbOpen] = useState(false);
     const [error, setError] = useState("");
     const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
@@ -46,6 +48,11 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                 setTask(task);
             })
             .catch(toastError);
+    }
+
+    const handleCompletionChange = async e => {
+        setCompleted(e.target.checked);
+        saveTask({ ...task, task_completed: e.target.checked })
     }
 
     useEffect(() => {
@@ -88,9 +95,14 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                     />
                 </Grid>
                 <Grid xs='auto' display='flex' alignContent='center'>
-                    <Checkbox aria-label="Mark task as completed" sx={theme => {return {
+                    <Checkbox
+                        aria-label="Mark task as completed"
+                        sx={theme => {return {
                         '& .MuiSvgIcon-root': { fontSize: theme.typography.h2.fontSize }
-                    }}} />
+                        }}}
+                        checked={completed}
+                        onChange={e => handleCompletionChange(e)}
+                    />
                 </Grid>
             </Grid>
             <EditableTypography

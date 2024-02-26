@@ -7,11 +7,12 @@ export async function POST(req) {
     const data = await req.json();
     if (
         !data._id.user_id || !data._id.task_id || data.task_parent_id === undefined ||
-        data.task_title === undefined || data.task_desc === undefined
+        data.task_title === undefined || data.task_desc === undefined ||
+        data.task_completed === undefined
     ) {
         return new NextResponse(
             "Missing one of the following required fields: _id.user_id, _id.task_id, " +
-            "task_parent_id, task_title, task_desc",
+            "task_parent_id, task_title, task_desc, task_completed",
             { status: 400 }
         );
     }
@@ -27,7 +28,7 @@ export async function POST(req) {
             const tasks = client.db().collection("Tasks");
             const task = await tasks.findOneAndReplace({
                 '_id.user_id': userId.toString(), '_id.task_id': data._id.task_id
-            }, data);
+            }, data, { returnDocument: 'after' });
             
             if (!task) {
                 return NextResponse.json({}, { status: 404 });

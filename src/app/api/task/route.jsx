@@ -43,6 +43,7 @@ export async function POST(req) {
             const tasks = client.db().collection("Tasks");
             const task = {
                 _id: { user_id: String(userId), task_id: newTaskId },
+                task_completed: false,
                 ...data
             }
             await tasks.insertOne(task)
