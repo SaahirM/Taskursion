@@ -17,24 +17,21 @@ export async function POST(req) {
         );
     }
 
-    const res = await clientPromise.then(async client => {
-        const sessionId = cookies().get("sessionToken")?.value;
-        const userId = await getSessionUser(sessionId);
-        if (!userId) {
-            return new NextResponse("You are not logged in", { status: 401 });
-        }
+    const client = await clientPromise;
+    const sessionId = cookies().get("sessionToken")?.value;
+    const userId = await getSessionUser(sessionId);
+    if (!userId) {
+        return new NextResponse("You are not logged in", { status: 401 });
+    }
 
-        const tasks = client.db().collection("Tasks");
-        const task = await tasks.findOneAndReplace({
-            '_id.user_id': userId.toString(), '_id.task_id': data._id.task_id
-        }, data, { returnDocument: 'after' });
-        
-        if (!task) {
-            return NextResponse.json({}, { status: 404 });
-        }
+    const tasks = client.db().collection("Tasks");
+    const task = await tasks.findOneAndReplace({
+        '_id.user_id': userId.toString(), '_id.task_id': data._id.task_id
+    }, data, { returnDocument: 'after' });
+    
+    if (!task) {
+        return NextResponse.json({}, { status: 404 });
+    }
 
-        return NextResponse.json(task);
-    });
-
-    return res;
+    return NextResponse.json(task);
 }

@@ -16,37 +16,34 @@ export async function POST(req) {
 
     const hash = await bcrypt.hash(data.pass, SALT_ROUNDS);
 
-    const res = await clientPromise.then(async client => {
-        const maybeSessionId = cookies().get("sessionToken")?.value;
-        if (maybeSessionId && (await authenticateSession(maybeSessionId)) !== false) {
-            return new NextResponse(
-                "You are already logged in (try refreshing the page)", { status: 400 }
-            );
-        }
+    const client = await clientPromise;
+    const maybeSessionId = cookies().get("sessionToken")?.value;
+    if (maybeSessionId && (await authenticateSession(maybeSessionId)) !== false) {
+        return new NextResponse(
+            "You are already logged in (try refreshing the page)", { status: 400 }
+        );
+    }
 
-        const users = client.db().collection("Users");
+    const users = client.db().collection("Users");
 
-        const maybeUser = await users.findOne({ user_email: data.email });
-        if (maybeUser) {
-            return new NextResponse(
-                "That email is already being used", { status: 400 }
-            );
-        }
+    const maybeUser = await users.findOne({ user_email: data.email });
+    if (maybeUser) {
+        return new NextResponse(
+            "That email is already being used", { status: 400 }
+        );
+    }
 
-        const result = await users.insertOne({
-            user_name: data.name,
-            user_email: data.email,
-            user_pass_hash: hash,
-            user_root_task_ids: [],
-            user_last_created_task: 0
-        })
+    const result = await users.insertOne({
+        user_name: data.name,
+        user_email: data.email,
+        user_pass_hash: hash,
+        user_root_task_ids: [],
+        user_last_created_task: 0
+    })
 
-        const sessionId = await startSession(result.insertedId);
+    const sessionId = await startSession(result.insertedId);
 
-        const res = new NextResponse();
-        res.cookies.set("sessionToken", sessionId);
-        return res;
-    });
-
+    const res = new NextResponse();
+    res.cookies.set("sessionToken", sessionId);
     return res;
 }

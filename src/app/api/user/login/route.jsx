@@ -12,36 +12,33 @@ export async function POST(req) {
             , { status: 400 });
     }
 
-    const res = await clientPromise.then(async client => {
-        const maybeSessionId = cookies().get("sessionToken")?.value;
-        if (maybeSessionId && (await authenticateSession(maybeSessionId)) !== false) {
-            return new NextResponse(
-                "You are already logged in (try refreshing the page)", { status: 400 }
-            );
-        }
+    const client = await clientPromise;
+    const maybeSessionId = cookies().get("sessionToken")?.value;
+    if (maybeSessionId && (await authenticateSession(maybeSessionId)) !== false) {
+        return new NextResponse(
+            "You are already logged in (try refreshing the page)", { status: 400 }
+        );
+    }
 
-        const users = client.db().collection("Users");
+    const users = client.db().collection("Users");
 
-        const user = await users.findOne({ user_email: data.email });
-        if (!user) {
-            return new NextResponse(
-                "Invalid email or password", { status: 401 }
-            );
-        }
+    const user = await users.findOne({ user_email: data.email });
+    if (!user) {
+        return new NextResponse(
+            "Invalid email or password", { status: 401 }
+        );
+    }
 
-        const isPassCorrect = await bcrypt.compare(data.pass, user.user_pass_hash);
-        if (!isPassCorrect) {
-            return new NextResponse(
-                "Invalid email or password", { status: 401 }
-            );
-        }
+    const isPassCorrect = await bcrypt.compare(data.pass, user.user_pass_hash);
+    if (!isPassCorrect) {
+        return new NextResponse(
+            "Invalid email or password", { status: 401 }
+        );
+    }
 
-        const sessionId = await startSession(user._id);
+    const sessionId = await startSession(user._id);
 
-        const res = new NextResponse();
-        res.cookies.set("sessionToken", sessionId);
-        return res;
-    });
-
+    const res = new NextResponse();
+    res.cookies.set("sessionToken", sessionId);
     return res;
 }

@@ -1,26 +1,24 @@
 import clientPromise from "./db";
 
 export async function startSession(userId) {
-    return await clientPromise.then(async client => {
-        const sessions = client.db().collection("Sessions");
-        const sessionId = crypto.randomUUID();
-        await sessions.insertOne({ _id: sessionId, user_id: userId });
-        return sessionId;
-    });
+    const client = await clientPromise;
+    const sessions = client.db().collection("Sessions");
+    const sessionId = crypto.randomUUID();
+    await sessions.insertOne({ _id: sessionId, user_id: userId });
+    return sessionId;
 }
 
 export async function getSessionUser(sessionId) {
     if (sessionId === null) return null;
 
-    return await clientPromise.then(async client => {
-        const sessions = client.db().collection("Sessions");
-        const maybeSession = await sessions.findOne({ _id: sessionId });
+    const client = await clientPromise;
+    const sessions = client.db().collection("Sessions");
+    const maybeSession = await sessions.findOne({ _id: sessionId });
 
-        if (maybeSession) {
-            return maybeSession.user_id;
-        }
-        return null;
-    });
+    if (maybeSession) {
+        return maybeSession.user_id;
+    }
+    return null;
 }
 
 export async function authenticateSession(sessionId) {

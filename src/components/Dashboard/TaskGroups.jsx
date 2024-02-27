@@ -7,22 +7,19 @@ import { getSessionUser } from '../../util/session-mgmt';
 import AddTaskGroup from './AddTaskGroup';
 
 export default async function TaskGroups() {
-    const tasks = await clientPromise.then(async client => {
-        const sessionId = cookies().get("sessionToken").value;
-        const userId = (await getSessionUser(sessionId));
+    const client = await clientPromise;
+    const sessionId = cookies().get("sessionToken").value;
+    const userId = (await getSessionUser(sessionId));
 
-        const users = client.db().collection("Users");
-        const rootTaskIds = (await users.findOne({ _id: userId })).user_root_task_ids;
+    const users = client.db().collection("Users");
+    const rootTaskIds = (await users.findOne({ _id: userId })).user_root_task_ids;
 
-        const tasksCollection = client.db().collection("Tasks");
-        const tasks = await tasksCollection.find({
-            // TODO: limit number of tasks in rootTaskIds to improve performance
-            // (can ask user to load more tasks if desired)
-            "_id.user_id": userId.toString(), "_id.task_id": { $in: rootTaskIds } 
-        }).toArray();
-
-        return tasks;
-    });
+    const tasksCollection = client.db().collection("Tasks");
+    const tasks = await tasksCollection.find({
+        // TODO: limit number of tasks in rootTaskIds to improve performance
+        // (can ask user to load more tasks if desired)
+        "_id.user_id": userId.toString(), "_id.task_id": { $in: rootTaskIds } 
+    }).toArray();
 
     return (<Paper sx={{ p: 3, m: 1, border: 2 }}>
         <Grid container spacing={2}>
