@@ -1,18 +1,20 @@
 const { MongoClient } = require('mongodb');
 
-let client;
+let unconnectedClient;
+let clientPromise;
 
 // In development mode, use a global variable so that the value is preserved across
-// module reloads caused by HMR (Hot Module Replacement). This code is from:
+// module reloads caused by HMR (Hot Module Replacement). This code was adapted from:
 // https://github.com/vercel/next.js/blob/canary/examples/with-mongodb/lib/mongodb.ts
 if (process.env.NODE_ENV === "development") {
     if (!global._mongoClient) {
-        client = new MongoClient(process.env.MONGO_CONN_STR);
-        global._mongoClient = client;
+        unconnectedClient = new MongoClient(process.env.MONGO_CONN_STR);
+        global._mongoClient = unconnectedClient.connect();
     }
-    client = global._mongoClient;
+    clientPromise = global._mongoClient;
 } else {
-    client = new MongoClient(process.env.MONGO_CONN_STR);
+    unconnectedClient = new MongoClient(process.env.MONGO_CONN_STR);
+    clientPromise = unconnectedClient.connect();
 }
 
-export default client;
+export default clientPromise;
