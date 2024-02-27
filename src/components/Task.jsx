@@ -3,7 +3,7 @@
 import BorderHeader from "./BorderHeaders/BorderHeader";
 import BorderLogo from "./BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import { Alert, Box, Checkbox, Skeleton, Snackbar, Typography } from "@mui/material";
+import { Alert, Box, Checkbox, LinearProgress, Skeleton, Snackbar, Typography } from "@mui/material";
 import EditableTypography from "../util/EditableTypography";
 import { useEffect, useState } from "react";
 import ChildTaskList from "./ChildTaskList";
@@ -13,6 +13,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
     const [task, setTask] = useState(initialTask);
     const [completed, setCompleted] = useState(initialTask.task_completed);
 
+    const [loading, setLoading] = useState(false);
     const [isSbOpen, setIsSbOpen] = useState(false);
     const [error, setError] = useState("");
     const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
@@ -29,6 +30,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
     };
 
     const saveTask = task => {
+        setLoading(true);
         fetch(`/api/task/${task._id.task_id}`, {
             method: 'POST',
             body: JSON.stringify(task)
@@ -47,7 +49,8 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             .then(() => {
                 setTask(task);
             })
-            .catch(toastError);
+            .catch(toastError)
+            .finally(() => { setLoading(false); });
     };
 
     const handleCompletionChange = async e => {
@@ -109,6 +112,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                     />
                 </Grid>
             </Grid>
+            {loading && <LinearProgress />}
             <EditableTypography
                 variant='body1'
                 value={task.task_desc}
