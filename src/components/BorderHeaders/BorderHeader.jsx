@@ -91,9 +91,9 @@ export default function BorderHeader({
                         sx={{ background: "linear-gradient(0deg, transparent, #2e2e2e)" }}
                     />
                     <Box px={2} pb={2}
-                        /* An "inner innner inner box" to pad the content */
+                    /* An "inner innner inner box" to pad the content */
                     >
-                            
+
                         {children}
                     </Box>
                 </Box>

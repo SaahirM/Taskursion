@@ -48,7 +48,7 @@ export default function AddTaskGroup() {
                     setIsSbOpen(true);
                 }
             });
-        }
+    };
 
     return (<Card elevation={0} sx={{ height: "100%", border: "1px dashed black" }}>
         <CardContent sx={{ ':last-child': { pb: 'unset', p: 2 } }}>
@@ -77,7 +77,7 @@ export default function AddTaskGroup() {
             >
                 Create new root task
             </Button>
-            
+
             <Snackbar
                 open={isSbOpen}
                 autoHideDuration={9000}

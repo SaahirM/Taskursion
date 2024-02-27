@@ -11,7 +11,7 @@ export default function Dashboard() {
                 <AccountInfoSummary />
             </Grid>
             <Grid xs={12} md={8}>
-                <Suspense fallback={<TaskGroupSkeleton />}>    
+                <Suspense fallback={<TaskGroupSkeleton />}>
                     <TaskGroups />
                 </Suspense>
             </Grid>

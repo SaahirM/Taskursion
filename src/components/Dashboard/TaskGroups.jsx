@@ -18,7 +18,7 @@ export default async function TaskGroups() {
     const tasks = await tasksCollection.find({
         // TODO: limit number of tasks in rootTaskIds to improve performance
         // (can ask user to load more tasks if desired)
-        "_id.user_id": userId.toString(), "_id.task_id": { $in: rootTaskIds } 
+        "_id.user_id": userId.toString(), "_id.task_id": { $in: rootTaskIds }
     }).toArray();
 
     return (<Paper sx={{ p: 3, m: 1, border: 2 }}>

@@ -28,7 +28,7 @@ export async function POST(req) {
     const task = await tasks.findOneAndReplace({
         '_id.user_id': userId.toString(), '_id.task_id': data._id.task_id
     }, data, { returnDocument: 'after' });
-    
+
     if (!task) {
         return NextResponse.json({}, { status: 404 });
     }

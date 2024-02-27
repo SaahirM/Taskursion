@@ -68,7 +68,7 @@ export default function SignupForm({ formData, formError, handlers }) {
                 if (errMsg !== "") {
                     return true;
                 }
-                return doesAnErrorExist
+                return doesAnErrorExist;
             }, false)}
         >
             Submit

@@ -56,7 +56,7 @@ export default function themeBuilder(mode) {
         },
         shape: { borderRadius: 5 }
     });
-    
+
     const theme = responsiveFontSizes(unresponsiveTheme);
     return theme;
 }

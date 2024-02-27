@@ -16,12 +16,12 @@ export default function ThemeWrapper({ children }) {
     if (colourScheme === 'system') {
         mode = isDarkModePreferred ? 'dark' : 'light';
     } else if (colourScheme === 'light') {
-        mode = 'light'
+        mode = 'light';
     }
 
     const theme = themeBuilder(mode);
 
-    return (<ColourSchemeContext.Provider value={{ colourScheme, setColourScheme }}>    
+    return (<ColourSchemeContext.Provider value={{ colourScheme, setColourScheme }}>
         <ThemeProvider theme={theme}>
             <CssBaseline />
             {children}

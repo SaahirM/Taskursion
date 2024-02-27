@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from "next/server";
 
 export const config = {
     matcher: [
@@ -21,18 +21,18 @@ export const config = {
             ]
         }
     ]
-}
+};
 
 const unprotectedPages = new Set(["", "/", "/signup", "/login"]);
 
 export function middleware(req) {
     if ((unprotectedPages.has(req.nextUrl.pathname)) && (req.cookies.has("sessionToken"))) {
         return NextResponse.redirect(new URL("/home", req.url));
-    
+
     } else if ((req.nextUrl.pathname.startsWith("/home")) && (!req.cookies.has("sessionToken"))) {
         const newPath = encodeURIComponent(req.nextUrl.pathname);
         return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
-    
+
     } else if (req.nextUrl.pathname === "/_bad-session-token") {
         const res = NextResponse.redirect(new URL("/login?notLoggedIn", req.url));
         res.cookies.delete("sessionToken");

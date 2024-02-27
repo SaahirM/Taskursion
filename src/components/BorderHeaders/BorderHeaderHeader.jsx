@@ -10,11 +10,11 @@ export default function BorderHeaderHeader({ primaryHeaderComponent, secondaryHe
     return (<>
         <header>
             <Grid container alignItems='center' py={1}>
-                <Grid 
+                <Grid
                     xs={secondaryHeaderComponent ? 10 : 12}
                     sm={secondaryHeaderComponent ? 7 : 12}
                     md={secondaryHeaderComponent ? 9 : 12}
-                >    
+                >
                     <ButtonBase
                         sx={{
                             width: '100%',

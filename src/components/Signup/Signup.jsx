@@ -31,7 +31,7 @@ export default function Signup() {
                 name: ""
             });
         }
-    }
+    };
 
     const handleEmailChange = e => {
         setFormData({ ...formData, email: e.target.value });
@@ -48,7 +48,7 @@ export default function Signup() {
                 email: ""
             });
         }
-    }
+    };
 
     const handlePassChange = e => {
         setFormData({ ...formData, pass: e.target.value });
@@ -75,7 +75,7 @@ export default function Signup() {
                 pass: ""
             });
         }
-    }
+    };
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -107,8 +107,8 @@ export default function Signup() {
                     );
                     setIsSbOpen(true);
                 }
-            })
-    }
+            });
+    };
 
     return (<Container
         maxWidth='sm'

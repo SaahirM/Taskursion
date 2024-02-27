@@ -26,7 +26,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             setError("An unexpected error occurred while updating this task");
             setIsSbOpen(true);
         }
-    }
+    };
 
     const saveTask = task => {
         fetch(`/api/task/${task._id.task_id}`, {
@@ -48,12 +48,12 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                 setTask(task);
             })
             .catch(toastError);
-    }
+    };
 
     const handleCompletionChange = async e => {
         setCompleted(e.target.checked);
-        saveTask({ ...task, task_completed: e.target.checked })
-    }
+        saveTask({ ...task, task_completed: e.target.checked });
+    };
 
     useEffect(() => {
         if (parentTaskPromise) {
@@ -64,15 +64,15 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                 });
             });
         }
-    }, [parentTaskPromise])
+    }, [parentTaskPromise]);
 
     const backLinkComponent = (<>
         <ChevronLeftRoundedIcon fontSize='large' />
         <Typography variant='h4' component='p' noWrap width='100%' textAlign='start'>
             {parentTaskPromise ? (
                 backLinkInfo.text
-                ? backLinkInfo.text
-                : <Skeleton animation='wave' />
+                    ? backLinkInfo.text
+                    : <Skeleton animation='wave' />
             ) : "Home"}
         </Typography>
     </>);
@@ -86,7 +86,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
     >
         <Box p={1} width={{ xs: "100%", lg: "66%" }}>
             <Grid container flexDirection='row-reverse'>
-                <Grid xs>        
+                <Grid xs>
                     <EditableTypography
                         variant='h2'
                         value={task.task_title}
@@ -97,9 +97,13 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                 <Grid xs='auto' display='flex' alignContent='center'>
                     <Checkbox
                         aria-label="Mark task as completed"
-                        sx={theme => {return {
-                        '& .MuiSvgIcon-root': { fontSize: theme.typography.h2.fontSize }
-                        }}}
+                        sx={theme => {
+                            return {
+                                '& .MuiSvgIcon-root': {
+                                    fontSize: theme.typography.h2.fontSize
+                                }
+                            };
+                        }}
                         checked={completed}
                         onChange={e => handleCompletionChange(e)}
                     />

@@ -9,11 +9,11 @@ export default function ChildTaskList({ childTasksPromise, parentId, toastError 
     const [childTasks, setChildTasks] = useState([]);
     const [createdTask, setCreatedTask] = useState("");
 
-    useEffect(() => {    
+    useEffect(() => {
         childTasksPromise.then(childTasks => {
             setLoading(false);
             setChildTasks(childTasks);
-        })
+        });
     }, [childTasksPromise]);
 
     const addTask = taskTitle => {
@@ -42,16 +42,16 @@ export default function ChildTaskList({ childTasksPromise, parentId, toastError 
                 setCreatedTask("");
             })
             .catch(toastError);
-    }
+    };
 
-    if (loading) return <Skeleton animation='wave' height={200} />
+    if (loading) return <Skeleton animation='wave' height={200} />;
 
     return (<Stack gap={1}>
-        <Paper elevation={0} sx={{ p: 2}}>
+        <Paper elevation={0} sx={{ p: 2 }}>
             <Grid container>
                 <Grid xs='auto'>
                     <IconButton aria-label="Add subtask" onClick={() => addTask(createdTask)}>
-                        <AddCircleOutlineRounded fontSize='large'/>
+                        <AddCircleOutlineRounded fontSize='large' />
                     </IconButton>
                 </Grid>
                 <Grid xs>

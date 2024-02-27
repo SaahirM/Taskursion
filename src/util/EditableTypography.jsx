@@ -3,7 +3,8 @@ import { createRef, useEffect, useState } from "react";
 
 // inspired by https://stackoverflow.com/a/76965111
 export default function EditableTypography({
-    variant, value, setValue, multiline=false, styles={}, hoverStyles={}, focusStyles={},
+    variant, value, setValue, multiline = false,
+    styles = {}, hoverStyles = {}, focusStyles = {},
     ...props
 }) {
     const TypographyRef = createRef();
@@ -11,7 +12,7 @@ export default function EditableTypography({
 
     const [internalValue, setInternalValue] = useState(value);
 
-    const dummyTypography = <Typography variant={variant} ref={TypographyRef} display='none'/>
+    const dummyTypography = <Typography variant={variant} ref={TypographyRef} display='none' />;
 
     useEffect(() => {
         if (TypographyRef.current && inputContainerRef.current) {
@@ -22,7 +23,7 @@ export default function EditableTypography({
             }
             TypographyRef.current.classList.forEach(className => {
                 input.classList.add(className);
-            })
+            });
         }
     });
 
@@ -54,8 +55,8 @@ export default function EditableTypography({
                 "& div": multiline ? {} : {
                     width: "100%"
                 }
-            }
-        }}>    
+            };
+        }}>
             <InputBase
                 value={internalValue}
                 onChange={e => setInternalValue(e.target.value)}

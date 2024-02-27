@@ -44,8 +44,8 @@ export async function POST(req) {
         _id: { user_id: String(userId), task_id: newTaskId },
         task_completed: false,
         ...data
-    }
-    await tasks.insertOne(task)
+    };
+    await tasks.insertOne(task);
 
     const maybeAdditionalUpdate = data.task_parent_id === null ? {
         $addToSet: { user_root_task_ids: newTaskId }

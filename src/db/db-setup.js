@@ -10,7 +10,7 @@ if (!process.env.MONGO_CONN_STR) {
         );
     }
 
-    if (!process.env.MONGO_CONN_STR) {    
+    if (!process.env.MONGO_CONN_STR) {
         throw new Error(
             "Cannot find database connection string in environment variables. " +
             "Please refer to README.md and make sure you've carefully followed " +

@@ -42,11 +42,11 @@ export default function Login() {
             newSearchParams.delete("serverAuthError");
             router.replace(`${pathname}?${newSearchParams}`);
         }
-    }
+    };
 
     const handleChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
+    };
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -78,8 +78,8 @@ export default function Login() {
                     );
                     setIsSbOpen(true);
                 }
-            })
-    }
+            });
+    };
 
     return (<Container
         maxWidth='sm'

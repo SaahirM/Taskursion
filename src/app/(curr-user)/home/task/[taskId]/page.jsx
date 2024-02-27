@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 export default async function TaskPage({ params: { taskId } }) {
     const sessionId = cookies().get("sessionToken")?.value;
-    const userId = await getSessionUser(sessionId)
+    const userId = await getSessionUser(sessionId);
     if (!userId) {
         redirect("/_bad-session-token");    // middleware will delete cookie
     }
@@ -21,9 +21,9 @@ export default async function TaskPage({ params: { taskId } }) {
             });
             return task;
         });
-    }
+    };
     const task = await fetchTask(userId, taskId);
-    
+
     if (!task) {
         return (<HomeBorderHeader linkTarget='/home'><NotFound /></HomeBorderHeader>);
     }
@@ -31,7 +31,7 @@ export default async function TaskPage({ params: { taskId } }) {
     const parentTaskPromise = task.task_parent_id
         ? fetchTask(userId, task.task_parent_id)
         : null;
-    
+
     const childTasksPromise = clientPromise.then(async client => {
         const tasks = client.db().collection("Tasks");
         const childTasks = await tasks.find({
