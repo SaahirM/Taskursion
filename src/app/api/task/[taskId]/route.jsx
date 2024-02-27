@@ -1,4 +1,4 @@
-import clientPromise from "@/src/util/db";
+import clientPromise from "@/src/db/db";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

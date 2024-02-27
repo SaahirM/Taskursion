@@ -1,4 +1,4 @@
-import clientPromise from "./db";
+import clientPromise from "../db/db";
 
 export async function startSession(userId) {
     const client = await clientPromise;

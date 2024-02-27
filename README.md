@@ -18,12 +18,14 @@ Follow these steps to get the app running:
 1. Update `.env`. Change the database connection URL so it points to your desired database.
 1. Launch a terminal at the root project directory `/taskursion`.
 1. Run the command `npm install`.
-1. Type `npm run build` to build the app, or `npm run build-demo` to build the app and populate the database with some dummy data.
+1. Type `npm run build` to build the app.
 1. Now type `npm start` to run the built app.
 1. Navigate to "http://localhost:3000" using a browser.
 
 You should see the app's homepage, which looks like this:
 ![The application's homepage, which has "Taskursion" at the center of the screen in large font, and two smaller "Signup" and "Login" buttons](src/docs/homepage.png)
+
+If your browser/device is set to light mode, this page will look different.
 
 ## Resources
 

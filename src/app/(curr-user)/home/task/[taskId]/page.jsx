@@ -1,7 +1,7 @@
 import NotFound from "@/src/app/not-found";
 import HomeBorderHeader from "@/src/components/BorderHeaders/HomeBorderHeader";
 import Task from "@/src/components/Task";
-import clientPromise from "@/src/util/db";
+import clientPromise from "@/src/db/db";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

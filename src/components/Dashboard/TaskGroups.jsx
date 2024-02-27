@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { Paper } from "@mui/material";
-import clientPromise from "../../util/db";
+import clientPromise from "../../db/db";
 import TaskGroupCard from './TaskGroupCard';
 import Grid from '@mui/material/Unstable_Grid2/Grid2';
 import { getSessionUser } from '../../util/session-mgmt';

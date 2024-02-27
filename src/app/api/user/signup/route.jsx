@@ -1,4 +1,4 @@
-import clientPromise from "@/src/util/db";
+import clientPromise from "@/src/db/db";
 import { authenticateSession, startSession } from "@/src/util/session-mgmt";
 import bcrypt from 'bcrypt';
 import { cookies } from "next/headers";
