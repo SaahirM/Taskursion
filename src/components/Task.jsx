@@ -112,7 +112,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                     />
                 </Grid>
             </Grid>
-            {loading && <LinearProgress />}
+            {loading && <LinearProgress color='secondary' />}
             <EditableTypography
                 variant='body1'
                 value={task.task_desc}

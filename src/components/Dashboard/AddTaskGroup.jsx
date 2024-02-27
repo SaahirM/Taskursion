@@ -75,7 +75,7 @@ export default function AddTaskGroup() {
                 sx={{ fontSize: ["0.7rem", "0.9rem"] }}
                 onClick={addTask}
             >
-                Create new root task
+                Create new task
             </Button>
 
             <Snackbar

@@ -45,7 +45,7 @@ export default function LoginForm({ formData, changeHandler, loading }) {
                     Login
                 </Button>
                 {loading &&
-                    <CircularProgress sx={{
+                    <CircularProgress color='secondary' sx={{
                         position: 'absolute',
                         top: '50%',
                         left: '50%',
