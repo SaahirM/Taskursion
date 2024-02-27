@@ -1,6 +1,6 @@
-import { Box, Button, Paper, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Paper, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
 
-export default function LoginForm({ formData, changeHandler }) {
+export default function LoginForm({ formData, changeHandler, loading }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
@@ -33,15 +33,27 @@ export default function LoginForm({ formData, changeHandler }) {
         />
 
         <Box display='flex' justifyContent='end'>
-            <Button
-                type='submit'
-                variant='contained'
-                sx={{ mt: 2, px: 5 }}
-                fullWidth={isSmallScreen ? true : false}
-                color='secondary'
-            >
-                Login
-            </Button>
+            <Box width={{ xs: '100%', sm: 'auto' }} position='relative'>    
+                <Button
+                    type='submit'
+                    variant='contained'
+                    sx={{ mt: 2, px: 5 }}
+                    fullWidth
+                    disabled={loading}
+                    color='secondary'
+                >
+                    Login
+                </Button>
+                {loading &&
+                    <CircularProgress sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        marginTop: '-12px',
+                        marginLeft: '-12px'
+                    }} />
+                }
+            </Box>
         </Box>
     </Paper>);
 }

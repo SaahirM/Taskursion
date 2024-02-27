@@ -1,6 +1,6 @@
-import { Button, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 
-export default function SignupForm({ formData, formError, handlers }) {
+export default function SignupForm({ formData, formError, handlers, loading }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
@@ -59,19 +59,31 @@ export default function SignupForm({ formData, formError, handlers }) {
                 helperText={formError.pass}
             />
         </Tooltip>
-        <Button
-            type='submit'
-            variant='contained'
-            sx={{ mt: 2, px: 5 }}
-            fullWidth={isSmallScreen ? true : false}
-            disabled={Object.values(formError).reduce((doesAnErrorExist, errMsg) => {
-                if (errMsg !== "") {
-                    return true;
-                }
-                return doesAnErrorExist;
-            }, false)}
-        >
-            Submit
-        </Button>
+        <Box width={{ xs: '100%', sm: 'min-content' }} position='relative'>    
+            <Button
+                type='submit'
+                variant='contained'
+                sx={{ mt: 2, px: 5 }}
+                fullWidth
+                disabled={loading ||
+                Object.values(formError).reduce((doesAnErrorExist, errMsg) => {
+                    if (errMsg !== "") {
+                        return true;
+                    }
+                    return doesAnErrorExist;
+                }, false)}
+            >
+                Submit
+            </Button>
+            {loading &&
+                <CircularProgress sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    marginTop: '-12px',
+                    marginLeft: '-12px'
+                }} />
+            }
+        </Box>
     </Paper>);
 }

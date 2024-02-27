@@ -13,6 +13,7 @@ export default function Signup() {
     const [formData, setFormData] = useState({ name: "", email: "", pass: "" });
     const [formError, setFormError] = useState({ name: "", email: "", pass: "" });
 
+    const [loading, setLoading] = useState(false);
     const [isSbOpen, setIsSbOpen] = useState(false);
     const [serverError, setServerError] = useState("");
 
@@ -77,8 +78,10 @@ export default function Signup() {
         }
     };
 
-    const handleSubmit = e => {
+    const handleSubmit =async e => {
         e.preventDefault();
+        setLoading(true);
+        await new Promise(res => setTimeout(res, 2000))
 
         fetch('/api/user/signup', {
             method: 'POST',
@@ -107,7 +110,8 @@ export default function Signup() {
                     );
                     setIsSbOpen(true);
                 }
-            });
+            })
+            .finally(() => { setLoading(false); });
     };
 
     return (<Container
@@ -119,6 +123,7 @@ export default function Signup() {
             formData={formData}
             formError={formError}
             handlers={{ name: handleNameChange, email: handleEmailChange, pass: handlePassChange }}
+            loading={loading}
         />
 
         <Snackbar

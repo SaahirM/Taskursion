@@ -16,6 +16,7 @@ export default function Login() {
 
     const [formData, setFormData] = useState({ email: "", pass: "" });
 
+    const [loading, setLoading] = useState(false);
     const [isSbOpen, setIsSbOpen] = useState(isNotLoggedIn || isServerError);
     const [serverError, setServerError] = useState("");
 
@@ -50,6 +51,7 @@ export default function Login() {
 
     const handleSubmit = e => {
         e.preventDefault();
+        setLoading(true);
 
         fetch('/api/user/login', {
             method: 'POST',
@@ -78,7 +80,8 @@ export default function Login() {
                     );
                     setIsSbOpen(true);
                 }
-            });
+            })
+            .finally(() => { setLoading(false); });
     };
 
     return (<Container
@@ -86,7 +89,7 @@ export default function Login() {
         component='form'
         onSubmit={handleSubmit}
     >
-        <LoginForm formData={formData} changeHandler={handleChange} />
+        <LoginForm formData={formData} changeHandler={handleChange} loading={loading} />
 
         <Snackbar
             open={isSbOpen}
