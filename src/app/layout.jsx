@@ -1,5 +1,6 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import ThemeWrapper from './theme/ThemeWrapper';
+import ToastContextProvider from '../components/ToastContextProvider';
 
 export const metadata = {
     title: 'Taskursion',
@@ -10,7 +11,9 @@ export default function RootLayout({ children }) {
     return (<html lang="en"><body>
         <AppRouterCacheProvider>
             <ThemeWrapper>
-                {children}
+                <ToastContextProvider>
+                    {children}
+                </ToastContextProvider>
             </ThemeWrapper>
         </AppRouterCacheProvider>
     </body></html>);

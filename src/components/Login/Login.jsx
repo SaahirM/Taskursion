@@ -1,49 +1,35 @@
 "use client";
 
-import { Alert, Container, Snackbar } from "@mui/material";
+import { Container } from "@mui/material";
 import LoginForm from "./LoginForm";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ToastContext } from "../ToastContextProvider";
 
 export default function Login() {
     const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const router = useRouter();
+
     const isNotLoggedIn = searchParams.has("notLoggedIn");
-    const isServerError = searchParams.has("serverAuthError");
     const maybePathAfterLogin = searchParams.get("afterLogin");
     const pathAfterLogin = maybePathAfterLogin
         ? decodeURIComponent(maybePathAfterLogin)
         : "/home";
+    
+    const toast = useContext(ToastContext);
 
     const [formData, setFormData] = useState({ email: "", pass: "" });
-
     const [loading, setLoading] = useState(false);
-    const [isSbOpen, setIsSbOpen] = useState(isNotLoggedIn || isServerError);
-    const [serverError, setServerError] = useState("");
 
-    const pathname = usePathname();
-    const router = useRouter();
-
-    let message;
-    if (isNotLoggedIn) {
-        message = "Please log into your account first.";
-    } else if (isServerError) {
-        message = "The server encountered an issue and is unable to authenticate your request.";
-    } else {
-        message = serverError;
-    }
-
-    const handleSbClose = () => {
-        setIsSbOpen(false);
+    useEffect(() => {
         if (isNotLoggedIn) {
+            toast("Please log into your account first.");
             const newSearchParams = new URLSearchParams(searchParams);
             newSearchParams.delete("notLoggedIn");
             router.replace(`${pathname}?${newSearchParams}`);
-        } else if (isServerError) {
-            const newSearchParams = new URLSearchParams(searchParams);
-            newSearchParams.delete("serverAuthError");
-            router.replace(`${pathname}?${newSearchParams}`);
         }
-    };
+    }, [])
 
     const handleChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -70,16 +56,10 @@ export default function Login() {
                 router.push(pathAfterLogin);
             })
             .catch(e => {
-                console.log(e);
-                if (e.message) {
-                    setServerError(e.message);
-                    setIsSbOpen(true);
-                } else {
-                    setServerError(
-                        "An unexpected error occurred while communicating with the server"
-                    );
-                    setIsSbOpen(true);
-                }
+                const message = e.message
+                    ? e.message
+                    : "An unexpected error occurred while communicating with the server";
+                toast(message);
             })
             .finally(() => { setLoading(false); });
     };
@@ -90,15 +70,5 @@ export default function Login() {
         onSubmit={handleSubmit}
     >
         <LoginForm formData={formData} changeHandler={handleChange} loading={loading} />
-
-        <Snackbar
-            open={isSbOpen}
-            autoHideDuration={9000}
-            onClose={handleSbClose}
-        >
-            <Alert onClose={handleSbClose} severity='error' variant='filled'>
-                {message}
-            </Alert>
-        </Snackbar>
     </Container>);
 }
