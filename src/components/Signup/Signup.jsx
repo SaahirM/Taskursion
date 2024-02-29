@@ -1,21 +1,21 @@
 "use client";
 
-import { Alert, Container, Snackbar } from "@mui/material";
+import { Container } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import SignupForm from "./SignupForm";
+import { ToastContext } from "../ToastContextProvider";
 
 const PASS_REGEX = /(?=.*[^A-Za-z0-9_ \t\r\n\v\f])(?=.*\d)(?=.*[A-Z])(?=.*[a-z])/;
 
 export default function Signup() {
     const router = useRouter();
+    const toast = useContext(ToastContext);
 
     const [formData, setFormData] = useState({ name: "", email: "", pass: "" });
     const [formError, setFormError] = useState({ name: "", email: "", pass: "" });
 
     const [loading, setLoading] = useState(false);
-    const [isSbOpen, setIsSbOpen] = useState(false);
-    const [serverError, setServerError] = useState("");
 
     const handleNameChange = e => {
         setFormData({ ...formData, name: e.target.value });
@@ -78,10 +78,9 @@ export default function Signup() {
         }
     };
 
-    const handleSubmit =async e => {
+    const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
-        await new Promise(res => setTimeout(res, 2000))
 
         fetch('/api/user/signup', {
             method: 'POST',
@@ -100,16 +99,10 @@ export default function Signup() {
                 router.push("/home");
             })
             .catch(e => {
-                console.log(e);
-                if (e.message) {
-                    setServerError(e.message);
-                    setIsSbOpen(true);
-                } else {
-                    setServerError(
-                        "An unexpected error occurred while communicating with the server"
-                    );
-                    setIsSbOpen(true);
-                }
+                const message = e.message
+                    ? e.message
+                    : "An unexpected error occurred while communicating with the server";
+                toast(message);
             })
             .finally(() => { setLoading(false); });
     };
@@ -125,15 +118,5 @@ export default function Signup() {
             handlers={{ name: handleNameChange, email: handleEmailChange, pass: handlePassChange }}
             loading={loading}
         />
-
-        <Snackbar
-            open={isSbOpen}
-            autoHideDuration={9000}
-            onClose={setIsSbOpen.bind(null, false)}
-        >
-            <Alert onClose={setIsSbOpen.bind(null, false)} severity='error' variant='filled'>
-                {serverError}
-            </Alert>
-        </Snackbar>
     </Container>);
 }
