@@ -36,7 +36,9 @@ export default function ToastContextProvider({ children }) {
         }
     }, [queue, msg]);
 
-    const handleClose = () => {
+    const handleClose = (_, reason) => {
+        if (reason === 'clickaway') return;
+        
         setOpen(false);
         setTimeout(() => { setMsg(""); }, 500);
     }

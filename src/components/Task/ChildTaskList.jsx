@@ -2,12 +2,15 @@ import { AddCircleOutlineRounded } from "@mui/icons-material";
 import { Card, CardActionArea, CardContent, Divider, IconButton, Paper, Skeleton, Stack, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ToastContext } from "../ToastContextProvider";
 
-export default function ChildTaskList({ childTasksPromise, parentId, toastError }) {
+export default function ChildTaskList({ childTasksPromise, parentId }) {
     const [loading, setLoading] = useState(true);
     const [childTasks, setChildTasks] = useState([]);
     const [createdTask, setCreatedTask] = useState("");
+
+    const toast = useContext(ToastContext);
 
     useEffect(() => {
         childTasksPromise.then(childTasks => {
@@ -41,7 +44,12 @@ export default function ChildTaskList({ childTasksPromise, parentId, toastError 
                 setChildTasks([...childTasks, data]);
                 setCreatedTask("");
             })
-            .catch(toastError);
+            .catch(e => {
+                const message = e.message
+                    ? e.message
+                    : "An unexpected error occurred while communicating with the server";
+                toast(message);
+            });
     };
 
     if (loading) return <Skeleton animation='wave' height={200} />;

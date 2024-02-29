@@ -3,31 +3,21 @@
 import BorderHeader from "../BorderHeaders/BorderHeader";
 import BorderLogo from "../BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import { Alert, Box, Checkbox, LinearProgress, Skeleton, Snackbar, Typography } from "@mui/material";
+import { Box, Checkbox, LinearProgress, Skeleton, Typography } from "@mui/material";
 import EditableTypography from "../../util/EditableTypography";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ChildTaskList from "./ChildTaskList";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { ToastContext } from "../ToastContextProvider";
 
 export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
     const [task, setTask] = useState(initialTask);
     const [completed, setCompleted] = useState(initialTask.task_completed);
 
     const [loading, setLoading] = useState(false);
-    const [isSbOpen, setIsSbOpen] = useState(false);
-    const [error, setError] = useState("");
     const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
 
-    const toastError = e => {
-        console.log(e);
-        if (e.message) {
-            setError(e.message);
-            setIsSbOpen(true);
-        } else {
-            setError("An unexpected error occurred while updating this task");
-            setIsSbOpen(true);
-        }
-    };
+    const toast = useContext(ToastContext);
 
     const saveTask = task => {
         setLoading(true);
@@ -49,11 +39,16 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             .then(() => {
                 setTask(task);
             })
-            .catch(toastError)
+            .catch(e => {
+                const message = e.message
+                    ? e.message
+                    : "An unexpected error occurred while communicating with the server";
+                toast(message);
+            })
             .finally(() => { setLoading(false); });
     };
 
-    const handleCompletionChange = async e => {
+    const handleCompletionChange = e => {
         setCompleted(e.target.checked);
         saveTask({ ...task, task_completed: e.target.checked });
     };
@@ -125,18 +120,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             <ChildTaskList
                 childTasksPromise={childTasksPromise}
                 parentId={task._id.task_id}
-                toastError={toastError}
             />
         </Box>
-
-        <Snackbar
-            open={isSbOpen}
-            autoHideDuration={9000}
-            onClose={setIsSbOpen.bind(null, false)}
-        >
-            <Alert onClose={setIsSbOpen.bind(null, false)} severity='error' variant='filled'>
-                {error}
-            </Alert>
-        </Snackbar>
     </BorderHeader>);
 }
