@@ -1,6 +1,6 @@
 import NotFound from "@/src/app/not-found";
 import HomeBorderHeader from "@/src/components/BorderHeaders/HomeBorderHeader";
-import Task from "@/src/components/Task";
+import Task from "@/src/components/Task/Task";
 import clientPromise from "@/src/db/db";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";

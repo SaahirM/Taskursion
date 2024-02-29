@@ -1,10 +1,10 @@
 "use client";
 
-import BorderHeader from "./BorderHeaders/BorderHeader";
-import BorderLogo from "./BorderHeaders/BorderLogo";
+import BorderHeader from "../BorderHeaders/BorderHeader";
+import BorderLogo from "../BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import { Alert, Box, Checkbox, LinearProgress, Skeleton, Snackbar, Typography } from "@mui/material";
-import EditableTypography from "../util/EditableTypography";
+import EditableTypography from "../../util/EditableTypography";
 import { useEffect, useState } from "react";
 import ChildTaskList from "./ChildTaskList";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
