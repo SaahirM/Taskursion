@@ -1,5 +1,6 @@
 import clientPromise from "@/src/db/db";
 import { authenticateSession, startSession } from "@/src/util/session-mgmt";
+import { validateEmail, validateName, validatePass } from "@/src/util/validation";
 import bcrypt from 'bcrypt';
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -12,6 +13,12 @@ export async function POST(req) {
         return new NextResponse(
             "Missing one of the following required fields: name, email, pass."
             , { status: 400 });
+    }
+
+    const valError = validateName(data.name) || validateEmail(data.email) ||
+        validatePass(data.pass);
+    if (valError) {
+        return new NextResponse(valError, { status: 400 });
     }
 
     const hash = await bcrypt.hash(data.pass, SALT_ROUNDS);
