@@ -59,7 +59,7 @@ export default function Login() {
                 const message = e.message
                     ? e.message
                     : "An unexpected error occurred while communicating with the server";
-                toast(message);
+                toast(message, false);
             })
             .finally(() => { setLoading(false); });
     };
