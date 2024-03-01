@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import SignupForm from "./SignupForm";
 import { ToastContext } from "../ToastContextProvider";
-
-const PASS_REGEX = /(?=.*[^A-Za-z0-9_ \t\r\n\v\f])(?=.*\d)(?=.*[A-Z])(?=.*[a-z])/;
+import { validateEmail, validateName, validatePass } from "@/src/util/validation";
 
 export default function Signup() {
     const router = useRouter();
@@ -20,35 +19,19 @@ export default function Signup() {
     const handleNameChange = e => {
         setFormData({ ...formData, name: e.target.value });
         const name = e.target.value;
-
-        if (name.length > 255) {
-            setFormError({
-                ...formError,
-                name: "This name is too long! Please use at most 255 characters."
-            });
-        } else {
-            setFormError({
-                ...formError,
-                name: ""
-            });
-        }
+        setFormError({ ...formError, name: validateName(name) });
     };
 
     const handleEmailChange = e => {
         setFormData({ ...formData, email: e.target.value });
         const email = e.target.value;
 
-        if (email.length > 254) {
-            setFormError({
-                ...formError,
-                email: "This email is too long! Email addresses must not exceed 254 characters."
-            });
-        } else {
-            setFormError({
-                ...formError,
-                email: ""
-            });
+        if (email === "") {
+            setFormError({ ...formError, email: "" });
+            return;
         }
+
+        setFormError({ ...formError, email: validateEmail(email) });
     };
 
     const handlePassChange = e => {
@@ -56,26 +39,11 @@ export default function Signup() {
         const pass = e.target.value;
 
         if (pass === "") {
-            setFormError({
-                ...formError,
-                pass: ""
-            });
-        } else if (pass.length < 8) {
-            setFormError({
-                ...formError,
-                pass: "This password is too short! It needs to have at least 8 characters."
-            });
-        } else if (!PASS_REGEX.test(pass)) {
-            setFormError({
-                ...formError,
-                pass: "This password doesn't meet the requirements."
-            });
-        } else {
-            setFormError({
-                ...formError,
-                pass: ""
-            });
+            setFormError({ ...formError, pass: "" });
+            return;
         }
+        
+        setFormError({ ...formError, pass: validatePass(pass) });
     };
 
     const handleSubmit = e => {
