@@ -107,7 +107,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                     />
                 </Grid>
             </Grid>
-            {loading && <LinearProgress color='secondary' />}
+            {loading ? <LinearProgress color='secondary' /> : <Box height="4px" />}
             <EditableTypography
                 variant='body1'
                 value={task.task_desc}
