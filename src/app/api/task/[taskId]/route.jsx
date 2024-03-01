@@ -3,7 +3,7 @@ import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function PUT(req) {
     const data = await req.json();
     if (
         !data._id.user_id || !data._id.task_id || data.task_parent_id === undefined ||

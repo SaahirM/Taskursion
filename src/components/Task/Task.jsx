@@ -22,7 +22,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
     const saveTask = task => {
         setLoading(true);
         fetch(`/api/task/${task._id.task_id}`, {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(task)
         })
             .then(async res => {
