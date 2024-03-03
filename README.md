@@ -1,9 +1,9 @@
-# Taskursion (WIP)
+# Taskursion
 
 By: [SaahirM](https://github.com/SaahirM)
 
 ## Description
-A task-tracking web app with the ability to organize tasks into endless layers of subtasks. This is just a personal project.
+A task-tracking web app with the ability to organize tasks into endless layers of subtasks. This is a personal project. Visit [taskursion.vercel.app](https://taskursion.vercel.app/) to try it.
 
 ## Prerequisites
 To get a demo of this project running on your local device, you will need:
