@@ -4,11 +4,11 @@ import BorderHeader from "../BorderHeaders/BorderHeader";
 import BorderLogo from "../BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import { Box, Checkbox, LinearProgress, Skeleton, Typography } from "@mui/material";
-import EditableTypography from "../../util/EditableTypography";
 import { useContext, useEffect, useState } from "react";
 import ChildTaskList from "./ChildTaskList";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { ToastContext } from "../ToastContextProvider";
+import EditableTypography from "@/src/util/EditableTypography";
 
 export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
     const [task, setTask] = useState(initialTask);
@@ -86,9 +86,10 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             <Grid container flexDirection='row-reverse'>
                 <Grid xs>
                     <EditableTypography
-                        variant='h2'
+                        text={{ variant: 'h2', component: 'h2', maxRows: 1 }}
                         value={task.task_title}
-                        setValue={val => saveTask({ ...task, task_title: val })}
+                        onChange={e => setTask({ ...task, task_title: e.target.vlaue })}
+                        onBlur={e => saveTask({ ...task, task_title: e.target.value })}
                         placeholder="Task title"
                     />
                 </Grid>
@@ -109,12 +110,10 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             </Grid>
             {loading ? <LinearProgress color='secondary' /> : <Box height="4px" />}
             <EditableTypography
-                variant='body1'
+                text={{ variant: 'body', component: 'p' }}
                 value={task.task_desc}
-                setValue={val => saveTask({ ...task, task_desc: val })}
-                multiline
-                minRows={5}
-                fullWidth
+                onChange={e => setTask({ ...task, task_desc: e.target.value })}
+                onBlur={e => saveTask({ ...task, task_desc: e.target.val })}
                 placeholder="Task description"
             />
             <ChildTaskList
