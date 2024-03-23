@@ -88,34 +88,36 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                     <EditableTypography
                         text={{ variant: 'h2', component: 'h2', maxRows: 1 }}
                         value={task.task_title}
-                        onChange={e => setTask({ ...task, task_title: e.target.vlaue })}
-                        onBlur={e => saveTask({ ...task, task_title: e.target.value })}
+                        onChange={e => setTask({ ...task, task_title: e.target.value })}
+                        onBlur={() => saveTask(task)}
                         placeholder="Task title"
+                    />
+                    {loading ? <LinearProgress color='secondary' /> : <Box height="4px" />}
+                    <EditableTypography
+                        text={{ variant: 'body', component: 'p' }}
+                        value={task.task_desc}
+                        onChange={e => setTask({ ...task, task_desc: e.target.value })}
+                        onBlur={() => saveTask(task)}
+                        placeholder="Task description"
                     />
                 </Grid>
                 <Grid xs='auto' display='flex' alignContent='center'>
-                    <Checkbox
-                        aria-label="Mark task as completed"
-                        sx={theme => {
-                            return {
-                                '& .MuiSvgIcon-root': {
-                                    fontSize: theme.typography.h2.fontSize
-                                }
-                            };
-                        }}
-                        checked={completed}
-                        onChange={e => handleCompletionChange(e)}
-                    />
+                    <Box mt={0.5}>    
+                        <Checkbox
+                            aria-label="Mark task as completed"
+                            sx={theme => {
+                                return {
+                                    '& .MuiSvgIcon-root': {
+                                        ...theme.typography.h2
+                                    }
+                                };
+                            }}
+                            checked={completed}
+                            onChange={e => handleCompletionChange(e)}
+                        />
+                    </Box>
                 </Grid>
             </Grid>
-            {loading ? <LinearProgress color='secondary' /> : <Box height="4px" />}
-            <EditableTypography
-                text={{ variant: 'body', component: 'p' }}
-                value={task.task_desc}
-                onChange={e => setTask({ ...task, task_desc: e.target.value })}
-                onBlur={e => saveTask({ ...task, task_desc: e.target.val })}
-                placeholder="Task description"
-            />
             <ChildTaskList
                 childTasksPromise={childTasksPromise}
                 parentId={task._id.task_id}
