@@ -3,8 +3,7 @@
 import BorderHeader from "../BorderHeaders/BorderHeader";
 import BorderLogo from "../BorderHeaders/BorderLogo";
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import RuleRoundedIcon from '@mui/icons-material/RuleRounded';
-import { Box, Button, Checkbox, LinearProgress, Skeleton, Typography } from "@mui/material";
+import { Box, Checkbox, LinearProgress, Skeleton, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import ChildTaskList from "./ChildTaskList";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
@@ -94,7 +93,6 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                         placeholder="Task title"
                     />
                     {loading ? <LinearProgress color='secondary' /> : <Box height="4px" />}
-                    {/* <LinearProgress color='secondary' /> */}
                     <EditableTypography
                         text={{ variant: 'body', component: 'p' }}
                         value={task.task_desc}
@@ -118,9 +116,6 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                             onChange={e => handleCompletionChange(e)}
                         />
                     </Box>
-                    <Button sx={{ minWidth: 'unset' }}>
-                        <RuleRoundedIcon />
-                    </Button>
                 </Grid>
             </Grid>
             <ChildTaskList
