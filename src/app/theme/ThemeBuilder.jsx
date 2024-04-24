@@ -1,4 +1,4 @@
-import { createTheme, responsiveFontSizes } from '@mui/material';
+import { darken, experimental_extendTheme as extendTheme, lighten, responsiveFontSizes } from '@mui/material';
 import { IBM_Plex_Sans, Open_Sans } from 'next/font/google';
 
 // This theme was created using https://zenoo.github.io/mui-theme-creator/
@@ -18,31 +18,43 @@ const openSans = Open_Sans({
     weight: '800'
 });
 
+const darkBg = '#14002f';
 const darkModePalette = {
-    mode: 'dark',
+    background: {
+        default: darkBg,
+        hover: lighten(darkBg, 0.05),
+        focus: lighten(darkBg, 0.1),
+        paper: '#130027'
+    },
     primary: { main: '#e694ff' },
     secondary: { main: '#7200ff' },
-    background: { default: '#14002f', paper: '#130027' },
     error: { main: '#fb2c1e' },
     warning: { main: '#ffa300' },
     info: { main: '#0085f1' },
     success: { main: '#00d00f' }
 };
 
+const lightBg = '#fcf4ff';
 const lightModePalette = {
-    mode: 'light',
+    background: {
+        default: lightBg,
+        hover: darken(lightBg, 0.05),
+        focus: darken(lightBg, 0.1)
+    },
     primary: { main: '#AA03FF' },
     secondary: { main: '#DCC2FF' },
-    background: { default: '#fcf4ff' },
     error: { main: '#fb2c1e' },
     warning: { main: '#ffa300' },
     info: { main: '#0085f1' },
     success: { main: '#00d00f' }
 };
 
-export default function themeBuilder(mode) {
-    const unresponsiveTheme = createTheme({
-        palette: mode === 'dark' ? darkModePalette : lightModePalette,
+export default function themeBuilder() {
+    const unresponsiveTheme = extendTheme({
+        colorSchemes: {
+            light: { palette: lightModePalette },
+            dark: { palette: darkModePalette }
+        },
         typography: {
             h1: { fontFamily: ibmPlexSansBold.style.fontFamily },
             h2: { fontFamily: ibmPlexSans.style.fontFamily },

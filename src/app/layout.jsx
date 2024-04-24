@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-    return (<html lang="en"><body>
+    return (<html lang="en" data-mui-color-scheme="light" suppressHydrationWarning><body>
         <AppRouterCacheProvider>
             <ThemeWrapper>
                 <ToastContextProvider>

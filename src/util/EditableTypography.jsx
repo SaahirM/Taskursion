@@ -1,4 +1,4 @@
-import { Box, InputBase, lighten, darken } from "@mui/material";
+import { Box, InputBase } from "@mui/material";
 
 export default function EditableTypography({
     text: {
@@ -6,26 +6,21 @@ export default function EditableTypography({
     },
     ...props
 }) {
-    return (<Box sx={theme => {
-        const isDarkMode = theme.palette.mode === 'dark';
-        const tint = isDarkMode ? lighten : darken;
-
-        return {    
-            [`& > ${component}`]: {
-                p: 1,
-                borderRadius: 1,
-                cursor: 'text',
-                marginBlock: 'unset',
-                ...theme.typography[variant]
-            },
-            [`& > ${component}:hover`]: {
-                bgcolor: tint(theme.palette.background.default, 0.1)
-            },
-            [`& > ${component}:focus-within`]: {
-                bgcolor: tint(theme.palette.background.default, 0.05)
-            }
+    return (<Box sx={theme => ({
+        [`& > ${component}`]: {
+            p: 1,
+            borderRadius: 1,
+            cursor: 'text',
+            marginBlock: 'unset',
+            ...theme.typography[variant]
+        },
+        [`& > ${component}:hover`]: {
+            bgcolor: theme.vars.palette.background.hover,
+        },
+        [`& > ${component}:focus-within`]: {
+            bgcolor: theme.vars.palette.background.focus,
         }
-    }}>
+    })}>
         <InputBase multiline maxRows={maxRows} slots={{ root: component }} {...props} />
     </Box>);
 }

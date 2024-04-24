@@ -37,9 +37,9 @@ export default function BorderHeaderHeader({ primaryHeaderComponent, secondaryHe
                             sx={{
                                 zIndex: 2,
                                 borderRadius: 1,
-                                backgroundColor: theme.palette.secondary.main,
-                                ':hover': { backgroundColor: theme.palette.secondary.light },
-                                ':active': { backgroundColor: theme.palette.secondary.dark }
+                                backgroundColor: theme.vars.palette.secondary.main,
+                                ':hover': { backgroundColor: theme.vars.palette.secondary.light },
+                                ':active': { backgroundColor: theme.vars.palette.secondary.dark }
                             }}
                             href={secondaryHeaderComponent.linkTarget}
                             LinkComponent={NextLink}

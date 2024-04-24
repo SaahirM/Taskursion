@@ -1,30 +1,29 @@
 'use client';
 
-import { CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
-import { createContext, useState } from "react";
+import { CssBaseline, Experimental_CssVarsProvider as CssVarsProvider, getInitColorSchemeScript, useColorScheme, useMediaQuery } from "@mui/material";
 import themeBuilder from "./ThemeBuilder";
-
-export const ColourSchemeContext = createContext();
+import { useEffect } from "react";
 
 export default function ThemeWrapper({ children }) {
-    const [colourScheme, setColourScheme] = useState('system');
-    const isDarkModePreferred = useMediaQuery(
-        "(prefers-color-scheme: dark)", { defaultMatches: false }
-    );
+    const theme = themeBuilder();
 
-    let mode = 'dark';
-    if (colourScheme === 'system') {
-        mode = isDarkModePreferred ? 'dark' : 'light';
-    } else if (colourScheme === 'light') {
-        mode = 'light';
-    }
+    return (<CssVarsProvider theme={theme}>
+        {getInitColorSchemeScript()}
+        <CssBaseline />
+        <SetSystemTheme />
+        {children}
+    </CssVarsProvider>);
+}
 
-    const theme = themeBuilder(mode);
+function SetSystemTheme() {
+    const isDarkModePreferred = useMediaQuery("(prefers-color-scheme: dark)");
+    const { setColorScheme } = useColorScheme();
 
-    return (<ColourSchemeContext.Provider value={{ colourScheme, setColourScheme }}>
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-        </ThemeProvider>
-    </ColourSchemeContext.Provider>);
+    useEffect(() => {
+        if (isDarkModePreferred) {
+            setColorScheme('dark');
+        } else {
+            setColorScheme('light');
+        }
+    }, [isDarkModePreferred]);
 }

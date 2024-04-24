@@ -7,10 +7,9 @@ export default function BorderHeader({
     primaryHeaderComponent, secondaryHeaderComponent, children
 }) {
     const theme = useTheme();
-    const isDarkMode = theme.palette.mode === 'dark';
     const borderHoverStyles = primaryHeaderComponent ? {
-        ':hover:not(:has(.not-outer-box:hover))': { backgroundColor: theme.palette.secondary.light },
-        ':active:not(:has(.not-outer-box:active))': { backgroundColor: theme.palette.secondary.dark }
+        ':hover:not(:has(.not-outer-box:hover))': { backgroundColor: theme.vars.palette.secondary.light },
+        ':active:not(:has(.not-outer-box:active))': { backgroundColor: theme.vars.palette.secondary.dark }
     } : {};
 
     return (<Box
@@ -18,8 +17,8 @@ export default function BorderHeader({
         display='flex'
         flexDirection='column'
         height='100vh'
-        bgcolor={theme.palette.secondary.main}
-        color={theme.palette.secondary.contrastText}
+        bgcolor={theme.vars.palette.secondary.main}
+        color={theme.vars.palette.secondary.contrastText}
         px={1} pb={1} pt={primaryHeaderComponent ? 0 : 1}
         sx={borderHoverStyles}
     >
@@ -32,8 +31,8 @@ export default function BorderHeader({
             // the "inner box" within the border that contains the content
             height={'100%'}
             overflow={'hidden'}
-            bgcolor={theme.palette.background.default}
-            color={theme.palette.getContrastText(theme.palette.background.default)}
+            bgcolor={theme.vars.palette.background.default}
+            color={theme.vars.palette.text.primary}
             borderRadius={theme.shape.borderRadius}
             boxShadow={'4px 1px 5px black inset'}
             zIndex={2}
@@ -61,24 +60,30 @@ export default function BorderHeader({
                     sx={{
                         position: 'relative',
                         overflowY: 'auto',
-                        scrollbarColor: (
-                            isDarkMode
-                                ? theme.palette.primary.dark + " black"
-                                : theme.palette.primary.light + " white"
-                        ),
+
+                        scrollbarColor: theme.vars.palette.primary.light + " white",
+                        [theme.getColorSchemeSelector('dark')]: {
+                            scrollbarColor: theme.vars.palette.primary.dark + " black"
+                        },
+
                         '&::-webkit-scrollbar': {
-                            backgroundColor: isDarkMode ? 'black' : 'white',
                             width: 10,
-                            borderRadius: theme.shape.borderRadius
+                            borderRadius: theme.shape.borderRadius,
+
+                            backgroundColor: 'white',
+                            [theme.getColorSchemeSelector('dark')]: {
+                                backgroundColor: 'black'
+                            }
                         },
                         '&::-webkit-scrollbar-thumb': {
-                            backgroundColor: theme.palette.primary.main,
+                            backgroundColor: theme.vars.palette.primary.main,
                             borderRadius: theme.shape.borderRadius
                         },
                         '&::-webkit-scrollbar-button': {
-                            backgroundColor: isDarkMode
-                                ? theme.palette.primary.dark
-                                : theme.palette.primary.light
+                            backgroundColor: theme.vars.palette.primary.light,
+                            [theme.getColorSchemeSelector('dark')]: {
+                                backgroundColor: theme.vars.palette.primary.dark
+                            }
                         }
                     }}
                 >
