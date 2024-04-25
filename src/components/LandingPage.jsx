@@ -19,7 +19,11 @@ export default function LandingPage() {
             >
                 <Button
                     size='large'
-                    sx={{ px: 8, py: { xs: 3, sm: 1, md: 2 } }}
+                    sx={{
+                        px: 8,
+                        py: { xs: 3, sm: 1, md: 2 },
+                        fontSize: { xs: '1.5rem', sm: '1.2rem' }
+                    }}
                     LinkComponent={Link}
                     href="/signup"
                 >
@@ -27,7 +31,11 @@ export default function LandingPage() {
                 </Button>
                 <Button
                     size='large'
-                    sx={{ px: 8, py: { xs: 3, sm: 1, md: 2 } }}
+                    sx={{
+                        px: 8,
+                        py: { xs: 3, sm: 1, md: 2 },
+                        fontSize: { xs: '1.5rem', sm: '1.2rem' }
+                    }}
                     LinkComponent={Link}
                     href="/login"
                 >
