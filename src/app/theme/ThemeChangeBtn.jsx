@@ -1,5 +1,6 @@
-import { ComputerRounded, DarkModeRounded, LightModeRounded, SettingsBrightnessRounded } from "@mui/icons-material";
-import { Button, ButtonGroup, Dialog, DialogContent, DialogTitle, useColorScheme } from "@mui/material";
+import { DarkModeRounded, LightModeRounded, SettingsBrightnessRounded } from "@mui/icons-material";
+import { Button, Dialog, DialogContent, DialogTitle, Switch, ToggleButton, ToggleButtonGroup, Typography, useColorScheme } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useState } from "react";
 
 export default function ThemeChangeBtn() {
@@ -19,17 +20,34 @@ export default function ThemeChangeBtn() {
         <Dialog
             open={dialogOpen}
             onClose={() => { setDialogOpen(false); }}
+            aria-labelledby='theme-dialog-title'
         >
-            <DialogTitle variant='h2'>Change Theme</DialogTitle>
+            <DialogTitle id='theme-dialog-title' variant='h2'>Change Theme</DialogTitle>
             <DialogContent>
-                <ButtonGroup
-                    variant='contained'
-                    sx={{ '& > .MuiButton-root': { fontSize: { xs: '0.8rem' } }}}
-                >
-                    <Button startIcon={<LightModeRounded />}>Light</Button>
-                    <Button startIcon={<ComputerRounded />}>System</Button>
-                    <Button startIcon={<DarkModeRounded />}>Dark</Button>
-                </ButtonGroup>
+                <Grid container>
+                    <Grid xs='auto'>
+                        <Switch
+                            aria-labelledby='system-switch-label'
+                            edge='start'
+                            size='medium'
+                        />
+                    </Grid>
+                    <Grid xs display='flex' alignItems='center'>        
+                        <Typography id='system-switch-label'>Sync with system</Typography>
+                    </Grid>
+                    <Grid xs={12} display='flex' justifyContent='center'>        
+                        <ToggleButtonGroup
+                            exclusive
+                            sx={{ '& > .MuiToggleButton-root': {
+                                fontSize: { xs: '0.8rem', sm: '1rem' },
+                                lineHeight: 1.5
+                            }}}
+                        >
+                            <ToggleButton value='light'><LightModeRounded /> Light Mode</ToggleButton>
+                            <ToggleButton value='dark'><DarkModeRounded /> Dark Mode</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Grid>
+                </Grid>
             </DialogContent>
         </Dialog>
     </>;
