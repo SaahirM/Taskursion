@@ -3,11 +3,13 @@
 import { Box, Button, ButtonGroup, Typography, useMediaQuery } from "@mui/material";
 import PlainBorderHeader from "./BorderHeaders/PlainBorderHeader";
 import Link from "next/link";
+import ThemeChangeBtn from "../app/theme/ThemeChangeBtn";
 
 export default function LandingPage() {
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
     return (<PlainBorderHeader>
+        <ThemeChangeBtn />
         <Typography textAlign={'center'} mt='33vh' variant="h1">Taskursion</Typography>
         <Box width={'100%'} display={'flex'} justifyContent={'center'} mt={4}>
             <ButtonGroup

@@ -15,7 +15,7 @@ const ibmPlexSansBold = IBM_Plex_Sans({
 const openSans = Open_Sans({
     subsets: ['latin'],
     display: 'swap',
-    weight: '800'
+    weight: ['600', '800']
 });
 
 const darkBg = '#14002f';
@@ -62,6 +62,7 @@ export default function themeBuilder() {
             button: {
                 fontFamily: openSans.style.fontFamily,
                 fontSize: '1.1rem',
+                fontWeight: '800',
                 lineHeight: 2,
                 letterSpacing: '0.05em'
             }
