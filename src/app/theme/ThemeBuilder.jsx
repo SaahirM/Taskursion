@@ -18,7 +18,7 @@ const openSans = Open_Sans({
     weight: ['600', '800']
 });
 
-const darkBg = '#14002f';
+const darkBg = '#14002F';
 const darkModePalette = {
     background: {
         default: darkBg,
@@ -26,15 +26,15 @@ const darkModePalette = {
         focus: lighten(darkBg, 0.1),
         paper: '#130027'
     },
-    primary: { main: '#e694ff' },
-    secondary: { main: '#7200ff' },
-    error: { main: '#fb2c1e' },
-    warning: { main: '#ffa300' },
-    info: { main: '#0085f1' },
-    success: { main: '#00d00f' }
+    primary: { main: '#E694FF' },
+    secondary: { main: '#7200FF' },
+    error: { main: '#FB2C1E' },
+    warning: { main: '#FFA300' },
+    info: { main: '#0085F1' },
+    success: { main: '#00D00F' }
 };
 
-const lightBg = '#fcf4ff';
+const lightBg = '#FCF4FF';
 const lightModePalette = {
     background: {
         default: lightBg,
@@ -43,10 +43,10 @@ const lightModePalette = {
     },
     primary: { main: '#AA03FF' },
     secondary: { main: '#DCC2FF' },
-    error: { main: '#fb2c1e' },
-    warning: { main: '#ffa300' },
-    info: { main: '#0085f1' },
-    success: { main: '#00d00f' }
+    error: { main: '#FB2C1E' },
+    warning: { main: '#FFA300' },
+    info: { main: '#0085F1' },
+    success: { main: '#00D00F' }
 };
 
 export default function themeBuilder() {
