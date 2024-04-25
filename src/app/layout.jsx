@@ -1,5 +1,5 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-import ThemeWrapper from './theme/ThemeWrapper';
+import ThemeWrapper, { htmlThemeProps } from './theme/ThemeWrapper';
 import ToastContextProvider from '../components/ToastContextProvider';
 
 export const metadata = {
@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-    return (<html lang="en" data-mui-color-scheme="light" suppressHydrationWarning><body>
+    return (<html lang="en" {...htmlThemeProps} suppressHydrationWarning><body>
         <AppRouterCacheProvider>
             <ThemeWrapper>
                 <ToastContextProvider>

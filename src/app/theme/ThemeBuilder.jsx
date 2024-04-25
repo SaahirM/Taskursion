@@ -67,7 +67,8 @@ export default function themeBuilder() {
                 letterSpacing: '0.05em'
             }
         },
-        shape: { borderRadius: 5 }
+        shape: { borderRadius: 5 },
+        cssVarPrefix: 'taskursion'
     });
 
     const theme = responsiveFontSizes(unresponsiveTheme);

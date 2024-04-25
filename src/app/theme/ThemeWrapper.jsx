@@ -4,11 +4,20 @@ import { CssBaseline, Experimental_CssVarsProvider as CssVarsProvider, getInitCo
 import themeBuilder from "./ThemeBuilder";
 import { useEffect } from "react";
 
+const THEME_CONFIG = {
+    defaultMode: 'dark',
+    modeStorageKey: 'user-preferred-theme',
+    colorSchemeStorageKey: 'colour-scheme',
+    attribute: 'data-taskursion-theme'
+};
+
+export const htmlThemeProps = { [THEME_CONFIG.attribute]: THEME_CONFIG.defaultMode };
+
 export default function ThemeWrapper({ children }) {
     const theme = themeBuilder();
 
-    return (<CssVarsProvider theme={theme}>
-        {getInitColorSchemeScript()}
+    return (<CssVarsProvider theme={theme} {...THEME_CONFIG}>
+        {getInitColorSchemeScript(THEME_CONFIG)}
         <CssBaseline />
         <SetSystemTheme />
         {children}
