@@ -1,11 +1,10 @@
 'use client';
 
-import { CssBaseline, Experimental_CssVarsProvider as CssVarsProvider, getInitColorSchemeScript, useColorScheme, useMediaQuery } from "@mui/material";
+import { CssBaseline, Experimental_CssVarsProvider as CssVarsProvider, getInitColorSchemeScript } from "@mui/material";
 import themeBuilder from "./ThemeBuilder";
-import { useEffect } from "react";
 
 const THEME_CONFIG = {
-    defaultMode: 'dark',
+    defaultMode: 'system',
     modeStorageKey: 'user-preferred-theme',
     colorSchemeStorageKey: 'colour-scheme',
     attribute: 'data-taskursion-theme'
@@ -19,20 +18,6 @@ export default function ThemeWrapper({ children }) {
     return (<CssVarsProvider theme={theme} {...THEME_CONFIG}>
         {getInitColorSchemeScript(THEME_CONFIG)}
         <CssBaseline />
-        <SetSystemTheme />
         {children}
     </CssVarsProvider>);
-}
-
-function SetSystemTheme() {
-    const isDarkModePreferred = useMediaQuery("(prefers-color-scheme: dark)");
-    const { setColorScheme } = useColorScheme();
-
-    useEffect(() => {
-        if (isDarkModePreferred) {
-            setColorScheme('dark');
-        } else {
-            setColorScheme('light');
-        }
-    }, [isDarkModePreferred]);
 }
