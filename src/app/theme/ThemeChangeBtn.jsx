@@ -1,11 +1,12 @@
 import { DarkModeRounded, LightModeRounded, SettingsBrightnessRounded } from "@mui/icons-material";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Switch, ToggleButton, ToggleButtonGroup, Typography, useColorScheme } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Switch, ToggleButton, ToggleButtonGroup, Typography, useColorScheme, useMediaQuery } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useState } from "react";
 
 export default function ThemeChangeBtn() {
     const [dialogOpen, setDialogOpen] = useState(false);
     const { mode, setMode } = useColorScheme();
+    const isSystemDarkTheme = useMediaQuery("(prefers-color-scheme: dark)");
 
     return <>
         <Button
@@ -30,6 +31,12 @@ export default function ThemeChangeBtn() {
                             aria-labelledby='system-switch-label'
                             edge='start'
                             size='medium'
+                            checked={mode === 'system'}
+                            onChange={e => setMode(
+                                e.target.checked
+                                ? 'system'
+                                : isSystemDarkTheme ? 'dark' : 'light'
+                            )}
                         />
                     </Grid>
                     <Grid xs display='flex' alignItems='center'>        
@@ -42,9 +49,12 @@ export default function ThemeChangeBtn() {
                                 fontSize: { xs: '0.8rem', sm: '1rem' },
                                 lineHeight: 1.5
                             }}}
+                            value={mode}
+                            onChange={e => setMode(e.currentTarget.value)}
+                            disabled={mode === 'system'}
                         >
-                            <ToggleButton value='light'><LightModeRounded /> Light Mode</ToggleButton>
-                            <ToggleButton value='dark'><DarkModeRounded /> Dark Mode</ToggleButton>
+                            <ToggleButton value='light'><LightModeRounded />Light Mode</ToggleButton>
+                            <ToggleButton value='dark'><DarkModeRounded />Dark Mode</ToggleButton>
                         </ToggleButtonGroup>
                     </Grid>
                 </Grid>
