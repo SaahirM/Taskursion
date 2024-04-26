@@ -1,6 +1,8 @@
 "use client";
 
-import { Button, Paper, Skeleton, Typography } from "@mui/material";
+import ThemeControls from "@/src/app/theme/ThemeControls";
+import { ExpandMoreRounded } from "@mui/icons-material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Paper, Skeleton, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -24,7 +26,23 @@ export default function AccountInfo({ usernamePromise }) {
         : username;
 
     return (<Paper sx={{ p: 3, m: 1, border: 2 }}>
-        <Typography component='p' variant='h4' mb={1}>{displayedName}</Typography>
+        <Typography variant='h3'>{displayedName}</Typography>
+
+        <Box my={2}>
+            <Accordion elevation={4}>
+                <AccordionSummary
+                    aria-controls="theme-controls"
+                    id="theme-controls-header"
+                    expandIcon={<ExpandMoreRounded />}
+                >
+                    <Typography variant='h4'>Change Theme</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <ThemeControls />
+                </AccordionDetails>
+            </Accordion>
+        </Box>
+
         <Button
             onClick={handleLogout}
             variant='contained'

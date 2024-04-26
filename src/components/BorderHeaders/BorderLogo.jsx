@@ -17,7 +17,7 @@ export default function BorderLogo() {
     }
 
     return <Typography
-        variant='h3'
+        variant='h2'
         component='p'
         fontWeight='600'
         textAlign='end'
