@@ -1,5 +1,5 @@
 import { DarkModeRounded, LightModeRounded, SettingsBrightnessRounded } from "@mui/icons-material";
-import { Button, Dialog, DialogContent, DialogTitle, Switch, ToggleButton, ToggleButtonGroup, Typography, useColorScheme } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Switch, ToggleButton, ToggleButtonGroup, Typography, useColorScheme } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useState } from "react";
 
@@ -49,6 +49,9 @@ export default function ThemeChangeBtn() {
                     </Grid>
                 </Grid>
             </DialogContent>
+            <DialogActions>
+                <Button onClick={() => { setDialogOpen(false); }}>Close</Button>
+            </DialogActions>
         </Dialog>
     </>;
 }
