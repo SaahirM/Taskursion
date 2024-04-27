@@ -33,7 +33,7 @@ export default function BorderHeader({
             overflow={'hidden'}
             bgcolor={theme.vars.palette.background.default}
             color={theme.vars.palette.text.primary}
-            borderRadius={theme.shape.borderRadius}
+            borderRadius={3}
             boxShadow={'4px 1px 5px black inset'}
             zIndex={2}
         >
@@ -68,7 +68,7 @@ export default function BorderHeader({
 
                         '&::-webkit-scrollbar': {
                             width: 10,
-                            borderRadius: theme.shape.borderRadius,
+                            borderRadius: 5,
 
                             backgroundColor: 'white',
                             [theme.getColorSchemeSelector('dark')]: {
@@ -77,7 +77,7 @@ export default function BorderHeader({
                         },
                         '&::-webkit-scrollbar-thumb': {
                             backgroundColor: theme.vars.palette.primary.main,
-                            borderRadius: theme.shape.borderRadius
+                            borderRadius: 5
                         },
                         '&::-webkit-scrollbar-button': {
                             backgroundColor: theme.vars.palette.primary.light,

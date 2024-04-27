@@ -4,7 +4,7 @@ export default function SignupForm({ formData, formError, handlers, loading }) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
-    return (<Paper sx={{ p: [2, 3], mt: [1, 2], border: 2, borderRadius: theme.shape.borderRadius }}>
+    return (<Paper sx={{ p: [2, 3], mt: [1, 2], border: 2 }}>
         <Typography variant="h2" textAlign='center' mb={[1, 2]}>Create an account</Typography>
         <Typography variant='body2' mb={[2, 1]}>
             Make sure you have cookies enabled or this page won't work. By signing up you agree with

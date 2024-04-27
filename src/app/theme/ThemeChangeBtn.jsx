@@ -20,6 +20,7 @@ export default function ThemeChangeBtn() {
             open={dialogOpen}
             onClose={() => { setDialogOpen(false); }}
             aria-labelledby='theme-dialog-title'
+            sx={{ '& .MuiDialog-paper': { border: 2 } }}
         >
             <DialogTitle id='theme-dialog-title' variant='h2'>Change Theme</DialogTitle>
             <DialogContent>
