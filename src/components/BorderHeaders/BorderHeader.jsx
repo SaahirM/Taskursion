@@ -93,7 +93,12 @@ export default function BorderHeader({
                         position='sticky'
                         top={0}
                         zIndex={3}
-                        sx={{ background: "linear-gradient(0deg, transparent, #2e2e2e)" }}
+                        sx={theme => ({
+                            background: "linear-gradient(0deg, transparent, #2e2e2e)",
+                            [theme.getColorSchemeSelector('dark')]: {
+                                background: "linear-gradient(0deg, transparent, black)"
+                            }
+                        })}
                     />
                     <Box px={2} pb={2}
                     /* An "inner innner inner box" to pad the content */
