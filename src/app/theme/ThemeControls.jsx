@@ -7,6 +7,7 @@ export default function ThemeControls() {
     const [mounted, setMounted] = useState(false);
     const { mode, setMode } = useColorScheme();
     const isSystemDarkTheme = useMediaQuery("(prefers-color-scheme: dark)");
+    const theme = mode !== 'system' ? mode : (isSystemDarkTheme ? 'dark' : 'light');
 
     // only render client-side (mode is undefined on the server)
     useEffect(() => { setMounted(true) }, []);
@@ -37,7 +38,7 @@ export default function ThemeControls() {
                     lineHeight: 1.5,
                     p: 1
                 }}}
-                value={mode}
+                value={theme}
                 onChange={e => setMode(e.currentTarget.value)}
                 disabled={mode === 'system'}
             >
