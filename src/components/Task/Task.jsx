@@ -116,6 +116,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
             <ChildTaskList
                 childTasksPromise={childTasksPromise}
                 parentId={task._id.task_id}
+                saveTask={saveTask}
             />
         </Box>
     </BorderHeader>);

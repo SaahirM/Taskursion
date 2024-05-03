@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "../ToastContextProvider";
 import ChildTaskCard from "./ChildTaskCard";
 
-export default function ChildTaskList({ childTasksPromise, parentId }) {
+export default function ChildTaskList({ childTasksPromise, parentId, saveTask }) {
     const [loading, setLoading] = useState(true);
     const [childTasks, setChildTasks] = useState([]);
     const [createdTask, setCreatedTask] = useState("");
@@ -81,6 +81,7 @@ export default function ChildTaskList({ childTasksPromise, parentId }) {
                 : childTasks.map(childTask => <ChildTaskCard
                     key={childTask._id.task_id}
                     childTask={childTask}
+                    saveTask={saveTask}
                 />)
             }
         </Stack>
