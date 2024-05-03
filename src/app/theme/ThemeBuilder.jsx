@@ -1,4 +1,4 @@
-import { darken, experimental_extendTheme as extendTheme, lighten, responsiveFontSizes } from '@mui/material';
+import { experimental_extendTheme as extendTheme, responsiveFontSizes } from '@mui/material';
 import { IBM_Plex_Sans, Open_Sans } from 'next/font/google';
 
 // This theme was created using https://zenoo.github.io/mui-theme-creator/
@@ -18,14 +18,8 @@ const openSans = Open_Sans({
     weight: ['600', '800']
 });
 
-const darkBg = '#14002F';
 const darkModePalette = {
-    background: {
-        default: darkBg,
-        hover: lighten(darkBg, 0.05),
-        focus: lighten(darkBg, 0.1),
-        paper: '#130027'
-    },
+    background: { default: '#14002F', paper: '#130027' },
     primary: { main: '#E694FF' },
     secondary: { main: '#7200FF' },
     error: { main: '#FB2C1E' },
@@ -34,13 +28,8 @@ const darkModePalette = {
     success: { main: '#00D00F' }
 };
 
-const lightBg = '#FCF4FF';
 const lightModePalette = {
-    background: {
-        default: lightBg,
-        hover: darken(lightBg, 0.05),
-        focus: darken(lightBg, 0.1)
-    },
+    background: { default: '#FCF4FF' },
     primary: { main: '#AA03FF' },
     secondary: { main: '#DCC2FF' },
     error: { main: '#FB2C1E' },

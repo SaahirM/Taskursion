@@ -15,10 +15,10 @@ export default function EditableTypography({
             ...theme.typography[variant]
         },
         [`& > ${component}:hover`]: {
-            bgcolor: theme.vars.palette.background.hover,
+            bgcolor: theme.vars.palette.action.hover,
         },
         [`& > ${component}:focus-within`]: {
-            bgcolor: theme.vars.palette.background.focus,
+            bgcolor: theme.vars.palette.action.focus,
         }
     })}>
         <InputBase multiline maxRows={maxRows} slots={{ root: component }} {...props} />
