@@ -1,9 +1,9 @@
 import { AddCircleOutlineRounded } from "@mui/icons-material";
-import { Card, CardActionArea, CardContent, Divider, IconButton, Paper, Skeleton, Stack, TextField, Typography } from "@mui/material";
+import { Divider, IconButton, Paper, Skeleton, Stack, TextField, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "../ToastContextProvider";
+import ChildTaskCard from "./ChildTaskCard";
 
 export default function ChildTaskList({ childTasksPromise, parentId }) {
     const [loading, setLoading] = useState(true);
@@ -54,8 +54,8 @@ export default function ChildTaskList({ childTasksPromise, parentId }) {
 
     if (loading) return <Skeleton animation='wave' height={200} />;
 
-    return (<Stack gap={1}>
-        <Paper elevation={0} sx={{ p: 2 }}>
+    return (<>
+        <Paper elevation={0} sx={{ p: 2, mt: 3, mb: 1 }}>
             <Grid container>
                 <Grid xs='auto'>
                     <IconButton aria-label="Add subtask" onClick={() => addTask(createdTask)}>
@@ -73,17 +73,16 @@ export default function ChildTaskList({ childTasksPromise, parentId }) {
                 </Grid>
             </Grid>
         </Paper>
-        {childTasks.length === 0
-            ? <Divider component='div' role='presentation'><Typography variant='body1' textAlign='center'>
-                This task has no subtasks
-            </Typography></Divider>
-            : childTasks.map(childTask => <Card key={childTask._id.task_id}>
-                <CardActionArea href={`/home/task/${childTask._id.task_id}`} LinkComponent={Link}>
-                    <CardContent>
-                        <Typography variant='body1'>{childTask.task_title}</Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>)
-        }
-    </Stack>);
+        <Stack divider={<Divider />}>
+            {childTasks.length === 0
+                ? <Divider component='div' role='presentation'><Typography variant='body1' textAlign='center'>
+                    This task has no subtasks
+                </Typography></Divider>
+                : childTasks.map(childTask => <ChildTaskCard
+                    key={childTask._id.task_id}
+                    childTask={childTask}
+                />)
+            }
+        </Stack>
+    </>);
 }
