@@ -12,8 +12,6 @@ import EditableTypography from "@/src/util/EditableTypography";
 
 export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
     const [task, setTask] = useState(initialTask);
-    const [completed, setCompleted] = useState(initialTask.task_completed);
-
     const [loading, setLoading] = useState(false);
     const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
 
@@ -36,21 +34,18 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                     throw new Error(`Server responded with a ${res.status} status code`);
                 }
             })
-            .then(() => {
-                setTask(task);
-            })
             .catch(e => {
-                const message = e.message
-                    ? e.message
-                    : "An unexpected error occurred while communicating with the server";
+                const message = e.message ??
+                    "An unexpected error occurred while communicating with the server";
                 toast(message);
             })
             .finally(() => { setLoading(false); });
     };
 
     const handleCompletionChange = e => {
-        setCompleted(e.target.checked);
-        saveTask({ ...task, task_completed: e.target.checked });
+        const updatedTask = { ...task, task_completed: e.target.checked };
+        setTask(updatedTask);
+        saveTask(updatedTask);
     };
 
     useEffect(() => {
@@ -112,7 +107,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                                     }
                                 };
                             }}
-                            checked={completed}
+                            checked={task.task_completed}
                             onChange={e => handleCompletionChange(e)}
                         />
                     </Box>
