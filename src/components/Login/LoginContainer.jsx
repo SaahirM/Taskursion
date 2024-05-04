@@ -38,9 +38,8 @@ export default function LoginContainer({ pathAfterLogin = '/home' }) {
                 router.push(pathAfterLogin);
             })
             .catch(e => {
-                const message = e.message
-                    ? e.message
-                    : "An unexpected error occurred while communicating with the server";
+                const message = e.message ??
+                    "An unexpected error occurred while communicating with the server";
                 toast(message, false);
             })
             .finally(() => { setLoading(false); });

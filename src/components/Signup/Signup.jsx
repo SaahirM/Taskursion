@@ -67,9 +67,8 @@ export default function Signup() {
                 router.push("/home");
             })
             .catch(e => {
-                const message = e.message
-                    ? e.message
-                    : "An unexpected error occurred while communicating with the server";
+                const message = e.message ??
+                    "An unexpected error occurred while communicating with the server";
                 toast(message, false);
             })
             .finally(() => { setLoading(false); });

@@ -45,9 +45,8 @@ export default function ChildTaskList({ childTasksPromise, parentId, saveTask })
                 setCreatedTask("");
             })
             .catch(e => {
-                const message = e.message
-                    ? e.message
-                    : "An unexpected error occurred while communicating with the server";
+                const message = e.message ??
+                    "An unexpected error occurred while communicating with the server";
                 toast(message);
             });
     };
