@@ -21,7 +21,11 @@ export default function ChildTaskCard({ childTask, saveTask }) {
     })}>
         <Grid container>
             <Grid xs='auto'>
-                <Checkbox checked={completed} onChange={handleChildCompletionChange} />
+                <Checkbox
+                    checked={completed}
+                    onChange={handleChildCompletionChange}
+                    aria-label="Mark subtask as completed"
+                />
             </Grid>
             <Grid xs display='flex' alignItems='center'>
                 <ButtonBase
