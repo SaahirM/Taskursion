@@ -11,7 +11,7 @@ export default function ChildTaskCard({ childTask, saveTask }) {
         saveTask({ ...childTask, task_completed: e.target.checked });
     }
 
-    return (<Paper square sx={theme => ({
+    return (<Paper square elevation={3} sx={theme => ({
         ':first-of-type': {
             borderRadius: `${theme.shape.borderRadius}px ${theme.shape.borderRadius}px 0 0`
         },

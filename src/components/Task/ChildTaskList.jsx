@@ -1,9 +1,8 @@
-import { AddCircleOutlineRounded } from "@mui/icons-material";
-import { Divider, IconButton, Paper, Skeleton, Stack, TextField, Typography } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
+import { Divider, Skeleton, Stack, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "../ToastContextProvider";
 import ChildTaskCard from "./ChildTaskCard";
+import CreateChildTaskBtn from "./CreateChildTaskBtn";
 
 export default function ChildTaskList({ childTasksPromise, parentId, saveTask }) {
     const [loading, setLoading] = useState(true);
@@ -54,24 +53,7 @@ export default function ChildTaskList({ childTasksPromise, parentId, saveTask })
     if (loading) return <Skeleton animation='wave' height={200} />;
 
     return (<>
-        <Paper elevation={0} sx={{ p: 2, mt: 3, mb: 1 }}>
-            <Grid container>
-                <Grid xs='auto'>
-                    <IconButton aria-label="Add subtask" onClick={() => addTask(createdTask)}>
-                        <AddCircleOutlineRounded fontSize='large' />
-                    </IconButton>
-                </Grid>
-                <Grid xs>
-                    <TextField
-                        placeholder="Plan everything out..."
-                        label="Subtask"
-                        value={createdTask}
-                        onChange={e => setCreatedTask(e.target.value)}
-                        fullWidth
-                    />
-                </Grid>
-            </Grid>
-        </Paper>
+        <CreateChildTaskBtn addTask={addTask} />
         <Stack divider={<Divider />}>
             {childTasks.length === 0
                 ? <Divider component='div' role='presentation'><Typography variant='body1' textAlign='center'>
