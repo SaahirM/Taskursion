@@ -20,7 +20,7 @@ export default function ChildTaskCard({ childTask, saveTask }) {
         }
     })}>
         <Grid container>
-            <Grid xs='auto'>
+            <Grid xs='auto' display='flex' alignItems='center'>
                 <Checkbox
                     checked={completed}
                     onChange={handleChildCompletionChange}
@@ -35,6 +35,8 @@ export default function ChildTaskCard({ childTask, saveTask }) {
                         height: '100%',
                         justifyContent: 'start',
                         px: 1,
+                        py: 1,
+                        lineHeight: 1.3,
                         ':hover': {
                             bgcolor: theme.vars.palette.action.hover
                         }
