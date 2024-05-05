@@ -1,5 +1,5 @@
 import { AddBoxRounded } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Checkbox, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
+import { Card, CardContent, CardHeader, Checkbox, CircularProgress, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useState } from "react";
 
@@ -8,6 +8,7 @@ const TRANSITION_TIMEOUT = 500; //ms
 export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
     const [title, setTitle] = useState("");
     const [checked, setChecked] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [transitionText, setTransitionText] = useState("");
 
     const addTask = async () => {
@@ -16,6 +17,7 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
         setTransitionText(title);
         setTimeout(() => setTransitionText(""), TRANSITION_TIMEOUT);
 
+        setLoading(true);
         fetch("/api/task", {
             method: 'POST',
             body: JSON.stringify({
@@ -39,6 +41,7 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
                 setChildTasks(oldChildTasks => [...oldChildTasks, data]);
                 setTitle("");
                 setChecked(false);
+                setLoading(false);
             })
             .catch(e => {
                 const message = e.message ??
@@ -89,7 +92,7 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
                             onChange={e => setTitle(e.target.value)}
                             endAdornment={<InputAdornment position='end'>
                                 <IconButton edge='end' aria-label="Add subtask" onClick={addTask}>
-                                    <AddBoxRounded />
+                                    {loading ? <CircularProgress size={20} /> : <AddBoxRounded />}
                                 </IconButton>
                             </InputAdornment>}
                         />
