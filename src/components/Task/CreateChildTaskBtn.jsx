@@ -1,14 +1,20 @@
 import { AddBoxRounded } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Checkbox, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import { Card, CardContent, CardHeader, Checkbox, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { useState } from "react";
+
+const TRANSITION_TIMEOUT = 500; //ms
 
 export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
     const [title, setTitle] = useState("");
     const [checked, setChecked] = useState(false);
+    const [transitionText, setTransitionText] = useState("");
 
-    const addTask = () => {
+    const addTask = async () => {
         if (title === "") return;
+
+        setTransitionText(title);
+        setTimeout(() => setTransitionText(""), TRANSITION_TIMEOUT);
 
         fetch("/api/task", {
             method: 'POST',
@@ -41,7 +47,26 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
             });
     };
 
-    return (<Card elevation={3} sx={{ mt: 3, mb: 1 }}>
+    const Transition = () => (<Typography
+        position='absolute'
+        left={theme => theme.spacing(5/3)}
+        top={theme => theme.spacing(2)}
+        width={'90%'}
+        noWrap
+        display={transitionText === "" ? 'none' : undefined}
+
+        sx={{
+            animation: `${TRANSITION_TIMEOUT}ms ease-out 1 fade-down`,
+            '@keyframes fade-down': {
+                from: { opacity: 1, transform: 'translateY(0)' },
+                to: { opacity: 0, transform: 'translateY(200px)' }
+            }
+        }}
+    >
+        {transitionText}
+    </Typography>);
+
+    return (<Card elevation={3} sx={{ mt: 3, mb: 1, overflow: 'visible' }}>
         <CardHeader sx={{ pb: 0 }} title="Create subtask" />
         <CardContent sx={{ py: 1, ':last-child': { pb: 2 } }}>
             <Grid container gap={1}>
@@ -68,6 +93,7 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
                                 </IconButton>
                             </InputAdornment>}
                         />
+                        <Transition />
                     </FormControl>
                 </Grid>
             </Grid>
