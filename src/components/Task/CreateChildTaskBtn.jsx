@@ -92,9 +92,12 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
                             onChange={e => setTitle(e.target.value)}
                             onKeyDown={({ key }) => { if (key === 'Enter') addTask(); }}
                             endAdornment={<InputAdornment position='end'>
-                                <IconButton edge='end' aria-label="Add subtask" onClick={addTask}>
-                                    {loading ? <CircularProgress size={20} /> : <AddBoxRounded />}
-                                </IconButton>
+                                {loading
+                                    ? <CircularProgress size={20} />
+                                    : <IconButton edge='end' aria-label="Add subtask" onClick={addTask}>
+                                        <AddBoxRounded />
+                                    </IconButton>
+                                }
                             </InputAdornment>}
                         />
                         <Transition />
