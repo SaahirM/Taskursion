@@ -1,7 +1,8 @@
 import { AddBoxRounded } from "@mui/icons-material";
 import { Card, CardContent, CardHeader, Checkbox, CircularProgress, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ToastContext } from "../ToastContextProvider";
 
 const TRANSITION_TIMEOUT = 500; //ms
 
@@ -10,6 +11,8 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
     const [checked, setChecked] = useState(false);
     const [loading, setLoading] = useState(false);
     const [transitionText, setTransitionText] = useState("");
+
+    const toast = useContext(ToastContext);
 
     const addTask = async () => {
         if (title === "") return;
