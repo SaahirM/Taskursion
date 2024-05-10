@@ -36,85 +36,75 @@ export default function BorderHeader({
             borderRadius={3}
             boxShadow={'4px 1px 5px black inset'}
             zIndex={2}
+
+            className="not-outer-box"
+            // This class exists to be used by borderHoverStyles, so the border correctly glows only
+            // when it is hovered over
         >
-            <div className="not-outer-box" style={{ height: '100%' }}
-            /*
-            I cannot give "inner box" a className, so I'm wrapping its children in div.not-outer-box.
-            This class exists to be used by borderStyleOverrides, so the border correctly glows only
-            when it is hovered over
+            <Box
+                /*
+                an "inner inner box" with a scrollbar. This needs to be its own box, and cannot
+                be combined with "inner box" above so content inside here can be scrolled but
+                the scrollbar will not be on top of the rounded corners. See 
+                https://stackoverflow.com/questions/16676166/apply-border-radius-to-scrollbars-with-css
+                for more context
+                */
+                height={'100%'}
+                sx={{
+                    position: 'relative',
+                    overflowY: 'auto',
 
-            In the future, consider using a React.ref for "inner box" to achieve this.
-            See https://mui.com/material-ui/getting-started/faq/#how-can-i-access-the-dom-element
-            */
-            >
-
-                <Box
-                    /*
-                    an "inner inner box" with a scrollbar. This needs to be its own box, and cannot
-                    be combined with "inner box" above so content inside here can be scrolled but
-                    the scrollbar will not be on top of the rounded corners. See 
-                    https://stackoverflow.com/questions/16676166/apply-border-radius-to-scrollbars-with-css
-                    for more context
-                    */
-                    height={'100%'}
-                    sx={{
-                        position: 'relative',
-                        overflowY: 'auto',
-
-                        // firefox
-                        '@supports not selector(::-webkit-scrollbar)': {
-                            scrollbarColor: theme.vars.palette.primary.light + " white",
-                            [theme.getColorSchemeSelector('dark')]: {
-                                scrollbarColor: theme.vars.palette.primary.dark + " black"
-                            },
+                    // firefox
+                    '@supports not selector(::-webkit-scrollbar)': {
+                        scrollbarColor: theme.vars.palette.primary.light + " white",
+                        [theme.getColorSchemeSelector('dark')]: {
+                            scrollbarColor: theme.vars.palette.primary.dark + " black"
                         },
+                    },
 
-                        // chrome, safari, etc
-                        '@supports selector(::-webkit-scrollbar)': {
-                            '&::-webkit-scrollbar': {
-                                width: 10,
-                                borderRadius: 5,
+                    // chrome, safari, etc
+                    '@supports selector(::-webkit-scrollbar)': {
+                        '&::-webkit-scrollbar': {
+                            width: 10,
+                            borderRadius: 5,
 
-                                backgroundColor: 'white',
-                                [theme.getColorSchemeSelector('dark')]: {
-                                    backgroundColor: 'black'
-                                }
-                            },
-                            '&::-webkit-scrollbar-thumb': {
-                                backgroundColor: theme.vars.palette.primary.main,
-                                borderRadius: 5
-                            },
-                            '&::-webkit-scrollbar-button': {
-                                backgroundColor: theme.vars.palette.primary.light,
-                                [theme.getColorSchemeSelector('dark')]: {
-                                    backgroundColor: theme.vars.palette.primary.dark
-                                }
+                            backgroundColor: 'white',
+                            [theme.getColorSchemeSelector('dark')]: {
+                                backgroundColor: 'black'
+                            }
+                        },
+                        '&::-webkit-scrollbar-thumb': {
+                            backgroundColor: theme.vars.palette.primary.main,
+                            borderRadius: 5
+                        },
+                        '&::-webkit-scrollbar-button': {
+                            backgroundColor: theme.vars.palette.primary.light,
+                            [theme.getColorSchemeSelector('dark')]: {
+                                backgroundColor: theme.vars.palette.primary.dark
                             }
                         }
-                    }}
+                    }
+                }}
+            >
+                <Box
+                    height={10}
+                    width="100%"
+                    position='sticky'
+                    top={0}
+                    zIndex={3}
+                    sx={theme => ({
+                        background: "linear-gradient(0deg, transparent, #2e2e2e)",
+                        [theme.getColorSchemeSelector('dark')]: {
+                            background: "linear-gradient(0deg, transparent, black)"
+                        }
+                    })}
+                />
+                <Box px={2} pb={2}
+                /* An "inner innner inner box" to pad the content */
                 >
-                    <Box
-                        height={10}
-                        width="100%"
-                        position='sticky'
-                        top={0}
-                        zIndex={3}
-                        sx={theme => ({
-                            background: "linear-gradient(0deg, transparent, #2e2e2e)",
-                            [theme.getColorSchemeSelector('dark')]: {
-                                background: "linear-gradient(0deg, transparent, black)"
-                            }
-                        })}
-                    />
-                    <Box px={2} pb={2}
-                    /* An "inner innner inner box" to pad the content */
-                    >
-
-                        {children}
-                    </Box>
+                    {children}
                 </Box>
-
-            </div>
+            </Box>
         </Box>
 
     </Box>);
