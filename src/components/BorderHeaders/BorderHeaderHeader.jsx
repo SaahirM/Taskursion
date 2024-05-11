@@ -1,11 +1,9 @@
-import { ButtonBase, Link, useTheme } from "@mui/material";
+import { ButtonBase, Link } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import NextLink from "next/link";
 
 export default function BorderHeaderHeader({ primaryHeaderComponent, secondaryHeaderComponent }) {
     if (!primaryHeaderComponent) return <></>;
-
-    const theme = useTheme();
 
     return (<>
         <header>
@@ -34,13 +32,13 @@ export default function BorderHeaderHeader({ primaryHeaderComponent, secondaryHe
                         position: 'relative', display: 'flex', justifyContent: 'end'
                     }}>
                         <ButtonBase
-                            sx={{
+                            sx={theme => ({
                                 zIndex: 2,
                                 borderRadius: 1,
                                 backgroundColor: theme.vars.palette.secondary.main,
                                 ':hover': { backgroundColor: theme.vars.palette.secondary.light },
                                 ':active': { backgroundColor: theme.vars.palette.secondary.dark }
-                            }}
+                            })}
                             href={secondaryHeaderComponent.linkTarget}
                             LinkComponent={NextLink}
                             className="not-outer-box"
