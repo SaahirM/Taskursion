@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import BorderHeaderHeader from "./BorderHeaderHeader";
+import ScrollableBox from "./ScrollableBox";
 
 export default function BorderHeader({
     primaryHeaderComponent, secondaryHeaderComponent, children
@@ -19,6 +20,7 @@ export default function BorderHeader({
         px={1} pb={1} pt={primaryHeaderComponent ? 0 : 1}
         sx={primaryHeaderComponent ? borderHoverStyles : {}}
     >
+
         <BorderHeaderHeader
             primaryHeaderComponent={primaryHeaderComponent}
             secondaryHeaderComponent={secondaryHeaderComponent}
@@ -38,7 +40,7 @@ export default function BorderHeader({
             // This class exists to be used by borderHoverStyles, so the border correctly glows only
             // when it is hovered over
         >
-            <Box
+            <ScrollableBox
                 /*
                 an "inner inner box" with a scrollbar. This needs to be its own box, and cannot
                 be combined with "inner box" above so content inside here can be scrolled but
@@ -46,44 +48,16 @@ export default function BorderHeader({
                 https://stackoverflow.com/questions/16676166/apply-border-radius-to-scrollbars-with-css
                 for more context
                 */
-                height={'100%'}
-                sx={theme => ({
-                    position: 'relative',
-                    overflowY: 'auto',
-
-                    // firefox
-                    '@supports not selector(::-webkit-scrollbar)': {
-                        scrollbarColor: theme.vars.palette.primary.light + " white",
-                        [theme.getColorSchemeSelector('dark')]: {
-                            scrollbarColor: theme.vars.palette.primary.dark + " black"
-                        },
-                    },
-
-                    // chrome, safari, etc
-                    '@supports selector(::-webkit-scrollbar)': {
-                        '&::-webkit-scrollbar': {
-                            width: 10,
-                            borderRadius: 5,
-
-                            backgroundColor: 'white',
-                            [theme.getColorSchemeSelector('dark')]: {
-                                backgroundColor: 'black'
-                            }
-                        },
-                        '&::-webkit-scrollbar-thumb': {
-                            backgroundColor: theme.vars.palette.primary.main,
-                            borderRadius: 5
-                        },
-                        '&::-webkit-scrollbar-button': {
-                            backgroundColor: theme.vars.palette.primary.light,
-                            [theme.getColorSchemeSelector('dark')]: {
-                                backgroundColor: theme.vars.palette.primary.dark
-                            }
-                        }
-                    }
-                })}
             >
                 <Box
+                    /*
+                    sticky shadow at the top of the content area at a higher z-index. Page content 
+                    being scrolled through will appear underneath this shadow. Without this box, 
+                    content on the page appears above the shadow created by the borderHeader, 
+                    despite it being under the borderHeader, which made it look unnatural. This 
+                    problem still exists for shadows created by the borderHeader along the bottom
+                    of the page content area.
+                    */
                     height={10}
                     width="100%"
                     position='sticky'
@@ -96,12 +70,13 @@ export default function BorderHeader({
                         }
                     })}
                 />
-                <Box px={2} pb={2}
-                /* An "inner innner inner box" to pad the content */
+                <Box
+                    /* An "inner innner inner box" to pad the page content */
+                    px={2} pb={2}
                 >
                     {children}
                 </Box>
-            </Box>
+            </ScrollableBox>
         </Box>
 
     </Box>);
