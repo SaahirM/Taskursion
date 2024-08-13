@@ -3,7 +3,7 @@ import AccountInfoSkeleton from "@/src/components/Dashboard/AccountInfoSkeleton"
 import TaskGroupSkeleton from "@/src/components/Dashboard/TaskGroupsSkeleton";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
-export default function CurrUserSkeleton() {
+export default function DashboardSkeleton() {
     return (<HomeBorderHeader linkTarget={'/home'}>
         <main>
             <Grid container direction={'row-reverse'}>
