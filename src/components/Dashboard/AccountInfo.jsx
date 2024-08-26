@@ -3,18 +3,30 @@
 import ThemeControls from "@/src/app/theme/ThemeControls";
 import { ExpandMoreRounded } from "@mui/icons-material";
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Paper, Skeleton, Typography } from "@mui/material";
+import { startHolyLoader, stopHolyLoader } from "holy-loader";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ToastContext } from "../ToastContextProvider";
 
 export default function AccountInfo({ usernamePromise }) {
     const [username, setUsername] = useState(null);
     const router = useRouter();
+    const toast = useContext(ToastContext);
 
-    const handleLogout = async () => {
-        await fetch("/api/user/logout", {
+    const handleLogout = () => {
+        startHolyLoader();
+        fetch("/api/user/logout", {
             method: 'POST'
-        });
-        router.push("/");
+        })
+            .then(() => {    
+                router.push("/");
+            })
+            .catch(e => {
+                const message = e.message ??
+                    "An unexpected error occurred while communicating with the server";
+                toast(message, false);
+                stopHolyLoader();
+            });
     };
 
     useEffect(() => {    

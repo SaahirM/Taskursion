@@ -5,6 +5,7 @@ import LoginForm from "./LoginForm";
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContext } from "../ToastContextProvider";
+import { startHolyLoader } from "holy-loader";
 
 export default function LoginContainer({ pathAfterLogin = '/home' }) {
     const router = useRouter();
@@ -35,6 +36,7 @@ export default function LoginContainer({ pathAfterLogin = '/home' }) {
                 }
             })
             .then(() => {
+                startHolyLoader();
                 router.push(pathAfterLogin);
             })
             .catch(e => {

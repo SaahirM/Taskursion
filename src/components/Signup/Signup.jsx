@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import SignupForm from "./SignupForm";
 import { ToastContext } from "../ToastContextProvider";
 import { validateEmail, validateName, validatePass } from "@/src/util/validation";
+import { startHolyLoader } from "holy-loader";
 
 export default function Signup() {
     const router = useRouter();
@@ -64,6 +65,7 @@ export default function Signup() {
                 }
             })
             .then(() => {
+                startHolyLoader();
                 router.push("/home");
             })
             .catch(e => {
