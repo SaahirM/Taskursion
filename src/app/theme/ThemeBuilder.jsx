@@ -1,4 +1,4 @@
-import { experimental_extendTheme as extendTheme, responsiveFontSizes } from '@mui/material';
+import { extendTheme, responsiveFontSizes } from '@mui/material';
 import { IBM_Plex_Sans, Open_Sans } from 'next/font/google';
 
 // This theme was created using https://zenoo.github.io/mui-theme-creator/

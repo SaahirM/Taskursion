@@ -13,7 +13,7 @@ export async function POST(req) {
     }
 
     const client = await clientPromise;
-    const maybeSessionId = cookies().get("sessionToken")?.value;
+    const maybeSessionId = (await cookies()).get("sessionToken")?.value;
     if (maybeSessionId && (await authenticateSession(maybeSessionId)) !== false) {
         return new NextResponse(
             "You are already logged in (try refreshing the page)", { status: 400 }

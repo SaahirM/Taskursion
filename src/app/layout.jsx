@@ -1,4 +1,4 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import ThemeWrapper, { htmlThemeProps } from './theme/ThemeWrapper';
 import ToastContextProvider from '../components/ToastContextProvider';
 import NavProgress from '../components/NavProgress';

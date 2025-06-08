@@ -37,31 +37,33 @@ export default function AccountInfo({ usernamePromise }) {
         ? <Skeleton animation='wave' />
         : username;
 
-    return (<Paper sx={{ p: 3, m: 1, border: 2 }}>
-        <Typography variant='h3'>{displayedName}</Typography>
-
-        <Box my={2}>
-            <Accordion elevation={4}>
-                <AccordionSummary
-                    aria-controls="theme-controls"
-                    id="theme-controls-header"
-                    expandIcon={<ExpandMoreRounded />}
-                >
-                    <Typography variant='h4'>Change Theme</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <ThemeControls />
-                </AccordionDetails>
-            </Accordion>
-        </Box>
-
-        <Button
-            onClick={handleLogout}
-            variant='contained'
-            color='secondary'
-            size='small'
-        >
-            Logout
-        </Button>
-    </Paper>);
+    return (
+        <Paper sx={{ p: 3, m: 1, border: 2 }}>
+            <Typography variant='h3'>{displayedName}</Typography>
+            <Box sx={{
+                my: 2
+            }}>
+                <Accordion elevation={4} slotProps={{ heading: { component: 'h4' }}}>
+                    <AccordionSummary
+                        aria-controls="theme-controls"
+                        id="theme-controls-header"
+                        expandIcon={<ExpandMoreRounded />}
+                    >
+                        <Typography variant="h4" component="span">Change Theme</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <ThemeControls />
+                    </AccordionDetails>
+                </Accordion>
+            </Box>
+            <Button
+                onClick={handleLogout}
+                variant='contained'
+                color='secondary'
+                size='small'
+            >
+                Logout
+            </Button>
+        </Paper>
+    );
 }

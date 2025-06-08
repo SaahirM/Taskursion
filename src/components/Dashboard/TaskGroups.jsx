@@ -2,13 +2,13 @@ import { cookies } from 'next/headers';
 import { Paper } from "@mui/material";
 import clientPromise from "../../db/db";
 import TaskGroupCard from './TaskGroupCard';
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import Grid from '@mui/material/Grid';
 import { getSessionUser } from '../../util/session-mgmt';
 import AddTaskGroup from './AddTaskGroup';
 
 export default async function TaskGroups() {
     const client = await clientPromise;
-    const sessionId = cookies().get("sessionToken").value;
+    const sessionId = (await cookies()).get("sessionToken").value;
     const userId = (await getSessionUser(sessionId));
 
     const users = client.db().collection("Users");
@@ -21,15 +21,25 @@ export default async function TaskGroups() {
         "_id.user_id": userId.toString(), "_id.task_id": { $in: rootTaskIds }
     }).toArray();
 
-    return (<Paper sx={{ p: 3, m: 1, border: 2 }}>
-        <Grid container spacing={2}>
-            <Grid xs={12} lg={6}>
-                <AddTaskGroup />
-            </Grid>
+    return (
+        <Paper sx={{ p: 3, m: 1, border: 2 }}>
+            <Grid container spacing={2}>
+                <Grid size={{ xs: 12, lg: 6 }}>
+                    <AddTaskGroup />
+                </Grid>
 
-            {tasks.map(task => <Grid key={task._id.task_id} xs={12} lg={6} height={"100%"}>
-                <TaskGroupCard taskGroup={task} />
-            </Grid>)}
-        </Grid>
-    </Paper>);
+                {tasks.map(task => (
+                    <Grid
+                        key={task._id.task_id}
+                        size={{ xs: 12, lg: 6 }}
+                        sx={{
+                            height: "100%"
+                        }}
+                    >
+                        <TaskGroupCard taskGroup={task} />
+                    </Grid>
+                ))}
+            </Grid>
+        </Paper>
+    );
 }

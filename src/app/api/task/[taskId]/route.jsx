@@ -18,7 +18,7 @@ export async function PUT(req) {
     }
 
     const client = await clientPromise;
-    const sessionId = cookies().get("sessionToken")?.value;
+    const sessionId = (await cookies()).get("sessionToken")?.value;
     const userId = await getSessionUser(sessionId);
     if (!userId) {
         return new NextResponse("You are not logged in", { status: 401 });

@@ -1,6 +1,6 @@
 'use client';
 
-import { CssBaseline, Experimental_CssVarsProvider as CssVarsProvider, getInitColorSchemeScript } from "@mui/material";
+import { CssBaseline, InitColorSchemeScript, ThemeProvider } from "@mui/material";
 import themeBuilder from "./ThemeBuilder";
 
 const THEME_CONFIG = {
@@ -15,9 +15,9 @@ export const htmlThemeProps = { [THEME_CONFIG.attribute]: THEME_CONFIG.defaultMo
 export default function ThemeWrapper({ children }) {
     const theme = themeBuilder();
 
-    return (<CssVarsProvider theme={theme} {...THEME_CONFIG}>
-        {getInitColorSchemeScript(THEME_CONFIG)}
+    return (<ThemeProvider theme={theme}>
+        <InitColorSchemeScript />
         <CssBaseline />
         {children}
-    </CssVarsProvider>);
+    </ThemeProvider>);
 }

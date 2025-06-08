@@ -6,8 +6,14 @@ import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function TaskPage({ params: { taskId } }) {
-    const sessionId = cookies().get("sessionToken")?.value;
+export default async function TaskPage(props) {
+    const params = await props.params;
+
+    const {
+        taskId
+    } = params;
+
+    const sessionId = (await cookies()).get("sessionToken")?.value;
     const userId = await getSessionUser(sessionId);
     if (!userId) {
         redirect("/_bad-session-token");    // middleware will delete cookie

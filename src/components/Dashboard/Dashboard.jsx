@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
 import AccountInfoRegion from './AccountInfoRegion';
 import TaskGroups from './TaskGroups';
 import { Suspense } from 'react';
@@ -7,10 +7,10 @@ import TaskGroupSkeleton from './TaskGroupsSkeleton';
 export default function Dashboard() {
     return (<main>
         <Grid container direction={'row-reverse'}>
-            <Grid xs={12} md={4}>
+            <Grid size={{ xs: 12, md: 4 }}>
                 <AccountInfoRegion />
             </Grid>
-            <Grid xs={12} md={8}>
+            <Grid size={{ xs: 12, md: 8 }}>
                 <Suspense fallback={<TaskGroupSkeleton />}>
                     <TaskGroups />
                 </Suspense>

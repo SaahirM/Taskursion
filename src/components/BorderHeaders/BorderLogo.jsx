@@ -16,13 +16,16 @@ export default function BorderLogo() {
         />;
     }
 
-    return <Typography
-        variant='h2'
-        component='p'
-        fontWeight='600'
-        textAlign='end'
-        p={1}
-    >
-        Taskursion
-    </Typography>;
+    return (
+        <Typography
+            variant='h2'
+            component='p'
+            sx={{
+                fontWeight: '600',
+                textAlign: 'end',
+                p: 1
+            }}>
+            Taskursion
+        </Typography>
+    );
 }

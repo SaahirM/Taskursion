@@ -12,15 +12,18 @@
         "@emotion/cache": "^11.11.0",
         "@emotion/react": "^11.11.4",
         "@emotion/styled": "^11.11.5",
-        "@mui/icons-material": "^5.15.10",
-        "@mui/material": "^5.15.15",
-        "@mui/material-nextjs": "^5.15.5",
+        "@mui/icons-material": "^7.0.0",
+        "@mui/material": "^7.0.0",
+        "@mui/material-nextjs": "^7.0.0",
         "bcrypt": "^5.1.1",
         "dotenv": "^16.3.1",
         "holy-loader": "^2.3.1",
         "mongodb": "^6.3.0",
-        "next": "^13.5.6",
-        "react": "18.2.0",
-        "react-dom": "18.2.0"
+        "next": "^15.0.0",
+        "react": "19.0.0",
+        "react-dom": "19.0.0"
+    },
+    "devDependencies": {
+        "eslint-config-next": "^15.0.0"
     }
 }

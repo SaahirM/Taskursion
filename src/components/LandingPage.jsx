@@ -8,40 +8,57 @@ import ThemeChangeBtn from "../app/theme/ThemeChangeBtn";
 export default function LandingPage() {
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
-    return (<PlainBorderHeader>
-        <ThemeChangeBtn />
-        <Typography textAlign={'center'} mt='33vh' variant="h1">Taskursion</Typography>
-        <Box width={'100%'} display={'flex'} justifyContent={'center'} mt={4}>
-            <ButtonGroup
-                variant='contained'
-                orientation={isSmallScreen ? 'vertical' : 'horizontal'}
-                fullWidth={isSmallScreen ? true : false}
+    return (
+        <PlainBorderHeader>
+            <ThemeChangeBtn />
+            <Typography
+                variant="h1"
+                sx={{
+                    textAlign: 'center',
+                    mt: '33vh'
+                }}
             >
-                <Button
-                    size='large'
-                    sx={{
-                        px: 8,
-                        py: { xs: 3, sm: 1, md: 2 },
-                        fontSize: { xs: '1.5rem', sm: '1.2rem' }
-                    }}
-                    LinkComponent={Link}
-                    href="/signup"
+                Taskursion
+            </Typography>
+            <Box
+                sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    mt: 4
+                }}
+            >
+                <ButtonGroup
+                    variant='contained'
+                    orientation={isSmallScreen ? 'vertical' : 'horizontal'}
+                    fullWidth={isSmallScreen ? true : false}
                 >
-                    Signup
-                </Button>
-                <Button
-                    size='large'
-                    sx={{
-                        px: 8,
-                        py: { xs: 3, sm: 1, md: 2 },
-                        fontSize: { xs: '1.5rem', sm: '1.2rem' }
-                    }}
-                    LinkComponent={Link}
-                    href="/login"
-                >
-                    Login
-                </Button>
-            </ButtonGroup>
-        </Box>
-    </PlainBorderHeader>);
+                    <Button
+                        size='large'
+                        sx={{
+                            px: 8,
+                            py: { xs: 3, sm: 1, md: 2 },
+                            fontSize: { xs: '1.5rem', sm: '1.2rem' }
+                        }}
+                        LinkComponent={Link}
+                        href="/signup"
+                    >
+                        Signup
+                    </Button>
+                    <Button
+                        size='large'
+                        sx={{
+                            px: 8,
+                            py: { xs: 3, sm: 1, md: 2 },
+                            fontSize: { xs: '1.5rem', sm: '1.2rem' }
+                        }}
+                        LinkComponent={Link}
+                        href="/login"
+                    >
+                        Login
+                    </Button>
+                </ButtonGroup>
+            </Box>
+        </PlainBorderHeader>
+    );
 }

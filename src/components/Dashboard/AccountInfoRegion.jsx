@@ -5,9 +5,8 @@ import { redirect } from "next/navigation";
 import clientPromise from "@/src/db/db";
 import { ObjectId } from "mongodb";
 
-export default function AccountInfoRegion() {
-
-    const sessionId = cookies().get("sessionToken")?.value;
+export default async function AccountInfoRegion() {
+    const sessionId = (await cookies()).get("sessionToken")?.value;
     const usernamePromise = getSessionUser(sessionId)
         .then(async userId => {
             if (!userId) {
