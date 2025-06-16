@@ -1,17 +1,16 @@
 import { DarkModeRounded, LightModeRounded } from "@mui/icons-material";
 import { Switch, ToggleButton, ToggleButtonGroup, Typography, useColorScheme, useMediaQuery } from "@mui/material";
 import Grid from '@mui/material/Grid';
-import { useEffect, useState } from "react";
 
 export default function ThemeControls() {
-    const [mounted, setMounted] = useState(false);
     const { mode, setMode } = useColorScheme();
-    const isSystemDarkTheme = useMediaQuery("(prefers-color-scheme: dark)");
-    const theme = mode !== 'system' ? mode : (isSystemDarkTheme ? 'dark' : 'light');
+    // not using useColorScheme.systemMode because it's undefined when mode is not 'system'
+    // but we need to know the system theme when the user switches out of system mode below
+    const systemTheme = useMediaQuery("(prefers-color-scheme: dark)") ? 'dark' : 'light';
+    const theme = mode !== 'system' ? mode : systemTheme;
 
     // only render client-side (mode is undefined on the server)
-    useEffect(() => { setMounted(true) }, []);
-    if (!mounted) return null;
+    if (!mode) return null;
     
     return (
         <Grid container>
@@ -21,11 +20,7 @@ export default function ThemeControls() {
                     edge='start'
                     size='medium'
                     checked={mode === 'system'}
-                    onChange={e => setMode(
-                        e.target.checked
-                        ? 'system'
-                        : isSystemDarkTheme ? 'dark' : 'light'
-                    )}
+                    onChange={e => setMode(e.target.checked ? 'system' : systemTheme)}
                 />
             </Grid>
             <Grid

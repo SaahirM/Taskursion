@@ -57,9 +57,12 @@ export default function themeBuilder() {
             }
         },
         shape: { borderRadius: 5 },
-        cssVarPrefix: 'taskursion'
+        cssVarPrefix: 'taskursion',
+        colorSchemeSelector: '[data-taskursion-theme-%s]',
     });
 
     const theme = responsiveFontSizes(unresponsiveTheme);
     return theme;
 }
+
+export const themeLocalStorageKey = 'user-preferred-theme';
