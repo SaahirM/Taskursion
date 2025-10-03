@@ -1,8 +1,8 @@
 "use client";
 
 import { Container } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useContext, useEffect, useState } from "react";
 import SignupForm from "./SignupForm";
 import { ToastContext } from "../ToastContextProvider";
 import { validateEmail, validateName, validatePass } from "@/src/util/validation";
@@ -11,11 +11,28 @@ import { startHolyLoader } from "holy-loader";
 export default function Signup() {
     const router = useRouter();
     const toast = useContext(ToastContext);
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
 
     const [formData, setFormData] = useState({ name: "", email: "", pass: "" });
     const [formError, setFormError] = useState({ name: "", email: "", pass: "" });
 
     const [loading, setLoading] = useState(false);
+
+    const isAccountCreationFailed = searchParams.has("SocialSignupFailed");
+
+    useEffect(() => {
+        if (isAccountCreationFailed) {
+            const socialSignUpProvider = searchParams.get("SocialSignupFailed") || "Provider";
+            toast(
+                `Sign up with ${socialSignUpProvider} failed. Email already in use with a different login method. Linking different sign-in accounts is currently unsupported`,
+                true, { autoHideDuration: 30000 }
+            );
+            const newSearchParams = new URLSearchParams(searchParams);
+            newSearchParams.delete("SocialSignupFailed");
+            router.replace(`${pathname}?${newSearchParams}`);
+        }
+    }, []);
 
     const handleNameChange = e => {
         setFormData({ ...formData, name: e.target.value });

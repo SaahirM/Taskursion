@@ -1,5 +1,6 @@
+import { AUTH_TYPE } from "@/src/constants/auth-type";
 import clientPromise from "@/src/db/db";
-import { authenticateSession, startSession } from "@/src/util/session-mgmt";
+import { authenticateSession, SESSION_EXPIRATION_TIME_SECONDS, startSession } from "@/src/util/session-mgmt";
 import { validateEmail, validateName, validatePass } from "@/src/util/validation";
 import bcrypt from 'bcrypt';
 import { cookies } from "next/headers";
@@ -45,12 +46,16 @@ export async function POST(req) {
         user_email: data.email,
         user_pass_hash: hash,
         user_root_task_ids: [],
-        user_last_created_task: 0
+        user_last_created_task: 0,
+        auth_type: AUTH_TYPE.PASSWORD,
     });
 
     const sessionId = await startSession(result.insertedId);
 
     const res = new NextResponse();
-    res.cookies.set("sessionToken", sessionId);
+    res.cookies.set("sessionToken", sessionId, {
+        maxAge: SESSION_EXPIRATION_TIME_SECONDS
+    });
+
     return res;
 }

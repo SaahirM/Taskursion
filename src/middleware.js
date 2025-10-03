@@ -26,16 +26,28 @@ export const config = {
 const unprotectedPages = new Set(["", "/", "/signup", "/login"]);
 
 export function middleware(req) {
+    let res = NextResponse.next();
+
     if ((unprotectedPages.has(req.nextUrl.pathname)) && (req.cookies.has("sessionToken"))) {
-        return NextResponse.redirect(new URL("/home", req.url));
+        res = NextResponse.redirect(new URL("/home", req.url));
 
     } else if ((req.nextUrl.pathname.startsWith("/home")) && (!req.cookies.has("sessionToken"))) {
         const newPath = encodeURIComponent(req.nextUrl.pathname);
-        return NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
+        res = NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
 
     } else if (req.nextUrl.pathname === "/_bad-session-token") {
-        const res = NextResponse.redirect(new URL("/login?notLoggedIn", req.url));
-        res.cookies.delete("sessionToken");
-        return res;
+        const expireTokenRes = NextResponse.redirect(new URL("/login?notLoggedIn", req.url));
+        expireTokenRes.cookies.delete("sessionToken");
+        return expireTokenRes;
     }
+
+    if (req.cookies.has("next-auth.session-token")) {
+        const sessionToken = req.cookies.get("next-auth.session-token").value;
+
+        if (req.cookies.get("sessionToken")?.value !== sessionToken) {    
+            res.cookies.set("sessionToken", sessionToken);
+        }
+    }
+
+    return res;
 }

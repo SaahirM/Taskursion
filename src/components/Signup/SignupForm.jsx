@@ -1,7 +1,7 @@
-import { Box, Button, CircularProgress, Paper, TextField, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Paper, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import ProviderLoginButtons from "../Login/ProviderLoginButtons";
 
 export default function SignupForm({ formData, formError, handlers, loading }) {
-    const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
     return (
@@ -97,6 +97,8 @@ export default function SignupForm({ formData, formError, handlers, loading }) {
                     }} />
                 }
             </Box>
+            
+            <ProviderLoginButtons />
         </Paper>
     );
 }

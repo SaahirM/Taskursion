@@ -7,6 +7,7 @@ import { startHolyLoader, stopHolyLoader } from "holy-loader";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "../ToastContextProvider";
+import { signOut } from "next-auth/react";
 
 export default function AccountInfo({ usernamePromise }) {
     const [username, setUsername] = useState(null);
@@ -18,7 +19,8 @@ export default function AccountInfo({ usernamePromise }) {
         fetch("/api/user/logout", {
             method: 'POST'
         })
-            .then(() => {    
+            .then(async () => {
+                await signOut({ redirect: false });
                 router.push("/");
             })
             .catch(e => {

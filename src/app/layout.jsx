@@ -2,6 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import ThemeWrapper from './theme/ThemeWrapper';
 import ToastContextProvider from '../components/ToastContextProvider';
 import NavProgress from '../components/NavProgress';
+import SessionProviderWrapper from '../components/SessionProviderWrapper';
 
 export const metadata = {
     title: 'Taskursion',
@@ -11,12 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (<html lang="en" suppressHydrationWarning><body>
         <AppRouterCacheProvider>
-            <ThemeWrapper>
-                <ToastContextProvider>
-                    <NavProgress />
-                    {children}
-                </ToastContextProvider>
-            </ThemeWrapper>
+            <SessionProviderWrapper>
+                <ThemeWrapper>
+                    <ToastContextProvider>
+                        <NavProgress />
+                        {children}
+                    </ToastContextProvider>
+                </ThemeWrapper>
+            </SessionProviderWrapper>
         </AppRouterCacheProvider>
     </body></html>);
 }

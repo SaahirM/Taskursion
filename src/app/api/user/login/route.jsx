@@ -1,3 +1,4 @@
+import { AUTH_TYPE } from "@/src/constants/auth-type";
 import clientPromise from "@/src/db/db";
 import { authenticateSession, startSession } from "@/src/util/session-mgmt";
 import bcrypt from "bcrypt";
@@ -24,6 +25,24 @@ export async function POST(req) {
 
     const user = await users.findOne({ user_email: data.email });
     if (!user) {
+        return new NextResponse(
+            "Invalid email or password", { status: 401 }
+        );
+    }
+
+    // user created before oauth was implemented
+    if (user.auth_type === undefined) {
+        users.updateOne({ _id: user._id }, { $set: { auth_type: AUTH_TYPE.PASSWORD }});
+        user.auth_type = AUTH_TYPE.PASSWORD;
+
+    // weird edge case: user is in the middle of having social login setup
+    } else if (user.auth_type === null) {
+        return new NextResponse(
+            "Invalid email or password", { status: 401 }
+        );
+
+    // user has social login setup
+    } else if (user.auth_type !== AUTH_TYPE.PASSWORD) {
         return new NextResponse(
             "Invalid email or password", { status: 401 }
         );
