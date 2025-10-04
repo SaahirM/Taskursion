@@ -4,6 +4,14 @@ import { authDbAdapter } from "./auth-db-adapter";
 import { SESSION_EXPIRATION_TIME_SECONDS } from "./session-mgmt";
 import { AUTH_TYPE } from "../constants/auth-type";
 
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+    throw new Error("Missing required Google OAuth credentials in environment variables");
+}
+
+if (!process.env.NEXTAUTH_SECRET) {
+    throw new Error("Missing NEXTAUTH_SECRET env var");
+}
+
 export const authOptions = {
     providers: [
         GoogleProvider({

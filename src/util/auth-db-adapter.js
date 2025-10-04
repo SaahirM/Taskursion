@@ -29,7 +29,7 @@ export const authDbAdapter = {
         const client = await clientPromise;
         const users = client.db().collection("Users");
         
-        const user = await users.findOne({ _id: id });
+        const user = await users.findOne({ _id: new ObjectId(id) });
         if (!user) return null;
         
         return {
@@ -78,7 +78,7 @@ export const authDbAdapter = {
         const users = client.db().collection("Users");
         
         await users.updateOne(
-            { _id: user.id },
+            { _id: new ObjectId(user.id) },
             { 
                 $set: { 
                     user_name: user.name,

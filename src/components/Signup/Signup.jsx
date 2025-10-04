@@ -5,12 +5,14 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import SignupForm from "./SignupForm";
 import { ToastContext } from "../ToastContextProvider";
+import { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
 import { validateEmail, validateName, validatePass } from "@/src/util/validation";
 import { startHolyLoader } from "holy-loader";
 
 export default function Signup() {
     const router = useRouter();
     const toast = useContext(ToastContext);
+    const { setRequestInFlight } = useNetworkRequest();
     const searchParams = useSearchParams();
     const pathname = usePathname();
 
@@ -32,7 +34,7 @@ export default function Signup() {
             newSearchParams.delete("SocialSignupFailed");
             router.replace(`${pathname}?${newSearchParams}`);
         }
-    }, []);
+    }, [isAccountCreationFailed, searchParams]);
 
     const handleNameChange = e => {
         setFormData({ ...formData, name: e.target.value });
@@ -67,6 +69,7 @@ export default function Signup() {
     const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
+        setRequestInFlight(true);
 
         fetch('/api/user/signup', {
             method: 'POST',
@@ -89,8 +92,12 @@ export default function Signup() {
                 const message = e.message ??
                     "An unexpected error occurred while communicating with the server";
                 toast(message, false);
-            })
-            .finally(() => { setLoading(false); });
+
+                // don't set these false in a finally() block, or there will be a brief period between
+                // successfully signing up and navigating to the home page where the btn can be clicked again.
+                setLoading(false);
+                setRequestInFlight(false);
+            });
     };
 
     return (<Container

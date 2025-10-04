@@ -27,7 +27,7 @@ export async function getSessionUser(sessionId) {
     const maybeSession = await sessions.findOne({ _id: sessionId });
 
     if (maybeSession) {
-        if (maybeSession.expires && new Date() > maybeSession.expires) {
+        if (!maybeSession.expires || new Date() > maybeSession.expires) {
             await sessions.deleteOne({ _id: sessionId });
             return null;
         }

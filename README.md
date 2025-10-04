@@ -9,17 +9,21 @@ A task-tracking web app with the ability to organize tasks into endless layers o
 To get a demo of this project running on your local device, you will need:
 - [Node.js](https://nodejs.org/)
 - A [local MongoDB server](https://www.mongodb.com/docs/manual/installation/) or [cloud-hosted MongoDB service](https://www.mongodb.com/atlas/database)
+- Google OAuth credentials from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
 
 ## Getting Started
 
 Follow these steps to get the app running:
 
 1. Make a copy of the file `.env.example` and name this copy `.env`.
-1. Update `.env`. Change the database connection URL so it points to your desired database.
-1. Launch a terminal at the root project directory `/taskursion`.
-1. Run the command `npm install`.
-1. Type `npm run build` to build the app.
-1. Now type `npm start` to run the built app.
+1. Update `.env`.
+    * Change the database connection URL value `MONGO_CONN_STR` so it points to your desired database.
+    * Generate a secret for NextAuth `NEXTAUTH_SECRET` by running `openssl rand -base64 32` and copying the result into `.env`. Or run `npx auth secret`.
+    * Replace the Google OAuth values `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET` with your own from the Google Cloud Console.
+1. Launch a terminal.
+1. Run `npm install` at the root project directory `/taskursion`.
+1. Run `npm run build` to build the app.
+1. Now run `npm start` to launch the built app.
 1. Navigate to "http://localhost:3000" using a browser.
 
 You should see the app's homepage, which looks like this:

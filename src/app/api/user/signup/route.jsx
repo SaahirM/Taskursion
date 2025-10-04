@@ -54,7 +54,10 @@ export async function POST(req) {
 
     const res = new NextResponse();
     res.cookies.set("sessionToken", sessionId, {
-        maxAge: SESSION_EXPIRATION_TIME_SECONDS
+        maxAge: SESSION_EXPIRATION_TIME_SECONDS,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
     });
 
     return res;

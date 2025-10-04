@@ -1,8 +1,10 @@
 import { Box, Button, CircularProgress, Paper, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import ProviderLoginButtons from "../Login/ProviderLoginButtons";
+import { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
 
 export default function SignupForm({ formData, formError, handlers, loading }) {
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
+    const { isRequestInFlight } = useNetworkRequest();
 
     return (
         <Paper sx={{ p: [2, 3], mt: [1, 2], border: 2 }}>
@@ -77,7 +79,7 @@ export default function SignupForm({ formData, formError, handlers, loading }) {
                     variant='contained'
                     sx={{ mt: 2, px: 5 }}
                     fullWidth
-                    disabled={loading ||
+                    disabled={isRequestInFlight ||
                     Object.values(formError).reduce((doesAnErrorExist, errMsg) => {
                         if (errMsg !== "") {
                             return true;

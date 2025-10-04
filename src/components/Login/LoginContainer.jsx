@@ -5,11 +5,13 @@ import LoginForm from "./LoginForm";
 import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContext } from "../ToastContextProvider";
+import { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
 import { startHolyLoader } from "holy-loader";
 
 export default function LoginContainer({ pathAfterLogin = '/home' }) {
     const router = useRouter();
     const toast = useContext(ToastContext);
+    const { setRequestInFlight } = useNetworkRequest();
 
     const [formData, setFormData] = useState({ email: "", pass: "" });
     const [loading, setLoading] = useState(false);
@@ -21,6 +23,7 @@ export default function LoginContainer({ pathAfterLogin = '/home' }) {
     const handleSubmit = e => {
         e.preventDefault();
         setLoading(true);
+        setRequestInFlight(true);
 
         fetch('/api/user/login', {
             method: 'POST',
@@ -43,8 +46,13 @@ export default function LoginContainer({ pathAfterLogin = '/home' }) {
                 const message = e.message ??
                     "An unexpected error occurred while communicating with the server";
                 toast(message, false);
-            })
-            .finally(() => { setLoading(false); });
+
+                // don't set these false in a finally() block, or there will be a brief period between
+                // successfully logging in and navigating to the home page where the btn can be clicked
+                // again after logging in.
+                setLoading(false); 
+                setRequestInFlight(false);
+            });
     };
 
     return (<Container

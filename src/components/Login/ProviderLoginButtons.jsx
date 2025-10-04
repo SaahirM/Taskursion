@@ -3,16 +3,19 @@
 import { Button, Box, CircularProgress, Divider, Typography } from "@mui/material";
 import { Google } from "@mui/icons-material";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { ToastContext } from "../ToastContextProvider";
+import { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
 
 export default function ProviderLoginButtons() {
     const [loading, setLoading] = useState(false);
     const toast = useContext(ToastContext);
+    const { isRequestInFlight, setRequestInFlight } = useNetworkRequest();
 
     const handleGoogleLogin = async () => {
         setLoading(true);
+        setRequestInFlight(true);
+
         try {
             const result = await signIn('google', { callbackUrl: '/home' });
             
@@ -22,8 +25,13 @@ export default function ProviderLoginButtons() {
         } catch (error) {
             console.error('Google login error:', error);
             toast("An unexpected error occurred during Google login", false);
-        } finally {
+
+
+            // don't set these false in a finally() block, or there will be a brief period between
+            // successfully logging in and navigating to the home page where the btn can be clicked
+            // again.
             setLoading(false);
+            setRequestInFlight(false);
         }
     };
 
@@ -42,7 +50,7 @@ export default function ProviderLoginButtons() {
                 variant="outlined"
                 startIcon={<Google />}
                 onClick={handleGoogleLogin}
-                disabled={loading}
+                disabled={isRequestInFlight}
                 sx={{
                     py: 1.5,
                     borderColor: '#4285f4',

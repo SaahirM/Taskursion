@@ -1,8 +1,8 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import ThemeWrapper from './theme/ThemeWrapper';
 import ToastContextProvider from '../components/ToastContextProvider';
+import NetworkReqInFlightContextProvider from '../components/NetworkReqInFlightContextProvider';
 import NavProgress from '../components/NavProgress';
-import SessionProviderWrapper from '../components/SessionProviderWrapper';
 
 export const metadata = {
     title: 'Taskursion',
@@ -12,14 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (<html lang="en" suppressHydrationWarning><body>
         <AppRouterCacheProvider>
-            <SessionProviderWrapper>
-                <ThemeWrapper>
-                    <ToastContextProvider>
+            <ThemeWrapper>
+                <ToastContextProvider>
+                    <NetworkReqInFlightContextProvider>
                         <NavProgress />
                         {children}
-                    </ToastContextProvider>
-                </ThemeWrapper>
-            </SessionProviderWrapper>
+                    </NetworkReqInFlightContextProvider>
+                </ToastContextProvider>
+            </ThemeWrapper>
         </AppRouterCacheProvider>
     </body></html>);
 }

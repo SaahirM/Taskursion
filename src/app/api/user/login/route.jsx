@@ -1,6 +1,6 @@
 import { AUTH_TYPE } from "@/src/constants/auth-type";
 import clientPromise from "@/src/db/db";
-import { authenticateSession, startSession } from "@/src/util/session-mgmt";
+import { authenticateSession, SESSION_EXPIRATION_TIME_SECONDS, startSession } from "@/src/util/session-mgmt";
 import bcrypt from "bcrypt";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -32,6 +32,7 @@ export async function POST(req) {
 
     // user created before oauth was implemented
     if (user.auth_type === undefined) {
+        // update asynchronously, continue program flow
         users.updateOne({ _id: user._id }, { $set: { auth_type: AUTH_TYPE.PASSWORD }});
         user.auth_type = AUTH_TYPE.PASSWORD;
 
@@ -58,6 +59,11 @@ export async function POST(req) {
     const sessionId = await startSession(user._id);
 
     const res = new NextResponse();
-    res.cookies.set("sessionToken", sessionId);
+    res.cookies.set("sessionToken", sessionId, {
+        maxAge: SESSION_EXPIRATION_TIME_SECONDS,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+    });
     return res;
 }
