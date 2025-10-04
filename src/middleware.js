@@ -44,9 +44,8 @@ export function middleware(req) {
     }
 
     if (req.cookies.has("next-auth.session-token") || req.cookies.has("__Secure-next-auth.session-token")) {
-        const sessionToken = req.cookies.get("next-auth.session-token").value
-            || req.cookies.get("__Secure-next-auth.session-token").value;
-
+        const sessionToken = req.cookies.get("next-auth.session-token")?.value
+            || req.cookies.get("__Secure-next-auth.session-token")?.value;
         if (req.cookies.get(SESSION_TOKEN_COOKIE_NAME)?.value !== sessionToken) {    
             res.cookies.set(SESSION_TOKEN_COOKIE_NAME, sessionToken);
         }
