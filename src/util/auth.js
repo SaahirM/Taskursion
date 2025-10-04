@@ -28,7 +28,7 @@ export const authOptions = {
                     
                     const existingUser = await users.findOne({ user_email: user.email });
                     if (existingUser && existingUser.auth_type !== AUTH_TYPE.GOOGLE) {
-                        return '/signup?SocialSignupFailed=Google';
+                        return '/signup?socialSignupFailed=Google';
                     }
                     
                     return true;
