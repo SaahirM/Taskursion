@@ -1,12 +1,13 @@
 import { cookies } from "next/headers";
 import AccountInfo from "./AccountInfo";
+import { SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { redirect } from "next/navigation";
 import clientPromise from "@/src/db/db";
 import { ObjectId } from "mongodb";
 
 export default async function AccountInfoRegion() {
-    const sessionId = (await cookies()).get("sessionToken")?.value;
+    const sessionId = (await cookies()).get(SESSION_TOKEN_COOKIE_NAME)?.value;
     const usernamePromise = getSessionUser(sessionId)
         .then(async userId => {
             if (!userId) {

@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import SignupForm from "./SignupForm";
 import { ToastContext } from "../ToastContextProvider";
-import { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
+import NetworkReqInFlightContextProvider, { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
 import { validateEmail, validateName, validatePass } from "@/src/util/validation";
 import { startHolyLoader } from "holy-loader";
 
@@ -100,16 +100,18 @@ export default function Signup() {
             });
     };
 
-    return (<Container
-        maxWidth='sm'
-        component='form'
-        onSubmit={handleSubmit}
-    >
-        <SignupForm
-            formData={formData}
-            formError={formError}
-            handlers={{ name: handleNameChange, email: handleEmailChange, pass: handlePassChange }}
-            loading={loading}
-        />
-    </Container>);
+    return (<NetworkReqInFlightContextProvider>
+        <Container
+            maxWidth='sm'
+            component='form'
+            onSubmit={handleSubmit}
+        >
+            <SignupForm
+                formData={formData}
+                formError={formError}
+                handlers={{ name: handleNameChange, email: handleEmailChange, pass: handlePassChange }}
+                loading={loading}
+            />
+        </Container>
+    </NetworkReqInFlightContextProvider>);
 }

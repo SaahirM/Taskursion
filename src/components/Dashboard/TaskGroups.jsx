@@ -3,12 +3,13 @@ import { Paper } from "@mui/material";
 import clientPromise from "../../db/db";
 import TaskGroupCard from './TaskGroupCard';
 import Grid from '@mui/material/Grid';
+import { SESSION_TOKEN_COOKIE_NAME } from '@/src/constants/auth';
 import { getSessionUser } from '../../util/session-mgmt';
 import AddTaskGroup from './AddTaskGroup';
 
 export default async function TaskGroups() {
     const client = await clientPromise;
-    const sessionId = (await cookies()).get("sessionToken").value;
+    const sessionId = (await cookies()).get(SESSION_TOKEN_COOKIE_NAME).value;
     const userId = (await getSessionUser(sessionId));
 
     const users = client.db().collection("Users");

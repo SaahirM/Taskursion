@@ -1,6 +1,6 @@
-import { AUTH_TYPE } from "@/src/constants/auth-type";
+import { AUTH_TYPE, SESSION_EXPIRATION_TIME_SECONDS, SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
 import clientPromise from "@/src/db/db";
-import { authenticateSession, SESSION_EXPIRATION_TIME_SECONDS, startSession } from "@/src/util/session-mgmt";
+import { authenticateSession, startSession } from "@/src/util/session-mgmt";
 import { validateEmail, validateName, validatePass } from "@/src/util/validation";
 import bcrypt from 'bcrypt';
 import { cookies } from "next/headers";
@@ -25,7 +25,7 @@ export async function POST(req) {
     const hash = await bcrypt.hash(data.pass, SALT_ROUNDS);
 
     const client = await clientPromise;
-    const maybeSessionId = (await cookies()).get("sessionToken")?.value;
+    const maybeSessionId = (await cookies()).get(SESSION_TOKEN_COOKIE_NAME)?.value;
     if (maybeSessionId && (await authenticateSession(maybeSessionId)) !== false) {
         return new NextResponse(
             "You are already logged in (try refreshing the page)", { status: 400 }
@@ -53,7 +53,7 @@ export async function POST(req) {
     const sessionId = await startSession(result.insertedId);
 
     const res = new NextResponse();
-    res.cookies.set("sessionToken", sessionId, {
+    res.cookies.set(SESSION_TOKEN_COOKIE_NAME, sessionId, {
         maxAge: SESSION_EXPIRATION_TIME_SECONDS,
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',

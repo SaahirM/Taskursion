@@ -1,6 +1,7 @@
 import NotFound from "@/src/app/not-found";
 import HomeBorderHeader from "@/src/components/BorderHeaders/HomeBorderHeader";
 import Task from "@/src/components/Task/Task";
+import { SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
 import clientPromise from "@/src/db/db";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
@@ -8,12 +9,9 @@ import { redirect } from "next/navigation";
 
 export default async function TaskPage(props) {
     const params = await props.params;
+    const { taskId } = params;
 
-    const {
-        taskId
-    } = params;
-
-    const sessionId = (await cookies()).get("sessionToken")?.value;
+    const sessionId = (await cookies()).get(SESSION_TOKEN_COOKIE_NAME)?.value;
     const userId = await getSessionUser(sessionId);
     if (!userId) {
         redirect("/_bad-session-token");    // middleware will delete cookie

@@ -1,13 +1,14 @@
 import clientPromise from "../db/db";
-
-// 24 hrs
-export const SESSION_EXPIRATION_TIME_MS      = 24 * 60 * 60 * 1000;
-export const SESSION_EXPIRATION_TIME_SECONDS = 24 * 60 * 60;
+import { SESSION_EXPIRATION_TIME_MS } from "../constants/auth";
 
 export async function startSession(userId, expires = null) {
     const client = await clientPromise;
     const sessions = client.db().collection("Sessions");
     const sessionId = crypto.randomUUID();
+     
+    if (expires && (!(expires instanceof Date) || expires <= new Date())) {
+        throw new Error("expires must be a future Date");
+    }
     
     const expirationDate = expires || new Date(Date.now() + SESSION_EXPIRATION_TIME_MS);
     

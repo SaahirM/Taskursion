@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect } from "react";
 import { ToastContext } from "../ToastContextProvider";
 import LoginContainer from "./LoginContainer";
+import NetworkReqInFlightContextProvider from "../NetworkReqInFlightContextProvider";
 
 export default function Login() {
     const searchParams = useSearchParams();
@@ -24,7 +25,9 @@ export default function Login() {
             newSearchParams.delete("notLoggedIn");
             router.replace(`${pathname}?${newSearchParams}`);
         }
-    }, [])
+    }, []);
 
-    return (<LoginContainer pathAfterLogin={pathAfterLogin} />);
+    return (<NetworkReqInFlightContextProvider>
+        <LoginContainer pathAfterLogin={pathAfterLogin} />
+    </NetworkReqInFlightContextProvider>);
 }

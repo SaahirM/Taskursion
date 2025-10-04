@@ -1,3 +1,4 @@
+import { SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
 import clientPromise from "@/src/db/db";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
@@ -18,7 +19,7 @@ export async function PUT(req) {
     }
 
     const client = await clientPromise;
-    const sessionId = (await cookies()).get("sessionToken")?.value;
+    const sessionId = (await cookies()).get(SESSION_TOKEN_COOKIE_NAME)?.value;
     const userId = await getSessionUser(sessionId);
     if (!userId) {
         return new NextResponse("You are not logged in", { status: 401 });

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { SESSION_TOKEN_COOKIE_NAME } from "./constants/auth";
 
 export const config = {
     matcher: [
@@ -28,24 +29,25 @@ const unprotectedPages = new Set(["", "/", "/signup", "/login"]);
 export function middleware(req) {
     let res = NextResponse.next();
 
-    if ((unprotectedPages.has(req.nextUrl.pathname)) && (req.cookies.has("sessionToken"))) {
+    if ((unprotectedPages.has(req.nextUrl.pathname)) && (req.cookies.has(SESSION_TOKEN_COOKIE_NAME))) {
         res = NextResponse.redirect(new URL("/home", req.url));
 
-    } else if ((req.nextUrl.pathname.startsWith("/home")) && (!req.cookies.has("sessionToken"))) {
+    } else if ((req.nextUrl.pathname.startsWith("/home")) && (!req.cookies.has(SESSION_TOKEN_COOKIE_NAME))) {
         const newPath = encodeURIComponent(req.nextUrl.pathname);
         res = NextResponse.redirect(new URL(`/login?notLoggedIn&afterLogin=${newPath}`, req.url));
 
     } else if (req.nextUrl.pathname === "/_bad-session-token") {
         const expireTokenRes = NextResponse.redirect(new URL("/login?notLoggedIn", req.url));
-        expireTokenRes.cookies.delete("sessionToken");
+        expireTokenRes.cookies.delete(SESSION_TOKEN_COOKIE_NAME);
+        // returning early to avoid copy-nextauth-token logic below
         return expireTokenRes;
     }
 
     if (req.cookies.has("next-auth.session-token")) {
         const sessionToken = req.cookies.get("next-auth.session-token").value;
 
-        if (req.cookies.get("sessionToken")?.value !== sessionToken) {    
-            res.cookies.set("sessionToken", sessionToken);
+        if (req.cookies.get(SESSION_TOKEN_COOKIE_NAME)?.value !== sessionToken) {    
+            res.cookies.set(SESSION_TOKEN_COOKIE_NAME, sessionToken);
         }
     }
 

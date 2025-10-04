@@ -1,8 +1,7 @@
 import GoogleProvider from "next-auth/providers/google";
 import clientPromise from "@/src/db/db";
 import { authDbAdapter } from "./auth-db-adapter";
-import { SESSION_EXPIRATION_TIME_SECONDS } from "./session-mgmt";
-import { AUTH_TYPE } from "../constants/auth-type";
+import { AUTH_TYPE, SESSION_EXPIRATION_TIME_SECONDS } from "../constants/auth";
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     throw new Error("Missing required Google OAuth credentials in environment variables");

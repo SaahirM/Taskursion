@@ -1,7 +1,6 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import ThemeWrapper from './theme/ThemeWrapper';
 import ToastContextProvider from '../components/ToastContextProvider';
-import NetworkReqInFlightContextProvider from '../components/NetworkReqInFlightContextProvider';
 import NavProgress from '../components/NavProgress';
 
 export const metadata = {
@@ -14,10 +13,8 @@ export default function RootLayout({ children }) {
         <AppRouterCacheProvider>
             <ThemeWrapper>
                 <ToastContextProvider>
-                    <NetworkReqInFlightContextProvider>
-                        <NavProgress />
-                        {children}
-                    </NetworkReqInFlightContextProvider>
+                    <NavProgress />
+                    {children}
                 </ToastContextProvider>
             </ThemeWrapper>
         </AppRouterCacheProvider>
