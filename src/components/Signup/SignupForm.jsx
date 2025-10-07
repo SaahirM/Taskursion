@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Paper, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
-import ProviderLoginButtons from "../Login/ProviderLoginButtons";
+import AltLoginButtons from "../Login/AltLoginButtons";
 import { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
 
 export default function SignupForm({ formData, formError, handlers, loading }) {
@@ -100,7 +100,7 @@ export default function SignupForm({ formData, formError, handlers, loading }) {
                 }
             </Box>
             
-            <ProviderLoginButtons />
+            <AltLoginButtons />
         </Paper>
     );
 }

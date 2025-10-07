@@ -27,14 +27,15 @@ export async function getSessionUser(sessionId) {
     const sessions = client.db().collection("Sessions");
     const maybeSession = await sessions.findOne({ _id: sessionId });
 
-    if (maybeSession) {
-        if (!maybeSession.expires || new Date() > maybeSession.expires) {
-            await sessions.deleteOne({ _id: sessionId });
-            return null;
-        }
-        return maybeSession.user_id;
+    if (!maybeSession) return null;
+    const session = maybeSession;
+
+    if (!session.expires || new Date() > session.expires) {
+        await sessions.deleteOne({ _id: sessionId });
+        return null;
     }
-    return null;
+
+    return session.user_id;
 }
 
 export async function getSessionAndUser(sessionId) {

@@ -1,5 +1,5 @@
 import { Box, Button, CircularProgress, Paper, TextField, Typography, useMediaQuery } from "@mui/material";
-import ProviderLoginButtons from "./ProviderLoginButtons";
+import AltLoginButtons from "./AltLoginButtons";
 import { useNetworkRequest } from "../NetworkReqInFlightContextProvider";
 
 export default function LoginForm({ formData, changeHandler, loading }) {
@@ -71,7 +71,7 @@ export default function LoginForm({ formData, changeHandler, loading }) {
                 </Box>
             </Box>
             
-            <ProviderLoginButtons />
+            <AltLoginButtons />
         </Paper>
     );
 }
