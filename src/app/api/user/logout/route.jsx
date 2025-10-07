@@ -20,6 +20,9 @@ export async function POST(req) {
         const user = await users.findOne({ _id: userId });
 
         if (user?.auth_type === "demo") {
+            const tasks = client.db().collection("Tasks");
+            await tasks.deleteMany({ "_id.user_id": String(userId) });
+            
             await users.deleteOne({ _id: userId });
         }
     }

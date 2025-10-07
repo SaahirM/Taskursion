@@ -136,8 +136,9 @@ export default function AltLoginButtons() {
         </Box>
         
         <Typography variant="body2">
-            Demo accounts are temporary. They are deleted upon logging out or after 24 hours,
-            along with any data created during that time.
+            Demo accounts are <strong>temporary</strong>. They are deleted upon logging
+            out or after 24 hours, along with any data created during that time. They
+            also come with sandbox data.
         </Typography>
     </>);
 }
