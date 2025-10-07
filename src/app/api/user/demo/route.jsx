@@ -1,4 +1,5 @@
 import { SESSION_EXPIRATION_TIME_SECONDS, SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
+import { DEMO_ACCOUNT_LIFESPAN_MS } from "@/src/constants/demo";
 import clientPromise from "@/src/db/db";
 import { authenticateSession, startSession } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
@@ -71,6 +72,7 @@ export async function POST() {
         user_root_task_ids: [1],
         user_last_created_task: lastCreatedTaskId,
         auth_type: "demo",
+        demo_user_expires: new Date(Date.now() + DEMO_ACCOUNT_LIFESPAN_MS),
     });
 
     const tasks = client.db().collection("Tasks");

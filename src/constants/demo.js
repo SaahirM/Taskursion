@@ -1,0 +1,1 @@
+export const DEMO_ACCOUNT_LIFESPAN_MS = 24 * 60 * 60 * 1000; // 24 hours
