@@ -9,7 +9,27 @@ export default function LandingPage() {
     const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('sm'));
 
     return (
-        <PlainBorderHeader>
+        <PlainBorderHeader disableTopShadow>
+            <Box sx={theme => ({
+                position: 'fixed',
+                width: `calc(100% - ${theme.spacing(2)})`,
+                height: `calc(100% - ${theme.spacing(2)})`,
+                top: theme.spacing(1),
+                left: theme.spacing(1),
+                boxShadow: `0 0 20px 4px ${theme.vars.palette.primary.main} inset`,
+                [theme.getColorSchemeSelector('dark')]: {
+                    boxShadow: `0 0 20px 4px ${theme.vars.palette.secondary.main} inset`,
+                },
+                borderRadius: 3,
+                animation: '6s ease infinite fade-in-out',
+                pointerEvents: 'none',
+
+                '@keyframes fade-in-out': {
+                    from: { opacity: 0 },
+                    '50%': { opacity: 1 },
+                    to: { opacity: 0 },
+                },
+            })} />
             <ThemeChangeBtn />
             <Typography
                 variant="h1"

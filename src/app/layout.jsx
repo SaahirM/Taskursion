@@ -2,6 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import ThemeWrapper from './theme/ThemeWrapper';
 import ToastContextProvider from '../components/ToastContextProvider';
 import NavProgress from '../components/NavProgress';
+import './prefers-reduced-motion.css';
 
 export const metadata = {
     title: 'Taskursion',

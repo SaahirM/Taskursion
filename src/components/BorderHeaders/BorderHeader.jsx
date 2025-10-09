@@ -3,7 +3,7 @@ import BorderHeaderHeader from "./BorderHeaderHeader";
 import ScrollableBox from "./ScrollableBox";
 
 export default function BorderHeader({
-    primaryHeaderComponent, secondaryHeaderComponent, children
+    primaryHeaderComponent, secondaryHeaderComponent, disableTopShadow = false, children
 }) {
     const borderHoverStyles = theme => ({
         ':hover:not(:has(.not-outer-box:hover))': { backgroundColor: theme.vars.palette.secondary.light },
@@ -52,7 +52,7 @@ export default function BorderHeader({
                     for more context
                     */
                 >
-                    <Box
+                    {disableTopShadow || <Box
                         /*
                         sticky shadow at the top of the content area at a higher z-index. Page content 
                         being scrolled through will appear underneath this shadow. Without this box, 
@@ -72,7 +72,7 @@ export default function BorderHeader({
                             [theme.getColorSchemeSelector('dark')]: {
                                 background: "linear-gradient(0deg, transparent, black)"
                             }
-                        })} />
+                        })} />}
                     <Box
                         /* An "inner innner inner box" to pad the page content */
                         sx={{

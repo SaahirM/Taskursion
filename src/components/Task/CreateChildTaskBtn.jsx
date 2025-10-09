@@ -66,7 +66,9 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
             '@keyframes fade-down': {
                 from: { opacity: 1, transform: 'translateY(0)' },
                 to: { opacity: 0, transform: 'translateY(200px)' }
-            }
+            },
+
+            '@media (prefers-reduced-motion)': { display: 'none' },
         }}>
         {transitionText}
     </Typography>);
