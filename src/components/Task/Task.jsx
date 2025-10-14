@@ -9,6 +9,7 @@ import ChildTaskList from "./ChildTaskList";
 import Grid from '@mui/material/Grid';
 import { ToastContext } from "../ToastContextProvider";
 import EditableTypography from "@/src/util/EditableTypography";
+import TaskSummary from "./TaskSummary";
 
 export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
     const [task, setTask] = useState(initialTask);
@@ -99,6 +100,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                             ? <LinearProgress color='secondary' />
                             : <Box sx={{ height: "4px" }} />
                         }
+                        <TaskSummary task={task} />
                         <EditableTypography
                             text={{ variant: 'body', component: 'p' }}
                             value={task.task_desc}
