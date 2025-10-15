@@ -11,7 +11,7 @@ import { ToastContext } from "../ToastContextProvider";
 import EditableTypography from "@/src/util/EditableTypography";
 import TaskSummary from "./TaskSummary";
 
-export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise }) {
+export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise, userAiUsagePromise }) {
     const [task, setTask] = useState(initialTask);
     const [loading, setLoading] = useState(false);
     const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
@@ -100,7 +100,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                             ? <LinearProgress color='secondary' />
                             : <Box sx={{ height: "4px" }} />
                         }
-                        <TaskSummary task={task} setTask={setTask} />
+                        <TaskSummary task={task} setTask={setTask} userAiUsagePromise={userAiUsagePromise} />
                         <EditableTypography
                             text={{ variant: 'body', component: 'p' }}
                             value={task.task_desc}

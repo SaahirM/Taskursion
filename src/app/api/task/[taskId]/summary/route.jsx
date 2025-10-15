@@ -1,5 +1,6 @@
 import { SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
 import clientPromise from "@/src/db/db";
+import { getRemainingUsage, isGlobalUsageExceeded } from "@/src/util/ai-usage";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
@@ -15,7 +16,13 @@ export async function POST(_req, { params }) {
         return new NextResponse("You are not logged in", { status: 401 });
     }
 
-    // TODO verify user has available usage
+    if (await getRemainingUsage(userId) <= 0) {
+        return new NextResponse("You have exceeded your monthly AI usage limit", { status: 429 });
+    }
+
+    if (await isGlobalUsageExceeded() === true) {
+        return new NextResponse("AI Summaries are temporarily disabled. Please try again later", { status: 503 });
+    }
 
     const tasks = client.db().collection("Tasks");
     const task = await tasks.findOne({ _id: { user_id: String(userId), task_id: Number(taskId) } });
@@ -23,8 +30,6 @@ export async function POST(_req, { params }) {
     if (!task) {
         return new NextResponse("Task not found", { status: 404 });
     }
-
-    // TODO verify there arent any summarizations in progress
 
     const tasksAndSubtasks = await tasks.aggregate([
         {
@@ -104,7 +109,7 @@ export async function POST(_req, { params }) {
     }
     promptTasks += "]";
 
-    const generatedAt = new Date().toISOString();
+    const generatedAt = new Date();
     const openAiClient = new OpenAI({
         apiKey: () => Promise.resolve(process.env.OPENAI_API_KEY),
     });

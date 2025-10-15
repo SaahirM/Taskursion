@@ -9,7 +9,8 @@ A task-tracking web app with the ability to organize tasks into endless layers o
 To get a demo of this project running on your local device, you will need:
 - [Node.js](https://nodejs.org/)
 - A [local MongoDB server](https://www.mongodb.com/docs/manual/installation/) or [cloud-hosted MongoDB service](https://www.mongodb.com/atlas/database)
-- Google OAuth credentials from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+- (Optional, for "Signup with Google") Google OAuth credentials from the [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+- (Optional, for "Summarize with AI") An OpenAI API key from the [OpenAI Platform](https://platform.openai.com)
 
 ## Getting Started
 
@@ -19,7 +20,9 @@ Follow these steps to get the app running:
 1. Update `.env`.
     * Change the database connection URL value `MONGO_CONN_STR` so it points to your desired database.
     * Generate a secret for NextAuth `NEXTAUTH_SECRET` by running `openssl rand -base64 32` and copying the result into `.env`. Or run `npx auth secret`.
-    * Replace the Google OAuth values `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET` with your own from the Google Cloud Console.
+    * (Optional) Replace the Google OAuth values `GOOGLE_CLIENT_ID` & `GOOGLE_CLIENT_SECRET` with your own from the Google Cloud Console.
+    * (Optional) Generate a random string by running `openssl rand -base64 32` and use it as `CRON_SECRET`
+    * (Optional) Set `OPENAI_API_KEY` as your OpenAI API key
 1. Launch a terminal.
 1. Run `npm install` at the root project directory `/taskursion`.
 1. Run `npm run build` to build the app.

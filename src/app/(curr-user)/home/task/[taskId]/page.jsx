@@ -3,6 +3,7 @@ import HomeBorderHeader from "@/src/components/BorderHeaders/HomeBorderHeader";
 import Task from "@/src/components/Task/Task";
 import { SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
 import clientPromise from "@/src/db/db";
+import { getRemainingUsage } from "@/src/util/ai-usage";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -44,12 +45,15 @@ export default async function TaskPage(props) {
         return childTasks;
     });
 
+    const userAiUsagePromise = getRemainingUsage(userId);
+
     return (
         <main>
             <Task
                 task={task}
                 parentTaskPromise={parentTaskPromise}
                 childTasksPromise={childTasksPromise}
+                userAiUsagePromise={userAiUsagePromise}
             />
         </main>
     );

@@ -1,15 +1,20 @@
 import { AutoAwesomeRounded } from "@mui/icons-material";
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "../ToastContextProvider";
 import TaskSummaryBox from "./TaskSummaryBox";
 
-export default function TaskSummary({ task, setTask }) {
+export default function TaskSummary({ task, setTask, userAiUsagePromise }) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [generating, setGenerating] = useState(false);
     const [typing, setTyping] = useState(false);
+    const [userRemainingAiUses, setUserRemainingAiUses] = useState(null);
 
     const toast = useContext(ToastContext);
+
+    const userRemainingAiPercent = userRemainingAiUses
+        ? Math.round((userRemainingAiUses / process.env.NEXT_PUBLIC_USER_MONTHLY_AI_USES) * 100)
+        : 0;
 
     const handleGenerate = async () => {
         setDialogOpen(false);
@@ -39,12 +44,18 @@ export default function TaskSummary({ task, setTask }) {
                 }
             });
             setTyping(true);
+            setUserRemainingAiUses(uses => uses - 1);
         }).catch(e => {
             const message = e.message ??
                 "An unexpected error occurred while communicating with the server";
             toast(message);
         }).finally(() => { setGenerating(false); });
     }
+
+    useEffect(() => {
+        if (!userAiUsagePromise) return;        
+        userAiUsagePromise.then(setUserRemainingAiUses);
+    }, [userAiUsagePromise]);
 
     return (<>
         <Grid container sx={{ my: 2 }} rowSpacing={1} columnSpacing={2}>
@@ -54,6 +65,7 @@ export default function TaskSummary({ task, setTask }) {
                     variant="contained"
                     size="small"
                     onClick={() => setDialogOpen(true)}
+                    disabled={userRemainingAiUses === null || userRemainingAiUses === 0}
 
                     sx={theme => ({
                         background: 'linear-gradient(90deg, #8f00ff, #f800ee, #ff5c00)',
@@ -102,9 +114,11 @@ export default function TaskSummary({ task, setTask }) {
             </Grid>
             <Grid size={{ xs: 12, sm: 'auto' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
-                    <CircularProgress size={25} variant="determinate" value={80} color="info" sx={{ mr: 1 }} />
-                    <Typography variant="body2">4 <span aria-label="of">/</span> 5 summaries remaining</Typography>
-                    {/* TODO update summaries remaining */}
+                    <CircularProgress size={25} variant="determinate" value={userRemainingAiPercent} color="info" sx={{ mr: 1 }} />
+                    <Typography variant="body2">
+                        {userRemainingAiUses ?? 0} <span aria-label="of">/</span> {process.env.NEXT_PUBLIC_USER_MONTHLY_AI_USES}{' '}
+                        summaries remaining
+                    </Typography>
                 </Box>
             </Grid>
         </Grid>
