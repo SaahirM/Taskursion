@@ -100,7 +100,7 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                             ? <LinearProgress color='secondary' />
                             : <Box sx={{ height: "4px" }} />
                         }
-                        <TaskSummary task={task} />
+                        <TaskSummary task={task} setTask={setTask} />
                         <EditableTypography
                             text={{ variant: 'body', component: 'p' }}
                             value={task.task_desc}

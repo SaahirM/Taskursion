@@ -1,13 +1,49 @@
 import { AutoAwesomeRounded } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper, Typography } from "@mui/material";
+import { useContext, useState } from "react";
+import { ToastContext } from "../ToastContextProvider";
 
-export default function TaskSummary({ task }) {
+export default function TaskSummary({ task, setTask }) {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [generating, setGenerating] = useState(false);
 
-    const handleGenerate = () => {
-        // TODO call API to generate summary
+    const toast = useContext(ToastContext);
+
+    const summaryGeneratedDate = task.task_ai_summary?.generated_at ?
+        (new Date(task.task_ai_summary.generated_at)).toLocaleString() : null;
+
+    const handleGenerate = async () => {
         setDialogOpen(false);
+        setGenerating(true);
+
+        await fetch(`/api/task/${task._id.task_id}/summary`, {
+            method: 'POST'
+        }).then(async res => {
+            if (res.status === 404) {
+                throw new Error("Task could not be summarized. Task may have been deleted");
+            } else if (!res.ok) {
+                const error = await res.text();
+                if (error !== "") {
+                    throw new Error(error);
+                }
+                throw new Error(`Server responded with a ${res.status} status code`);
+            }
+
+            return res.json();
+        }).then(res => {
+            setTask({
+                ...task,
+                task_ai_summary: {
+                    text: res.aiSummary,
+                    wasPromptTruncated: res.isPromptTruncated,
+                    generated_at: res.generatedAt,
+                }
+            });
+        }).catch(e => {
+            const message = e.message ??
+                "An unexpected error occurred while communicating with the server";
+            toast(message);
+        }).finally(() => { setGenerating(false); });
     }
 
     return (<>
@@ -31,6 +67,15 @@ export default function TaskSummary({ task }) {
                 </Box>
             </Grid>
         </Grid>
+
+        {(generating || task.task_ai_summary) && <Paper sx={{ p: 1 }}>
+            {generating && <Typography>Summarizing...</Typography>}
+            {task.task_ai_summary && (<>
+                <Typography variant='h4' component='h2'>AI Summary</Typography>
+                <Typography>{task.task_ai_summary.text}</Typography>
+                <Typography variant="body2" color='textSecondary'>Generated {summaryGeneratedDate}</Typography>
+            </>)}
+        </Paper>}
 
         <Dialog
             open={dialogOpen}
