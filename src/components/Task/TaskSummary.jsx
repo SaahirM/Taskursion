@@ -1,7 +1,7 @@
-import { AutoAwesomeRounded } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Paper, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { ToastContext } from "../ToastContextProvider";
+import SummarizeButton from "./SummarizeButton";
 import TaskSummaryBox from "./TaskSummaryBox";
 
 export default function TaskSummary({ task, setTask, userAiUsagePromise }) {
@@ -60,57 +60,10 @@ export default function TaskSummary({ task, setTask, userAiUsagePromise }) {
     return (<>
         <Grid container sx={{ my: 2 }} rowSpacing={1} columnSpacing={2}>
             <Grid size={{ xs: 12, sm: 'auto' }}>
-                <Button
-                    startIcon={<AutoAwesomeRounded />}
-                    variant="contained"
-                    size="small"
+                <SummarizeButton
                     onClick={() => setDialogOpen(true)}
                     disabled={userRemainingAiUses === null || userRemainingAiUses === 0}
-
-                    sx={theme => ({
-                        background: 'linear-gradient(90deg, #8f00ff, #f800ee, #ff5c00)',
-                        backgroundSize: '200% 100%',
-                        backgroundPositionX: '100%',
-
-                        '&:hover': {
-                            backgroundPositionX: '0%',
-                            animation: 'color-shift 400ms 1',
-                            '@keyframes color-shift': {
-                                '0%': { backgroundPositionX: '100%' },
-                                '100%': { backgroundPositionX: '0%' },
-                            },
-                        },
-
-                        animation: 'color-shift-back 1s 1',
-                        '@keyframes color-shift-back': {
-                            '0%': { backgroundPositionX: '0%' },
-                            '100%': { backgroundPositionX: '100%' },
-                        },
-
-                        [theme.getColorSchemeSelector('dark')]: {
-                            backgroundImage: 'linear-gradient(90deg, #36f59c, #36def5, #ff0097)',
-                            backgroundSize: '200% 100%',
-                            backgroundPositionX: '100%',
-
-                            '&:hover': {
-                                backgroundPositionX: '0%',
-                                animation: 'color-shift 400ms 1',
-                                '@keyframes color-shift': {
-                                    '0%': { backgroundPositionX: '100%' },
-                                    '100%': { backgroundPositionX: '0%' },
-                                },
-                            },
-
-                            animation: 'color-shift-back 1s 1',
-                            '@keyframes color-shift-back': {
-                                '0%': { backgroundPositionX: '0%' },
-                                '100%': { backgroundPositionX: '100%' },
-                            },
-                        }
-                    })}
-                >
-                    Summarize with AI
-                </Button>
+                />
             </Grid>
             <Grid size={{ xs: 12, sm: 'auto' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', height: '100%' }}>
