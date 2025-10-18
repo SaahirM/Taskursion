@@ -1,6 +1,7 @@
 import { SESSION_TOKEN_COOKIE_NAME } from "@/src/constants/auth";
 import clientPromise from "@/src/db/db";
 import { getSessionUser } from "@/src/util/session-mgmt";
+import { validateTaskDesc, validateTaskTitle } from "@/src/util/validation";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -8,7 +9,7 @@ export async function PUT(req) {
     const data = await req.json();
     if (
         !data._id.user_id || !data._id.task_id || data.task_parent_id === undefined ||
-        data.task_title === undefined || data.task_desc === undefined ||
+        !data.task_title || data.task_desc === undefined ||
         data.task_completed === undefined
     ) {
         return new NextResponse(
@@ -23,6 +24,11 @@ export async function PUT(req) {
     const userId = await getSessionUser(sessionId);
     if (!userId) {
         return new NextResponse("You are not logged in", { status: 401 });
+    }
+
+    const valError = validateTaskTitle(data.task_title) || validateTaskDesc(data.task_desc);
+    if (valError) {
+        return new NextResponse(valError, { status: 400 });
     }
 
     const tasks = client.db().collection("Tasks");

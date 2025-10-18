@@ -1,16 +1,43 @@
 "use client";
 
-import { Alert, Button, Card, CardContent, Snackbar, TextField } from "@mui/material";
+import { validateTaskDesc, validateTaskTitle } from "@/src/util/validation";
+import { Button, Card, CardContent, TextField } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ToastContext } from "../ToastContextProvider";
 
 export default function AddTaskGroup() {
     const [title, setTitle] = useState("");
     const [desc, setDesc] = useState("");
+    const [titleError, setTitleError] = useState("");
+    const [descError, setDescError] = useState("");
 
-    const [isSbOpen, setIsSbOpen] = useState(false);
-    const [error, setError] = useState("");
     const router = useRouter();
+    const toast = useContext(ToastContext);
+
+    const handleTitleChange = e => {
+        const newTitle = e.target.value;
+        setTitle(newTitle);
+
+        if (newTitle === "") {
+            setTitleError("");
+            return;
+        }
+        
+        setTitleError(validateTaskTitle(newTitle));
+    }
+
+    const handleDescChange = e => {
+        const newDesc = e.target.value;
+        setDesc(newDesc);
+
+        if (newDesc === "") {
+            setDescError("");
+            return;
+        }
+        
+        setDescError(validateTaskDesc(newDesc));
+    }
 
     const addTask = () => {
         if (title === "") return;
@@ -39,14 +66,8 @@ export default function AddTaskGroup() {
                 router.refresh();
             })
             .catch(e => {
-                console.log(e);
-                if (e.message) {
-                    setError(e.message);
-                    setIsSbOpen(true);
-                } else {
-                    setError("An unexpected error occurred while creating this task");
-                    setIsSbOpen(true);
-                }
+                const msg = e.message ?? "An unexpected error occurred while creating this task";
+                toast(msg)
             });
     };
 
@@ -58,7 +79,10 @@ export default function AddTaskGroup() {
                 margin='dense'
                 size='small'
                 value={title}
-                onChange={e => setTitle(e.target.value)}
+                onChange={handleTitleChange}
+                error={titleError !== ""}
+                helperText={titleError}
+                required
             />
             <TextField
                 label="Task description"
@@ -68,25 +92,18 @@ export default function AddTaskGroup() {
                 multiline
                 rows={3}
                 value={desc}
-                onChange={e => setDesc(e.target.value)}
+                onChange={handleDescChange}
+                error={descError !== ""}
+                helperText={descError}
             />
             <Button
                 size='small'
                 sx={{ fontSize: ["0.7rem", "0.9rem"] }}
                 onClick={addTask}
+                disabled={titleError || descError}
             >
                 Create new task
             </Button>
-
-            <Snackbar
-                open={isSbOpen}
-                autoHideDuration={9000}
-                onClose={setIsSbOpen.bind(null, false)}
-            >
-                <Alert onClose={setIsSbOpen.bind(null, false)} severity='error' variant='filled'>
-                    {error}
-                </Alert>
-            </Snackbar>
         </CardContent>
     </Card>);
 }

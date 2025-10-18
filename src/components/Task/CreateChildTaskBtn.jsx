@@ -1,8 +1,9 @@
 import { AddBoxRounded } from "@mui/icons-material";
-import { Card, CardContent, CardHeader, Checkbox, CircularProgress, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
+import { Card, CardContent, CardHeader, Checkbox, CircularProgress, FormControl, FormHelperText, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
 import { useContext, useState } from "react";
 import { ToastContext } from "../ToastContextProvider";
+import { validateTaskTitle } from "@/src/util/validation";
 
 const TRANSITION_TIMEOUT = 500; //ms
 
@@ -11,8 +12,21 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
     const [checked, setChecked] = useState(false);
     const [loading, setLoading] = useState(false);
     const [transitionText, setTransitionText] = useState("");
+    const [error, setError] = useState("");
 
     const toast = useContext(ToastContext);
+
+    const handleSubtaskTitleChange = e => {
+        const newTitle = e.target.value;
+        setTitle(newTitle);
+
+        if (newTitle === "") {
+            setError("");
+            return;
+        }
+
+        setError(validateTaskTitle(newTitle));
+    }
 
     const addTask = async () => {
         if (title === "") return;
@@ -44,13 +58,15 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
                 setChildTasks(oldChildTasks => [...oldChildTasks, data]);
                 setTitle("");
                 setChecked(false);
-                setLoading(false);
             })
             .catch(e => {
                 const message = e.message ??
                     "An unexpected error occurred while communicating with the server";
                 toast(message);
-            });
+            })
+            .finally(() => {
+                setLoading(false);
+            })
     };
 
     const Transition = () => (<Typography
@@ -77,15 +93,8 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
         <Card elevation={3} sx={{ mt: 3, mb: 1, overflow: 'visible' }}>
             <CardHeader sx={{ pb: 0 }} title="Create subtask" />
             <CardContent sx={{ py: 1, ':last-child': { pb: 2 } }}>
-                <Grid container sx={{
-                    gap: 1
-                }}>
-                    <Grid
-                        size='auto'
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center'
-                        }}>
+                <Grid container sx={{ gap: 1 }}>
+                    <Grid size='auto'>
                         <Checkbox
                             edge='start'
                             size='large'
@@ -94,24 +103,25 @@ export default function CreateChildTaskBtn({ parentId, setChildTasks }) {
                         />
                     </Grid>
                     <Grid size="grow">
-                        <FormControl fullWidth>
+                        <FormControl fullWidth error={error}>
                             <InputLabel htmlFor="create-subtask-input">Title</InputLabel>
                             <OutlinedInput
                                 id="create-subtask-input"
                                 label="Title"
                                 placeholder="Plan everything out..."
                                 value={title}
-                                onChange={e => setTitle(e.target.value)}
-                                onKeyDown={({ key }) => { if (key === 'Enter') addTask(); }}
+                                onChange={handleSubtaskTitleChange}
+                                onKeyDown={({ key }) => { if (key === 'Enter' && !error) addTask(); }}
                                 endAdornment={<InputAdornment position='end'>
                                     {loading
                                         ? <CircularProgress size={20} />
-                                        : <IconButton edge='end' aria-label="Add subtask" onClick={addTask}>
+                                        : <IconButton edge='end' aria-label="Add subtask" onClick={addTask} disabled={error}>
                                             <AddBoxRounded />
                                         </IconButton>
                                     }
                                 </InputAdornment>}
                             />
+                            <FormHelperText>{error || " "}</FormHelperText>
                             <Transition />
                         </FormControl>
                     </Grid>

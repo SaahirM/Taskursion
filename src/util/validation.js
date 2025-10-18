@@ -5,6 +5,8 @@ const PASS_REGEX = /(?=.*[^A-Za-z0-9_ \t\r\n\v\f])(?=.*\d)(?=.*[A-Z])(?=.*[a-z])
 const MAX_NAME_LEN = 255;
 const MAX_EMAIL_LEN = 254;
 const MIN_PASS_LEN = 8;
+const MAX_TASK_TITLE_LEN = 100;
+const MAX_TASK_DESC_LEN = 3000;
 
 export function validateName(name) {
     if (name.length > MAX_NAME_LEN) {
@@ -31,5 +33,21 @@ export function validatePass(pass) {
         return "This password doesn't meet the requirements.";
     }
 
+    return "";
+}
+
+export function validateTaskTitle(title) {
+    if (title.length > MAX_TASK_TITLE_LEN) {
+        return "Task titles cannot have more than 100 characters";
+    }
+    
+    return "";
+}
+
+export function validateTaskDesc(desc) {
+    if (desc.length > MAX_TASK_DESC_LEN) {
+        return "Task descriptions cannot have more than 3000 characters";
+    }
+    
     return "";
 }

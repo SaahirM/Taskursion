@@ -10,15 +10,51 @@ import Grid from '@mui/material/Grid';
 import { ToastContext } from "../ToastContextProvider";
 import EditableTypography from "@/src/util/EditableTypography";
 import TaskSummary from "./TaskSummary";
+import { validateTaskDesc, validateTaskTitle } from "@/src/util/validation";
 
 export default function Task({ task: initialTask, parentTaskPromise, childTasksPromise, userAiUsagePromise }) {
     const [task, setTask] = useState(initialTask);
     const [loading, setLoading] = useState(false);
     const [backLinkInfo, setBackLinkInfo] = useState({ text: "", linkTarget: "" });
+    const [errors, setErrors] = useState({ title: "", desc: "" });
 
     const toast = useContext(ToastContext);
 
+    const handleTitleChange = e => {
+        const newTitle = e.target.value;
+        setTask({ ...task, task_title: newTitle });
+
+        if (newTitle === "") {
+            setErrors({ ...errors, title: "" });
+            return;
+        }
+
+        const maybeTitleErrors = validateTaskTitle(newTitle);
+        setErrors({
+            ...errors,
+            title: maybeTitleErrors ? "Cannot save changes. " + maybeTitleErrors : "",
+        });
+    }
+
+    const handleDescChange = e => {
+        const newDesc = e.target.value;
+        setTask({ ...task, task_desc: newDesc });
+
+        if (newDesc === "") {
+            setErrors({ ...errors, desc: "" });
+            return;
+        }
+
+        const maybeDescErrors = validateTaskDesc(newDesc);
+        setErrors({
+            ...errors,
+            desc: maybeDescErrors ? "Cannot save changes. " + maybeDescErrors : "",
+        });
+    }
+
     const saveTask = task => {
+        if (errors.title || errors.desc) return;
+
         setLoading(true);
         fetch(`/api/task/${task._id.task_id}`, {
             method: 'PUT',
@@ -92,9 +128,11 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                         <EditableTypography
                             text={{ variant: 'h2', component: 'h2', maxRows: 1 }}
                             value={task.task_title}
-                            onChange={e => setTask({ ...task, task_title: e.target.value })}
+                            onChange={handleTitleChange}
                             onBlur={() => saveTask(task)}
                             placeholder="Task title"
+                            error={errors.title !== ""}
+                            helperText={errors.title}
                         />
                         {loading
                             ? <LinearProgress color='secondary' />
@@ -104,9 +142,11 @@ export default function Task({ task: initialTask, parentTaskPromise, childTasksP
                         <EditableTypography
                             text={{ variant: 'body', component: 'p' }}
                             value={task.task_desc}
-                            onChange={e => setTask({ ...task, task_desc: e.target.value })}
+                            onChange={handleDescChange}
                             onBlur={() => saveTask(task)}
                             placeholder="Task description"
+                            error={errors.desc !== ""}
+                            helperText={errors.desc}
                         />
                     </Grid>
                     <Grid

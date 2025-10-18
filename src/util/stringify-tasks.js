@@ -2,18 +2,6 @@ const parsedMaxChars = parseInt(process.env.AI_TASK_SUMMARY_MAX_CHARS);
 const MAX_CHARS = isNaN(parsedMaxChars) ? 40_000 : parsedMaxChars;
 
 export default function stringifyTasks(tasks) {
-
-    // TODO prevent task titles and descs from being arbitrarily long
-    // temp fix
-    let isPromptTruncated = false;
-    if (tasks[0].task_title.length > 100) {
-        tasks[0].task_title = tasks[0].task_title.slice(0, 100);
-        isPromptTruncated = true;
-    } else if (tasks[0].task_desc?.length > 3000) {
-        tasks[0].task_desc = tasks[0].task_desc.slice(0, 3000);
-        isPromptTruncated = true;
-    }
-
     const jsonTasks = tasks
         .map(task => ({
             id: task._id.task_id,
@@ -23,6 +11,7 @@ export default function stringifyTasks(tasks) {
         }))
         .map(JSON.stringify);
 
+    let isPromptTruncated = false;
     let totalChars = 0;
     let stringTasks = "[" + jsonTasks[0];
     for (let i = 1; i < jsonTasks.length; i++) {
