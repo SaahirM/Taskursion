@@ -39,7 +39,7 @@ export default function TaskSummary({ task, setTask, userAiUsagePromise }) {
                 ...task,
                 task_ai_summary: {
                     text: res.aiSummary,
-                    wasPromptTruncated: res.isPromptTruncated,
+                    was_prompt_truncated: res.isPromptTruncated,
                     generated_at: res.generatedAt,
                 }
             });

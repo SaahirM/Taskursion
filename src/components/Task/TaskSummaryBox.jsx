@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@mui/material";
+import { Alert, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export default function TaskSummaryBox({ generating, summary, typing, onTypingComplete }) {
@@ -50,6 +50,9 @@ export default function TaskSummaryBox({ generating, summary, typing, onTypingCo
     } else if (summary) {
         innerComponent = (<>
             <Typography variant='h4' component='h2'>AI Summary</Typography>
+            {summary.was_prompt_truncated && <Alert severity='warning'>
+                <b>Warning:</b> Some subtasks weren't included in the summary because this task was too big
+            </Alert>}
             <Typography aria-live="polite">{typedWords}</Typography>
             <Typography variant="body2" color='textSecondary' suppressHydrationWarning>
                 Generated {summaryGeneratedDate}

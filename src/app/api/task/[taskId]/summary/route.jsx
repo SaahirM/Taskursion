@@ -70,7 +70,7 @@ export async function POST(_req, { params }) {
                 task_ai_summary: {
                     text: openAiRes.output_text,
                     generated_at: generatedAt,
-                    wasPromptTruncated: isPromptTruncated,
+                    was_prompt_truncated: isPromptTruncated,
                 }
             }
         },
