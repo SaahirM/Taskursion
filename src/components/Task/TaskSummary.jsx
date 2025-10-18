@@ -94,7 +94,7 @@ export default function TaskSummary({ task, setTask, userAiUsagePromise }) {
             <DialogTitle id="ai-summary-dialog-title" variant="h2">Generate AI summary?</DialogTitle>
 
             <DialogContent>
-                <Typography>Users can create upto 5 summaries every month. AI summaries may not be accurate.</Typography>
+                <Typography>Users can create upto 5 summaries every month. This will count as 1 use.</Typography>
 
                 {task.task_ai_summary && <Typography color="error" sx={{ mt: 1 }}>
                     An AI summary of this task has already been generated. Generating a new summary will overwrite the existing summary.

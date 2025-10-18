@@ -55,7 +55,7 @@ export default function TaskSummaryBox({ generating, summary, typing, onTypingCo
             </Alert>}
             <Typography aria-live="polite">{typedWords}</Typography>
             <Typography variant="body2" color='textSecondary' suppressHydrationWarning>
-                Generated {summaryGeneratedDate}
+                AI summaries may not be accurate. Generated {summaryGeneratedDate}
             </Typography>
         </>);
     }
