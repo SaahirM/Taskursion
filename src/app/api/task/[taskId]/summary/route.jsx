@@ -4,6 +4,7 @@ import { getRemainingUsage, isGlobalUsageExceeded } from "@/src/util/ai-usage";
 import fetchTaskAggregation from "@/src/util/fetch-tasks-aggregation";
 import { getSessionUser } from "@/src/util/session-mgmt";
 import stringifyTasks from "@/src/util/stringify-tasks";
+import SUMMARIZER_INSTRUCTIONS from "@/src/util/summary-prompt";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -43,13 +44,13 @@ export async function POST(_req, { params }) {
     });
 
     const openAiRes = await openAiClient.responses.create({
-        prompt: {
-            id: 'pmpt_68eec4abff448195aa3e08b61c994ead0976bcee59279401',
-            variables: {
-                task: promptTasks,
-            },
-        },
-    });
+        model: 'gpt-5-nano',
+        text: { verbosity: 'low' },
+        reasoning: { effort: 'minimal' },
+        store: false,
+        instructions: SUMMARIZER_INSTRUCTIONS,
+        input: promptTasks,
+    })
 
     const aiSummaryUsage = client.db().collection("AISummaryUsage");
     await aiSummaryUsage.insertOne({
